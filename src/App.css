@@ -1,2 +1,10 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+.navbar {
+  @apply navbar bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 flex gap-3 items-center p-4 shadow-lg;
+}
+
+.cpu-container {
+  @apply p-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg shadow-lg;
+}
