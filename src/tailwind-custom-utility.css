@@ -1,0 +1,10 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+@utility bg-gradient {
+  @apply bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900;
+}
+
+@utility bg-gradient-btn {
+  @apply bg-gradient-to-r from-blue-500 to-purple-600;
+}

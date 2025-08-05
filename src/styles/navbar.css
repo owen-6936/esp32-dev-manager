@@ -1,0 +1,40 @@
+@import "tailwindcss";
+@import "../tailwind-custom-utility.css";
+@plugin "daisyui";
+
+.navbar {
+  @apply navbar bg-gradient flex gap-3 items-center p-4 shadow-lg max-h-20 fixed;
+}
+
+.cpu-container {
+  @apply bg-gradient-btn p-2 rounded-lg shadow-lg w-max;
+  @apply md:p-4;
+}
+
+.cpu-icon {
+  @apply w-6 h-6 text-white;
+}
+
+.heading-container {
+  @apply flex-1 text-white text-left;
+}
+
+.heading-container .heading {
+  @apply text-2xl font-bold whitespace-nowrap;
+}
+
+.heading-container .subheading {
+  @apply text-blue-200 text-sm hidden sm:inline;
+}
+
+.navbar-items {
+  @apply cursor-pointer px-3 py-2 rounded-lg transition-all flex items-center space-x-1 whitespace-nowrap;
+}
+
+.navbar-items.unactive {
+  @apply text-blue-200 hover:bg-white/10;
+}
+
+.navbar-items.active {
+  @apply bg-blue-500 text-white shadow-lg;
+}

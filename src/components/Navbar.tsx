@@ -1,8 +1,12 @@
 import { Cpu } from "lucide-react";
 import navbarItems from "../constants/navbar";
 import { useState } from "react";
+import UseMediaQuery from "../hooks/useMediaQuery";
+import "../styles/navbar.css";
 
 export default function Navbar() {
+  const isMobile = UseMediaQuery("(max-width: 640px)");
+  console.log("isMobile", isMobile);
   const [activeTab, setActiveTab] = useState<
     | "dashboard"
     | "projects"
@@ -16,17 +20,16 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="cpu-container">
-        <Cpu className="w-6 h-6 text-white" />
+        <Cpu className="cpu-icon" />
       </div>
-      <div className="flex-1 text-white">
-        <h2 className="text-2xl font-bold whitespace-nowrap">
-          ESP32 S3 Journey
-        </h2>
-        <p className="text-blue-200 text-sm">
+      <div className="heading-container">
+        <h2 className="heading">ESP32 S3 Journey</h2>
+        <p className="subheading">
           Complete embedded systems development tracker
         </p>
       </div>
-      <div className="flex-none">
+      {/* Navbar items for larger screens */}
+      <div className="flex-none hidden sm:block">
         <ul className="menu menu-horizontal px-1">
           {navbarItems.map(({ key, label, icon: Icon }) => (
             <button
@@ -41,6 +44,57 @@ export default function Navbar() {
             </button>
           ))}
         </ul>
+      </div>
+      {/* Mobile drawer for smaller screens */}
+      <div className="drawer sm:hidden relative h-10">
+        <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+        <div className="drawer-content">
+          {/* Page content here */}
+          <label
+            htmlFor="my-drawer"
+            className="btn btn-square btn-primary drawer-button absolute right-0 "
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              className="inline-block h-5 w-5 stroke-current"
+            >
+              {" "}
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              ></path>{" "}
+            </svg>
+          </label>
+        </div>
+        <div className="drawer-side">
+          <label
+            htmlFor="my-drawer"
+            aria-label="close sidebar"
+            className="drawer-overlay"
+          ></label>
+          <ul className="menu bg-gradient text-base-content min-h-full w-[70%] p-4 border-l border-white/20">
+            <div className="cpu-container m-2">
+              <Cpu className="cpu-icon" />
+            </div>
+            {/* Sidebar content here */}
+            {navbarItems.map(({ key, label, icon: Icon }) => (
+              <button
+                key={key}
+                onClick={() => setActiveTab(key as any)}
+                className={`navbar-items ${
+                  activeTab === key ? "active" : "unactive"
+                }`}
+              >
+                <Icon className="w-4 h-4" />
+                <span className="lg:inline">{label}</span>
+              </button>
+            ))}
+          </ul>
+        </div>
       </div>
     </nav>
   );
