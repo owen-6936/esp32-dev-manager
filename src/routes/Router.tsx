@@ -3,6 +3,7 @@ import RootLayout from "../layouts/RootLayout";
 import Dashboard from "../components/pages/Dashboard";
 import Project from "../components/pages/Project";
 import Analytics from "../components/pages/Analytics";
+import Learning from "../components/pages/Learning";
 
 // We can define our routes as an array of objects.
 export const routes = [
@@ -21,6 +22,10 @@ export const routes = [
       {
         path: "/analytics",
         element: <Analytics />,
+      },
+      {
+        path: "/learning",
+        element: <Learning />,
       },
     ],
   },
