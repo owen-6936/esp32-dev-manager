@@ -4,6 +4,11 @@
 * {
   @apply box-border;
 }
+
+#root {
+  @apply bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900;
+}
+
 .navbar {
   @apply navbar bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 flex gap-3 items-center p-4 shadow-lg h-20;
 }
