@@ -1,5 +1,5 @@
-import type { JournalEntry } from "./journal";
-import type { PinConfig } from "./pin-config";
+import type { JournalEntry } from "../journal/journal";
+import type { PinConfig } from "../pin-config";
 
 export interface CodeSnippet {
   title: string;
@@ -20,6 +20,9 @@ export interface Project {
   codeSnippets: CodeSnippet[];
   pinConfig: PinConfig[]; // Note: This depends on another type, so you'd import it.
   journalEntries: JournalEntry[]; // Note: This depends on another type
+  createdAt: Date;
+  updatedAt: Date;
+  deadline?: Date; // Optional field for deadline
 }
 
 export interface SharedProject {
