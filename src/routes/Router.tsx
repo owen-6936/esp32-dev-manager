@@ -5,6 +5,7 @@ import Project from "../components/pages/Project";
 import Analytics from "../components/pages/Analytics";
 import Learning from "../components/pages/Learning";
 import Inventory from "../components/pages/Inventory";
+import Journal from "../components/pages/Journal";
 
 // We can define our routes as an array of objects.
 export const routes = [
@@ -31,6 +32,10 @@ export const routes = [
       {
         path: "/inventory",
         element: <Inventory />,
+      },
+      {
+        path: "/journal",
+        element: <Journal />,
       },
     ],
   },

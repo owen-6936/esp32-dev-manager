@@ -1,5 +1,5 @@
 import { Plus, Search } from "lucide-react";
-import { use, useState } from "react";
+import { useState } from "react";
 import { useComponentStore } from "../../store/component/component";
 
 export default function Inventory() {
@@ -20,13 +20,15 @@ export default function Inventory() {
   return (
     <div className="space-y-6 min-h-full sm:min-h-screen p-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-bold text-white">Component Inventory</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold text-white">
+          Component Inventory
+        </h2>
         <button
           onClick={() => setShowAddComponent(true)}
           className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all shadow-lg flex items-center space-x-2"
         >
           <Plus className="w-5 h-5" />
-          <span>Add Component</span>
+          <span className=" whitespace-nowrap">Add Component</span>
         </button>
       </div>
 
