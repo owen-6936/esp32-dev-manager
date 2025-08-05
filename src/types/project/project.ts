@@ -36,12 +36,25 @@ export interface SharedProject {
   id: string;
   title: string;
   author: string;
+  description: string;
+  difficulty: string;
   likes: number;
-  difficulty: "beginner" | "intermediate" | "advanced";
+  components: string[];
+  githubUrl?: string;
 }
 
 export interface ProjectStoreState {
   projects: Project[];
   addProject: (project: Project) => void;
   removeProject: (id: string) => void;
+}
+
+export interface SharedProjectStoreState {
+  sharedProjects: SharedProject[];
+  isLoading: boolean; // Add a loading state for fetching data
+
+  // Actions
+  setSharedProjects: (projects: SharedProject[]) => void;
+  likeProject: (id: string) => void;
+  fetchSharedProjects: () => Promise<void>;
 }
