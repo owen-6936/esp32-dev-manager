@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "../layouts/RootLayout";
 import Dashboard from "../components/pages/Dashboard";
 import Project from "../components/pages/Project";
+import Analytics from "../components/pages/Analytics";
 
 // We can define our routes as an array of objects.
 export const routes = [
@@ -16,6 +17,10 @@ export const routes = [
       {
         path: "/project",
         element: <Project />,
+      },
+      {
+        path: "/analytics",
+        element: <Analytics />,
       },
     ],
   },

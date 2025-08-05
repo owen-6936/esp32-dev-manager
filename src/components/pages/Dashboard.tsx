@@ -158,7 +158,7 @@ export default function Dashboard() {
 
       {/* Enhanced Stats Grid */}
 
-      <div className="flex flex-wrap items-center justify-center gap-6 sm:w-[80%]">
+      <div className="flex flex-wrap items-center justify-center gap-6 sm:w-[80%] mt-5">
         {statCards.map((card, index) => (
           <motion.div
             key={index}
@@ -188,10 +188,10 @@ export default function Dashboard() {
           </motion.div>
         ))}
       </div>
-      <div className="flex flex-wrap justify-center gap-6 my-6 w-[90%]">
+      <div className="flex flex-wrap justify-center gap-6 mt-5 w-[90%]">
         {/* Quick Actions */}
         <motion.div
-          className="bg-white/10 rounded-xl p-6 border border-white/20 sm:w-[82%] w-full hover:scale-105 transition-transform duration-300"
+          className="bg-white/10 rounded-xl p-6 border border-white/20 sm:w-[82%] w-full hover:scale-105 transition-transform duration-300 mt-5"
           variants={cardVariants}
           initial="hidden"
           whileInView="visible"
@@ -223,7 +223,7 @@ export default function Dashboard() {
 
         {/* Recent Activity */}
         <motion.div
-          className="bg-white/10 rounded-xl p-6 border border-white/20 sm:w-[82%] w-full hover:scale-105 transition-transform duration-300"
+          className="bg-white/10 rounded-xl p-6 border border-white/20 sm:w-[82%] mt-5 w-full hover:scale-105 transition-transform duration-300"
           variants={cardVariants}
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
@@ -264,7 +264,7 @@ export default function Dashboard() {
 
         {/* Upcoming Deadlines */}
         <motion.div
-          className="bg-white/10 rounded-xl p-6 border border-white/20 sm:w-[82%] w-full hover:scale-105 transition-transform duration-300"
+          className="bg-white/10 rounded-xl p-6 border border-white/20 sm:w-[82%] w-full hover:scale-105 transition-transform duration-300 mt-5"
           variants={cardVariants}
           initial="hidden"
           whileInView="visible"
@@ -332,7 +332,7 @@ export default function Dashboard() {
 
       {/* ESP32 S3 Capabilities Section */}
       <motion.div
-        className="bg-white/10 rounded-xl p-8 border border-white/20 sm:w-[73%]"
+        className="bg-white/10 rounded-xl p-8 border border-white/20 sm:w-[73%] mt-10"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}

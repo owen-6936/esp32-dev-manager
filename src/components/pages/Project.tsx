@@ -11,7 +11,7 @@ export default function Project() {
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
   const projects = useProjectStore((state) => state.projects);
   return (
-    <div className="space-y-6 min-h-screen p-6">
+    <div className="space-y-6 min-h-full sm:min-h-screen p-6">
       <div className="flex flex-wrap items-center justify-center gap-4 sm:justify-between">
         <h2 className="text-xl sm:text-3xl font-bold text-white">
           My Projects

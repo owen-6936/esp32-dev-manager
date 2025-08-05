@@ -3,7 +3,7 @@
 @plugin "daisyui";
 
 .dashboard {
-  @apply flex flex-col items-center justify-center min-h-screen p-4 max-w-7xl mx-auto py-20;
+  @apply flex flex-col items-center justify-center min-h-screen p-4 max-w-7xl mx-auto;
 }
 .hero {
   @apply space-y-8;
