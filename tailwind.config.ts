@@ -5,6 +5,7 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}", // This line is crucial
     "./tailwind-custom-utility.css",
+    "index.css",
   ],
   theme: {
     extend: {},

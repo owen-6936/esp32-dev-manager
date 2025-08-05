@@ -1,5 +1,6 @@
 import type { JournalEntry } from "../journal/journal";
 import type { PinConfig } from "../pin-config";
+import type { Component } from "./component";
 
 export interface CodeSnippet {
   title: string;
@@ -12,17 +13,24 @@ export interface Project {
   id: string;
   title: string;
   description: string;
-  status: "in-progress" | "completed" | "on-hold";
+  status: "planning" | "in-progress" | "completed" | "on-hold";
   difficulty: "beginner" | "intermediate" | "advanced";
-  components: string[];
+  category: "sensors" | "connectivity" | "display" | "automation" | "other";
+  startDate: string;
+  completedDate?: string;
+  deadline?: string;
+  githubUrl?: string;
+  components: Component[];
   progress: number;
+  timeSpent: number;
+  estimatedTime: number;
   budget: number;
+  actualCost: number;
+  notes: string;
   codeSnippets: CodeSnippet[];
-  pinConfig: PinConfig[]; // Note: This depends on another type, so you'd import it.
-  journalEntries: JournalEntry[]; // Note: This depends on another type
-  createdAt: Date;
-  updatedAt: Date;
-  deadline?: Date; // Optional field for deadline
+  pinConfig: PinConfig[];
+  photos: string[];
+  powerConsumption: number;
 }
 
 export interface SharedProject {

@@ -3,7 +3,7 @@
 @plugin "daisyui";
 
 .navbar {
-  @apply navbar bg-gradient flex gap-3 items-center p-4 shadow-lg max-h-20 fixed;
+  @apply navbar bg-gradient flex gap-3 items-center p-4 shadow-lg max-h-20 sticky top-0 z-50;
 }
 
 .cpu-container {
@@ -16,15 +16,16 @@
 }
 
 .heading-container {
-  @apply flex-1 text-white text-left;
+  @apply flex-1 text-white;
 }
 
 .heading-container .heading {
-  @apply text-2xl font-bold whitespace-nowrap;
+  @apply text-2xl font-bold whitespace-nowrap text-left;
 }
 
 .heading-container .subheading {
-  @apply text-blue-200 text-sm hidden sm:inline;
+  @apply text-blue-200 text-sm hidden sm:block
+  text-left;
 }
 
 .navbar-items {

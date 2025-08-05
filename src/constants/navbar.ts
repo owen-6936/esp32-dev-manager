@@ -16,8 +16,8 @@ export interface NavbarItem {
 }
 
 const navbarItems: NavbarItem[] = [
-  { key: "dashboard", label: "Dashboard", icon: Activity },
-  { key: "projects", label: "Projects", icon: Code },
+  { key: "", label: "Dashboard", icon: Activity },
+  { key: "project", label: "Projects", icon: Code },
   { key: "analytics", label: "Analytics", icon: BarChart3 },
   { key: "learning", label: "Learning", icon: BookOpen },
   { key: "inventory", label: "Inventory", icon: Package },

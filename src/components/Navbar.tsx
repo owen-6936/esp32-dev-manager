@@ -1,19 +1,23 @@
 import { Cpu } from "lucide-react";
 import navbarItems from "../constants/navbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../styles/navbar.css";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const [activeTab, setActiveTab] = useState<
-    | "dashboard"
-    | "projects"
+    | ""
+    | "project"
     | "analytics"
     | "learning"
     | "inventory"
     | "journal"
     | "community"
-  >("dashboard");
-
+  >("");
+  useEffect(() => {
+    setActiveTab(location.pathname.split("/")[1] as any);
+    console.log("Active tab set to:", location.pathname.split("/")[1]);
+  }, [location.pathname]);
   return (
     <nav className="navbar">
       <div className="cpu-container">
@@ -29,8 +33,9 @@ export default function Navbar() {
       <div className="flex-none hidden sm:block">
         <ul className="menu menu-horizontal px-1">
           {navbarItems.map(({ key, label, icon: Icon }) => (
-            <button
+            <Link
               key={key}
+              to={`/${key}`}
               onClick={() => setActiveTab(key as any)}
               className={`navbar-items ${
                 activeTab === key ? "active" : "unactive"
@@ -38,12 +43,12 @@ export default function Navbar() {
             >
               <Icon className="w-4 h-4" />
               <span className="hidden lg:inline">{label}</span>
-            </button>
+            </Link>
           ))}
         </ul>
       </div>
       {/* Mobile drawer for smaller screens */}
-      <div className="drawer sm:hidden relative h-10">
+      <div className="drawer sm:hidden relative h-10 z-50">
         <input id="my-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
           {/* Page content here */}
@@ -79,7 +84,8 @@ export default function Navbar() {
             </div>
             {/* Sidebar content here */}
             {navbarItems.map(({ key, label, icon: Icon }) => (
-              <button
+              <Link
+                to={`/${key}`}
                 key={key}
                 onClick={() => setActiveTab(key as any)}
                 className={`navbar-items ${
@@ -88,7 +94,7 @@ export default function Navbar() {
               >
                 <Icon className="w-4 h-4" />
                 <span className="lg:inline">{label}</span>
-              </button>
+              </Link>
             ))}
           </ul>
         </div>

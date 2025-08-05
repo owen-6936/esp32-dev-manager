@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "./tailwind-custom-utility.css";
+@import "./src/tailwind-custom-utility.css";
 @plugin "daisyui";
 
 * {
