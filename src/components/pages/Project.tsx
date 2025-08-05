@@ -2,6 +2,8 @@ import { Code, Edit3, Github, Plus } from "lucide-react";
 import { useProjectStore } from "../../store/project/project";
 import { getDifficultyColor, getStatusColor } from "../../utils/project-colors";
 import { useState } from "react";
+import Lottie from "lottie-react";
+import emptyAnimation from "../../assets/lottie/empty-state.json";
 
 export default function Project() {
   const [showAddProject, setShowAddProject] = useState(false);
@@ -35,20 +37,11 @@ export default function Project() {
       {/* Projects Grid */}
       {projects.length === 0 ? (
         <div className="flex flex-col items-center justify-center text-center text-blue-200 p-12 bg-white/5 rounded-xl border border-white/10">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-16 h-16 mb-4 text-blue-400"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-              d="M9 17v-2a4 4 0 00-4-4H4m0 0a4 4 0 014-4h4a4 4 0 014 4m0 0a4 4 0 00-4 4v2m0 0v2m0-2h4m-4 0H9"
-            />
-          </svg>
+          <Lottie
+            animationData={emptyAnimation}
+            loop={true}
+            className="w-48 h-48"
+          />
           <h3 className="text-xl font-semibold mb-2">No Projects Yet</h3>
           <p className="text-sm mb-4">
             Start by adding your first project to get started!
