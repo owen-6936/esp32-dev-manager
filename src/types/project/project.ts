@@ -1,6 +1,5 @@
-import type { JournalEntry } from "../journal/journal";
 import type { PinConfig } from "../pin-config";
-import type { Component } from "./component";
+import type { Component } from "../component";
 
 export interface CodeSnippet {
   title: string;
