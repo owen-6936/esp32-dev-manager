@@ -1,12 +1,9 @@
 import { Cpu } from "lucide-react";
 import navbarItems from "../constants/navbar";
 import { useState } from "react";
-import UseMediaQuery from "../hooks/useMediaQuery";
 import "../styles/navbar.css";
 
 export default function Navbar() {
-  const isMobile = UseMediaQuery("(max-width: 640px)");
-  console.log("isMobile", isMobile);
   const [activeTab, setActiveTab] = useState<
     | "dashboard"
     | "projects"

@@ -1,5 +1,5 @@
 import { create, type StoreApi, type UseBoundStore } from "zustand";
-import type { Project, ProjectStoreState } from "../types/project";
+import type { Project, ProjectStoreState } from "../../types/project/project";
 
 export const useProjectStore: UseBoundStore<StoreApi<ProjectStoreState>> =
   create((set) => ({
@@ -7,5 +7,7 @@ export const useProjectStore: UseBoundStore<StoreApi<ProjectStoreState>> =
     addProject: (project) =>
       set((state) => ({ projects: [...state.projects, project] })),
     removeProject: (id) =>
-      set((state) => ({ projects: state.projects.filter((p) => p.id !== id) })),
+      set((state) => ({
+        projects: state.projects.filter((product) => product.id !== id),
+      })),
   }));
