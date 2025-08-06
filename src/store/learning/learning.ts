@@ -25,7 +25,6 @@ const initialLearningMetrics: LearningMetric[] = [
 export const useLearningStore: UseBoundStore<StoreApi<LearningMetricsState>> =
   create<LearningMetricsState>((set) => ({
     learningMetrics: initialLearningMetrics, // Set initial data
-
     // Action to add a new learning metric
     addMetric: (metric) =>
       set((state) => ({
@@ -48,3 +47,28 @@ export const useLearningStore: UseBoundStore<StoreApi<LearningMetricsState>> =
     // Action to reset metrics to their initial state
     resetMetrics: () => set({ learningMetrics: initialLearningMetrics }),
   }));
+
+export const useLearningGoalStore: UseBoundStore<
+  StoreApi<LearningMetricsState>
+> = create<LearningMetricsState>((set) => ({
+  learningMetrics: initialLearningMetrics, // Set initial data
+  // Action to add a new learning metric
+  addMetric: (metric) =>
+    set((state) => ({
+      learningMetrics: [...state.learningMetrics, metric],
+    })),
+
+  // Action to update an existing learning metric by category
+  updateMetric: (category, updatedFields) =>
+    set((state) => ({
+      learningMetrics: state.learningMetrics.map((metric) =>
+        metric.category === category ? { ...metric, ...updatedFields } : metric
+      ),
+    })),
+
+  // Action to completely replace the learning metrics array
+  setMetrics: (metrics) => set({ learningMetrics: metrics }),
+
+  // Action to reset metrics to their initial state
+  resetMetrics: () => set({ learningMetrics: initialLearningMetrics }),
+}));
