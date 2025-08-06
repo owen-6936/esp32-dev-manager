@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import type { StatProps } from "../../types/ui/stat";
+import type { StatProps } from "../../../types/ui/stat";
 
 export default function Stat(statProps: StatProps, cardVariants: any) {
   return (
