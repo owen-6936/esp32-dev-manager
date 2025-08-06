@@ -1,6 +1,8 @@
 import { Plus, Search } from "lucide-react";
 import { useState } from "react";
 import { useComponentStore } from "../../store/component/component";
+import emptyBoxAnimation from "../../assets/lottie/empty-box.json";
+import Lottie from "lottie-react";
 
 export default function Inventory() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -25,7 +27,7 @@ export default function Inventory() {
         </h2>
         <button
           onClick={() => setShowAddComponent(true)}
-          className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all shadow-lg flex items-center space-x-2"
+          className="bg-gradient-btn flex items-center space-x-2"
         >
           <Plus className="w-5 h-5" />
           <span className=" whitespace-nowrap">Add Component</span>
@@ -59,59 +61,78 @@ export default function Inventory() {
       </div>
 
       {/* Components Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredComponents.map((component) => (
-          <div
-            key={component.id}
-            className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold text-white">{component.name}</h3>
-              <span className="bg-blue-500/20 text-blue-200 px-2 py-1 rounded text-xs">
-                {component.category}
-              </span>
-            </div>
-
-            <p className="text-blue-200 text-sm mb-4">
-              {component.description}
-            </p>
-
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-blue-200 text-sm">Quantity:</span>
-                <span className="text-white">{component.quantity}</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-blue-200 text-sm">In Use:</span>
-                <span className="text-white">{component.inUse}</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-blue-200 text-sm">Unit Price:</span>
-                <span className="text-white">${component.unitPrice}</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-blue-200 text-sm">Total Value:</span>
-                <span className="text-white">
-                  ${(component.quantity * component.unitPrice).toFixed(2)}
+      {components.length === 0 ? (
+        <div className="flex flex-col items-center justify-center text-center text-blue-200 p-12 bg-white/5 rounded-xl border border-white/10">
+          <Lottie
+            animationData={emptyBoxAnimation}
+            className="w-60 aspect-square"
+            loop
+            autoplay
+          />
+          <h3 className="text-white text-xl sm:text-2xl font-semibold mt-4">
+            No Components Yet
+          </h3>
+          <p className="text-blue-200 text-sm sm:text-base mt-2">
+            Your inventory is empty. Start by adding your first component!
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredComponents.map((component) => (
+            <div
+              key={component.id}
+              className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-bold text-white">
+                  {component.name}
+                </h3>
+                <span className="bg-blue-500/20 text-blue-200 px-2 py-1 rounded text-xs">
+                  {component.category}
                 </span>
               </div>
-            </div>
 
-            {component.supplier && (
-              <div className="mt-4 pt-4 border-t border-white/10">
-                <p className="text-blue-200 text-xs">
-                  Supplier: {component.supplier}
-                </p>
-                {component.partNumber && (
-                  <p className="text-blue-200 text-xs">
-                    Part #: {component.partNumber}
-                  </p>
-                )}
+              <p className="text-blue-200 text-sm mb-4">
+                {component.description}
+              </p>
+
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-blue-200 text-sm">Quantity:</span>
+                  <span className="text-white">{component.quantity}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-blue-200 text-sm">In Use:</span>
+                  <span className="text-white">{component.inUse}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-blue-200 text-sm">Unit Price:</span>
+                  <span className="text-white">${component.unitPrice}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-blue-200 text-sm">Total Value:</span>
+                  <span className="text-white">
+                    ${(component.quantity * component.unitPrice).toFixed(2)}
+                  </span>
+                </div>
               </div>
-            )}
-          </div>
-        ))}
-      </div>
+
+              {component.supplier && (
+                <div className="mt-4 pt-4 border-t border-white/10">
+                  <p className="text-blue-200 text-xs">
+                    Supplier: {component.supplier}
+                  </p>
+                  {component.partNumber && (
+                    <p className="text-blue-200 text-xs">
+                      Part #: {component.partNumber}
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

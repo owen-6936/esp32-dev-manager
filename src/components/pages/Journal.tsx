@@ -17,7 +17,7 @@ export default function Journal() {
         </h2>
         <button
           onClick={() => setShowAddJournal(true)}
-          className="bg-gradient-btn text-white px-4 py-2 rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all shadow-lg flex items-center space-x-2"
+          className="bg-gradient-btn flex items-center space-x-2"
         >
           <Plus className="w-5 h-5" />
           <span className="text-sm whitespace-nowrap">Add Entry</span>
@@ -49,9 +49,10 @@ export default function Journal() {
           </p>
           <button
             onClick={() => setShowAddJournal(true)}
-            className="mt-6 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-5 py-2 rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all shadow"
+            className="mt-6 bg-gradient-btn flex items-center space-x-2"
           >
-            Add Entry
+            <Plus className="w-5 h-5" />
+            <span className="text-sm whitespace-nowrap">Add Entry</span>
           </button>
         </div>
       ) : (

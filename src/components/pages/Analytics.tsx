@@ -3,8 +3,14 @@ import { useProjectStore } from "../../store/project/project";
 export default function Analytics() {
   const projects = useProjectStore((state) => state.projects);
   const stats = {
-    budgetUsed: projects.reduce((acc, p) => acc + p.budget, 0),
-    timeSpent: projects.reduce((acc, p) => acc + p.timeSpent, 0),
+    budgetUsed: projects.reduce(
+      (accumulator, project) => accumulator + project.budget,
+      0
+    ),
+    timeSpent: projects.reduce(
+      (accumulator, project) => accumulator + project.timeSpent,
+      0
+    ),
   };
   return (
     <div className="space-y-6 min-h-full sm:min-h-screen p-6">
