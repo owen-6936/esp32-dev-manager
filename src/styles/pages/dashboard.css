@@ -5,6 +5,9 @@
 .dashboard {
   @apply flex flex-col items-center justify-center min-h-screen p-4 max-w-7xl mx-auto;
 }
+.dashboard-stats {
+  @apply flex flex-wrap items-center justify-center gap-6 sm:w-[80%] mt-5;
+}
 .hero {
   @apply space-y-8;
 }
@@ -14,4 +17,8 @@
 }
 .heading {
   @apply text-2xl sm:text-4xl font-bold text-white;
+}
+
+.dashboard-cards {
+  @apply flex flex-wrap justify-center gap-6 mt-5 w-[90%];
 }
