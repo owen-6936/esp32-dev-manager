@@ -9,7 +9,15 @@
 .project-header-container {
   @apply flex flex-wrap items-center justify-center gap-4 sm:justify-between;
 }
-
 .project-header {
-  @apply text-xl sm:text-3xl font-bold text-white;
+  @apply text-2xl sm:text-3xl font-bold text-white;
+}
+.project-actions {
+  @apply flex space-x-2;
+}
+.project-action-btns {
+  @apply bg-gradient-btn flex items-center space-x-2;
+}
+.project-action-btn-text {
+  @apply whitespace-nowrap;
 }

@@ -15,20 +15,20 @@ export default function Project() {
     <div className="project">
       <div className="project-header-container">
         <h2 className="project-header">My Projects</h2>
-        <div className="flex space-x-2">
+        <div className="project-actions">
           <button
             onClick={() => setShowCodeEditor(true)}
-            className="bg-gradient-btn flex items-center space-x-2"
+            className="project-action-btns"
           >
             <Code className="w-4 h-4" />
-            <span className="whitespace-nowrap">Code Snippets</span>
+            <span className="project-action-btn-text">Code Snippets</span>
           </button>
           <button
             onClick={() => setShowAddProject(true)}
-            className="bg-gradient-btn flex items-center space-x-2"
+            className="project-action-btns"
           >
             <Plus className="w-5 h-5" />
-            <span className="whitespace-nowrap">Add Project</span>
+            <span className="project-action-btn-text">Add Project</span>
           </button>
         </div>
       </div>
