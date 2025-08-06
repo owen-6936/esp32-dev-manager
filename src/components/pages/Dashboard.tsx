@@ -28,6 +28,8 @@ import { useStatsStore } from "../../store/project/stats";
 import { motion } from "framer-motion";
 import { useProjectStore } from "../../store/project/project";
 import { useJournalStore } from "../../store/journal/journal";
+import { statCards } from "../../constants/ui/stat";
+import Stat from "../ui/Stat";
 
 export default function Dashboard() {
   // State management for modals.
@@ -49,55 +51,6 @@ export default function Dashboard() {
 
   const journalEntries = useJournalStore((state) => state.journalEntries);
 
-  const statCards = [
-    {
-      title: "Total Projects",
-      value: totalProjects,
-      subtitle: `${completedProjects} completed`,
-      icon: <Code className="w-6 h-6 text-blue-400" />,
-      iconBg: "bg-blue-500/20",
-      valueColor: "text-white",
-      subtitleColor: "text-green-400",
-      subtitleIcon: <TrendingUp className="w-3 h-3 mr-1" />,
-      subtitlePrefix: "",
-    },
-    {
-      title: "Components",
-      value: totalComponents,
-      subtitle: `$${totalValue.toFixed(2)} value`,
-      icon: <Package className="w-6 h-6 text-green-400" />,
-      iconBg: "bg-green-500/20",
-      valueColor: "text-white",
-      subtitleColor: "text-blue-400",
-      subtitleIcon: <DollarSign className="w-3 h-3 mr-1" />,
-      subtitlePrefix: "",
-    },
-    {
-      title: "Time Invested",
-      value: `${timeSpent}h`,
-      subtitle: `Avg: ${Math.round(timeSpent / (totalProjects || 1))}h/project`,
-      icon: <Timer className="w-6 h-6 text-orange-400" />,
-      iconBg: "bg-orange-500/20",
-      valueColor: "text-white",
-      subtitleColor: "text-purple-400",
-      subtitleIcon: <Clock className="w-3 h-3 mr-1" />,
-      subtitlePrefix: "",
-    },
-    {
-      title: "Budget Used",
-      value: `$${budgetUsed}`,
-      subtitle: `Avg: $${Math.round(
-        budgetUsed / (totalProjects || 1)
-      )}/project`,
-      icon: <DollarSign className="w-6 h-6 text-purple-400" />,
-      iconBg: "bg-purple-500/20",
-      valueColor: "text-white",
-      subtitleColor: "text-yellow-400",
-      subtitleIcon: <TrendingDown className="w-3 h-3 mr-1" />,
-      subtitlePrefix: "",
-    },
-  ];
-
   const cardVariants = {
     hidden: {
       opacity: 0,
@@ -109,6 +62,15 @@ export default function Dashboard() {
       scale: 1,
       y: 0,
     },
+  };
+
+  const props = {
+    totalProjects,
+    completedProjects,
+    totalComponents,
+    totalValue,
+    timeSpent,
+    budgetUsed,
   };
 
   return (
@@ -159,34 +121,22 @@ export default function Dashboard() {
       {/* Enhanced Stats Grid */}
 
       <div className="flex flex-wrap items-center justify-center gap-6 sm:w-[80%] mt-5">
-        {statCards.map((card, index) => (
-          <motion.div
-            key={index}
-            className="bg-white/10 rounded-xl p-8 border border-white/20 hover:scale-105 transition-transform duration-300 cursor-pointer w-[90%] sm:w-[45%]"
-            variants={cardVariants}
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            initial="hidden"
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            custom={index}
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-blue-200">{card.title}</p>
-                <p className={`text-3xl font-bold ${card.valueColor}`}>
-                  {card.value}
-                </p>
-                <p
-                  className={`text-xs flex items-center mt-1 ${card.subtitleColor}`}
-                >
-                  {card.subtitleIcon}
-                  {card.subtitle}
-                </p>
-              </div>
-              <div className={`p-4 rounded-lg ${card.iconBg}`}>{card.icon}</div>
-            </div>
-          </motion.div>
-        ))}
+        {statCards(props).map((card, index) =>
+          Stat(
+            {
+              index: index,
+              title: card.title,
+              value: card.value,
+              subtitle: card.subtitle,
+              icon: card.icon,
+              iconBg: card.iconBg,
+              valueColor: card.valueColor,
+              subtitleColor: card.subtitleColor,
+              subtitleIcon: card.subtitleIcon,
+            },
+            cardVariants
+          )
+        )}
       </div>
       <div className="flex flex-wrap justify-center gap-6 mt-5 w-[90%]">
         {/* Quick Actions */}
