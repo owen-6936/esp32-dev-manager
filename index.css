@@ -9,3 +9,7 @@
 #root {
   @apply bg-gradient;
 }
+
+button {
+  @apply transition-colors duration-300 cursor-pointer;
+}

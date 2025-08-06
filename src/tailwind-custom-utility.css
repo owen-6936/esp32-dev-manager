@@ -6,5 +6,9 @@
 }
 
 @utility bg-gradient-btn {
-  @apply bg-gradient-to-r from-blue-500 to-purple-600;
+  @apply bg-gradient-to-r from-blue-500 to-purple-600  px-4 py-2 rounded-lg bg-gradient-btn-hover text-white;
+}
+
+@utility bg-gradient-btn-hover {
+  @apply hover:from-blue-600 hover:to-purple-700 transition-all shadow-lg;
 }
