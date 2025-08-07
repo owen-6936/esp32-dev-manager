@@ -26,7 +26,7 @@ export default function AddProject({
 
   const [newProject, setNewProject] =
     useState<Partial<Project>>(initialProject);
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const addProject = useProjectStore((state) => state.addProject);
 
   const { errors, validate, validateSingleField } = useFormValidator({
@@ -36,28 +36,36 @@ export default function AddProject({
     budget: { required: false },
   });
 
-  function handleSubmit() {
+  const handleSubmit = () => {
+    setIsSubmitting(true);
     const isValid = validate({
-      title: newProject.title || "",
-      description: newProject.description || "",
+      title: newProject.title?.trim() || "",
+      description: newProject.description?.trim() || "",
       estimatedTime: String(newProject.estimatedTime ?? ""),
       budget: String(newProject.budget ?? ""),
     });
 
     if (isValid) {
-      setNewProject({ id: Date.now().toString(), ...newProject });
-      addProject(newProject as Project);
-      setShowAddProject(false);
-    }
-  }
+      const fullProject: Project = {
+        ...newProject,
+        id: Date.now().toString(),
+      } as Project;
 
-  function handleCancel() {
+      addProject(fullProject);
+      setShowAddProject(false);
+      setNewProject(initialProject);
+    }
+
+    setIsSubmitting(false);
+  };
+
+  const handleCancel = () => {
     setShowAddProject(false);
     setNewProject(initialProject);
-  }
+  };
 
   const handleBlur = (field: string, value: string | number) => {
-    validateSingleField(field, String(value ?? ""));
+    validateSingleField(field, String(value).trim());
   };
 
   const inputClass = (field: string) =>
@@ -67,7 +75,10 @@ export default function AddProject({
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50 h-screen">
-      <form className="bg-slate-800 rounded-xl p-6 w-full max-w-2xl border border-white/20 max-h-[90vh] overflow-y-auto">
+      <form
+        onSubmit={(e) => e.preventDefault()}
+        className="bg-slate-800 rounded-xl p-6 w-full max-w-2xl border border-white/20 max-h-[90vh] overflow-y-auto"
+      >
         <h3 className="text-xl font-bold text-white mb-4">Add New Project</h3>
         <div className="space-y-4">
           {/* Title */}
@@ -216,14 +227,19 @@ export default function AddProject({
         <div className="flex space-x-3 mt-6">
           <button
             type="button"
-            onClick={() => handleSubmit()}
-            className="flex-1 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-all"
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+            className={`flex-1 text-white py-2 rounded-lg transition-all ${
+              isSubmitting
+                ? "bg-blue-300 cursor-not-allowed"
+                : "bg-blue-500 hover:bg-blue-600"
+            }`}
           >
-            Add Project
+            {isSubmitting ? "Adding..." : "Add Project"}
           </button>
           <button
             type="button"
-            onClick={() => handleCancel()}
+            onClick={handleCancel}
             className="flex-1 bg-white/10 text-white py-2 rounded-lg hover:bg-white/20 transition-all"
           >
             Cancel

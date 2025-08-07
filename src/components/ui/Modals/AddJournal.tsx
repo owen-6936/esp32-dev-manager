@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useJournalStore } from "../../../store/journal/journal";
-import type { JournalEntry } from "../../../types/journal/journal";
 import { useProjectStore } from "../../../store/project/project";
+import { useFormValidator } from "../../../hooks/useFormValidator";
+import type { JournalEntry } from "../../../types/journal/journal";
 
 export default function AddJournal({
   setShowAddJournal,
@@ -10,20 +11,71 @@ export default function AddJournal({
 }) {
   const addJournalEntry = useJournalStore((state) => state.addJournalEntry);
   const projects = useProjectStore((state) => state.projects);
-  const [newJournalEntry, setNewJournalEntry] = useState<Partial<JournalEntry>>(
-    {
-      type: "progress",
-      title: "",
-      content: "",
-      tags: [],
-    }
-  );
+
+  const initialEntry: Partial<JournalEntry> = {
+    type: "progress",
+    title: "",
+    content: "",
+    tags: [],
+  };
+
+  const [newJournalEntry, setNewJournalEntry] =
+    useState<Partial<JournalEntry>>(initialEntry);
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const { errors, validate, validateSingleField } = useFormValidator({
+    title: { required: true, minLength: 3 },
+    content: { required: true, minLength: 5 },
+  });
+
+  const handleBlur = (field: string, value: string | number) => {
+    validateSingleField(field, String(value).trim());
+  };
+
+  function handleSubmit() {
+    setIsSubmitting(true);
+
+    const isValid = validate({
+      title: newJournalEntry.title?.trim() || "",
+      content: newJournalEntry.content?.trim() || "",
+    });
+
+    if (isValid) {
+      addJournalEntry({
+        ...newJournalEntry,
+        title: newJournalEntry.title!.trim(),
+        content: newJournalEntry.content!.trim(),
+        projectId: selectedProject || undefined,
+      } as JournalEntry);
+      setShowAddJournal(false);
+      setNewJournalEntry(initialEntry);
+      setSelectedProject(null);
+    }
+
+    setIsSubmitting(false);
+  }
+
+  function handleCancel() {
+    setShowAddJournal(false);
+    setNewJournalEntry(initialEntry);
+    setSelectedProject(null);
+  }
+
+  const inputClass = (field: string) =>
+    `w-full px-3 py-2 bg-white/10 border ${
+      errors[field] ? "border-red-500" : "border-white/20"
+    } rounded-lg text-white placeholder-blue-200`;
+
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50 h-screen">
-      <div className="bg-slate-800 rounded-xl p-6 w-full max-w-2xl border border-white/20">
+      <form
+        onSubmit={(e) => e.preventDefault()}
+        className="bg-slate-800 rounded-xl p-6 w-full max-w-2xl border border-white/20"
+      >
         <h3 className="text-xl font-bold text-white mb-4">Add Journal Entry</h3>
         <div className="space-y-4">
+          {/* Type and Project */}
           <div className="grid grid-cols-2 gap-4">
             <select
               value={newJournalEntry.type || "progress"}
@@ -53,29 +105,47 @@ export default function AddJournal({
               ))}
             </select>
           </div>
-          <input
-            type="text"
-            placeholder="Entry Title"
-            value={newJournalEntry.title || ""}
-            onChange={(e) =>
-              setNewJournalEntry({
-                ...newJournalEntry,
-                title: e.target.value,
-              })
-            }
-            className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-blue-200"
-          />
-          <textarea
-            placeholder="Entry Content"
-            value={newJournalEntry.content || ""}
-            onChange={(e) =>
-              setNewJournalEntry({
-                ...newJournalEntry,
-                content: e.target.value,
-              })
-            }
-            className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-blue-200 h-32"
-          />
+
+          {/* Title */}
+          <div>
+            <input
+              type="text"
+              placeholder="Entry Title"
+              value={newJournalEntry.title || ""}
+              onChange={(e) =>
+                setNewJournalEntry({
+                  ...newJournalEntry,
+                  title: e.target.value,
+                })
+              }
+              onBlur={(e) => handleBlur("title", e.target.value)}
+              className={inputClass("title")}
+            />
+            {errors.title && (
+              <p className="text-red-400 text-sm mt-1">{errors.title}</p>
+            )}
+          </div>
+
+          {/* Content */}
+          <div>
+            <textarea
+              placeholder="Entry Content"
+              value={newJournalEntry.content || ""}
+              onChange={(e) =>
+                setNewJournalEntry({
+                  ...newJournalEntry,
+                  content: e.target.value,
+                })
+              }
+              onBlur={(e) => handleBlur("content", e.target.value)}
+              className={`h-32 ${inputClass("content")}`}
+            />
+            {errors.content && (
+              <p className="text-red-400 text-sm mt-1">{errors.content}</p>
+            )}
+          </div>
+
+          {/* Tags */}
           <input
             type="text"
             placeholder="Tags (comma separated)"
@@ -84,36 +154,33 @@ export default function AddJournal({
                 ...newJournalEntry,
                 tags: e.target.value
                   .split(",")
-                  .map((t) => t.trim())
-                  .filter((t) => t),
+                  .map((tag) => tag.trim())
+                  .filter(Boolean),
               })
             }
             className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-blue-200"
           />
         </div>
+
+        {/* Action Buttons */}
         <div className="flex space-x-3 mt-6">
           <button
-            onClick={() => {
-              if (newJournalEntry.title && newJournalEntry.content) {
-                addJournalEntry({
-                  ...newJournalEntry,
-                  projectId: selectedProject || undefined,
-                } as JournalEntry);
-                setShowAddJournal(false);
-              }
-            }}
-            className="flex-1 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-all"
+            type="button"
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+            className="flex-1 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-all disabled:opacity-50"
           >
             Add Entry
           </button>
           <button
-            onClick={() => setShowAddJournal(false)}
+            type="button"
+            onClick={handleCancel}
             className="flex-1 bg-white/10 text-white py-2 rounded-lg hover:bg-white/20 transition-all"
           >
             Cancel
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
