@@ -46,7 +46,7 @@ export interface Project {
   estimatedTime?: number;
   budget?: number;
   actualCost?: number;
-  notes?: string[];
+  note?: string;
   codeSnippets?: CodeSnippet[];
   pinConfig?: PinConfig[];
   photos?: string[];
