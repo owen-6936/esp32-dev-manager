@@ -50,45 +50,41 @@ export default function Dashboard() {
     },
   };
 
-  const props = {
-    totalProjects,
-    completedProjects,
-    totalComponents,
-    totalValue,
-    timeSpent,
-    budgetUsed,
-  };
-
   return (
     <main className="dashboard">
       <Hero />
       <div className="dashboard-stats">
-        {statCards(props).map((card, index) =>
-          Stat(
-            {
-              index: index,
-              title: card.title,
-              value: card.value,
-              subtitle: card.subtitle,
-              icon: card.icon,
-              iconBg: card.iconBg,
-              valueColor: card.valueColor,
-              subtitleColor: card.subtitleColor,
-              subtitleIcon: card.subtitleIcon,
-            },
-            cardVariants
-          )
-        )}
+        {statCards({
+          totalProjects,
+          completedProjects,
+          totalComponents,
+          totalValue,
+          timeSpent,
+          budgetUsed,
+        }).map((card, index) => (
+          <Stat
+            key={index}
+            index={index}
+            title={card.title}
+            value={card.value}
+            subtitle={card.subtitle}
+            icon={card.icon}
+            iconBg={card.iconBg}
+            valueColor={card.valueColor}
+            subtitleColor={card.subtitleColor}
+            subtitleIcon={card.subtitleIcon}
+            cardVariants={cardVariants}
+          />
+        ))}
       </div>
       <div className="dashboard-cards">
-        {/* Quick Actions */}
-        {QuickActions(cardVariants)}
-        {/* Recent Activity */}
-        {RecentActivity(journalEntries, cardVariants)}
-        {/* Deadline */}
-        {Deadline({ projects }, cardVariants)}
+        <QuickActions cardVariants={cardVariants} />
+        <RecentActivity
+          journalEntries={journalEntries}
+          cardVariants={cardVariants}
+        />
+        <Deadline projects={projects} cardVariants={cardVariants} />
       </div>
-      {/* Features Section */}
       <Features />
     </main>
   );

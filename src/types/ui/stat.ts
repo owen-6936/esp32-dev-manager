@@ -8,6 +8,7 @@ export interface StatProps {
   valueColor: string;
   subtitleColor: string;
   subtitleIcon: React.ReactNode;
+  cardVariants?: any;
 }
 
 export interface StatCardProps {

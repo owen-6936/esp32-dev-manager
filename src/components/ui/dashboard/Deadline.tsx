@@ -1,10 +1,13 @@
 import { motion } from "framer-motion";
 import type { Project } from "../../../types/project/project";
 
-export default function Deadline(
-  props: { projects: Project[] },
-  cardVariants: any
-) {
+export default function Deadline({
+  projects,
+  cardVariants,
+}: {
+  projects: Project[];
+  cardVariants: any;
+}) {
   return (
     <motion.div
       className="bg-white/10 rounded-xl p-6 border border-white/20 sm:w-[82%] w-full hover:scale-105 transition-transform duration-300 mt-5"
@@ -16,7 +19,7 @@ export default function Deadline(
     >
       <h3 className="text-xl font-bold text-white mb-4">Upcoming Deadlines</h3>
       <div className="space-y-3">
-        {props.projects
+        {projects
           .filter((p) => p.deadline && p.status !== "completed")
           .sort(
             (a, b) =>
@@ -61,7 +64,7 @@ export default function Deadline(
               </motion.div>
             );
           })}
-        {props.projects.filter((p) => p.deadline && p.status !== "completed")
+        {projects.filter((p) => p.deadline && p.status !== "completed")
           .length === 0 && (
           <p className="text-blue-200 text-sm">No upcoming deadlines</p>
         )}

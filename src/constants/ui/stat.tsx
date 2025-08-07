@@ -9,11 +9,18 @@ import {
 } from "lucide-react";
 import type { StatCardProps } from "../../types/ui/stat";
 
-export const statCards = (props: StatCardProps) => [
+export const statCards = ({
+  totalProjects,
+  completedProjects,
+  totalComponents,
+  totalValue,
+  timeSpent,
+  budgetUsed,
+}: StatCardProps) => [
   {
     title: "Total Projects",
-    value: props.totalProjects,
-    subtitle: `${props.completedProjects} completed`,
+    value: totalProjects,
+    subtitle: `${completedProjects} completed`,
     icon: <Code className="w-6 h-6 text-blue-400" />,
     iconBg: "bg-blue-500/20",
     valueColor: "text-white",
@@ -23,8 +30,8 @@ export const statCards = (props: StatCardProps) => [
   },
   {
     title: "Components",
-    value: props.totalComponents,
-    subtitle: `$${props.totalValue.toFixed(2)} value`,
+    value: totalComponents,
+    subtitle: `$${totalValue.toFixed(2)} value`,
     icon: <Package className="w-6 h-6 text-green-400" />,
     iconBg: "bg-green-500/20",
     valueColor: "text-white",
@@ -34,10 +41,8 @@ export const statCards = (props: StatCardProps) => [
   },
   {
     title: "Time Invested",
-    value: `${props.timeSpent}h`,
-    subtitle: `Avg: ${Math.round(
-      props.timeSpent / (props.totalProjects || 1)
-    )}h/project`,
+    value: `${timeSpent}h`,
+    subtitle: `Avg: ${Math.round(timeSpent / (totalProjects || 1))}h/project`,
     icon: <Timer className="w-6 h-6 text-orange-400" />,
     iconBg: "bg-orange-500/20",
     valueColor: "text-white",
@@ -47,9 +52,9 @@ export const statCards = (props: StatCardProps) => [
   },
   {
     title: "Budget Used",
-    value: `$${props.budgetUsed}`,
-    subtitle: `Avg: $${Math.round(
-      props.budgetUsed / (props.totalProjects || 1)
+    value: `$${budgetUsed.toFixed(2)}`,
+    subtitle: `Avg: $${Math.round(budgetUsed / (totalProjects || 1)).toFixed(
+      2
     )}/project`,
     icon: <DollarSign className="w-6 h-6 text-purple-400" />,
     iconBg: "bg-purple-500/20",

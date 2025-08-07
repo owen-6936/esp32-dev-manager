@@ -1,10 +1,13 @@
 import { motion } from "framer-motion";
 import { type JournalEntry } from "../../../types/journal/journal";
 
-export default function RecentActivity(
-  journalEntries: JournalEntry[],
-  cardVariants: any
-) {
+export default function RecentActivity({
+  journalEntries,
+  cardVariants,
+}: {
+  journalEntries: JournalEntry[];
+  cardVariants: any;
+}) {
   return (
     <motion.div
       className="bg-white/10 rounded-xl p-6 border border-white/20 sm:w-[82%] mt-5 w-full hover:scale-105 transition-transform duration-300"
