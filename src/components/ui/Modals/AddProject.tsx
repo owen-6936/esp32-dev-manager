@@ -27,7 +27,7 @@ export default function AddProject({
   const addProject = useProjectStore((state) => state.addProject);
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50 h-screen">
       <div className="bg-slate-800 rounded-xl p-6 w-full max-w-2xl border border-white/20 max-h-[90vh] overflow-y-auto">
         <h3 className="text-xl font-bold text-white mb-4">Add New Project</h3>
         <div className="space-y-4">
