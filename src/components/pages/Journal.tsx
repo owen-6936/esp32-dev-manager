@@ -4,6 +4,7 @@ import { useJournalStore } from "../../store/journal/journal";
 import Lottie from "lottie-react";
 import emptyStateAnimation from "../../assets/lottie/empty-state.json";
 import emptyJournalAnimation from "../../assets/lottie/empty-journal.json";
+import AddJournal from "../ui/Modals/AddJournal";
 import useMediaQuery from "../../hooks/useMediaQuery";
 
 export default function Journal() {
@@ -12,6 +13,7 @@ export default function Journal() {
   return (
     <div className="space-y-6 min-h-screen p-6">
       <div className="flex gap-4 items-center justify-between">
+        {showAddJournal && <AddJournal setShowAddJournal={setShowAddJournal} />}
         <h2 className="text-xl sm:text-3xl font-bold text-white">
           Development Journal
         </h2>

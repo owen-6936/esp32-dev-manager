@@ -12,6 +12,6 @@ export interface JournalEntry {
 
 export interface JournalState {
   journalEntries: JournalEntry[];
-  addEntry: (entry: JournalEntry) => void;
-  removeEntry: (id: string) => void;
+  addJournalEntry: (entry: JournalEntry) => void;
+  removeJournalEntry: (id: string) => void;
 }

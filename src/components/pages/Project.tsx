@@ -5,6 +5,7 @@ import { useState } from "react";
 import Lottie from "lottie-react";
 import emptyAnimation from "../../assets/lottie/empty-state.json";
 import "../../styles/pages/project.css";
+import AddProject from "../ui/Modals/AddProject";
 
 export default function Project() {
   const [showAddProject, setShowAddProject] = useState(false);
@@ -13,6 +14,7 @@ export default function Project() {
   const projects = useProjectStore((state) => state.projects);
   return (
     <div className="project">
+      {showAddProject && <AddProject setShowAddProject={setShowAddProject} />}
       <div className="project-header-container">
         <h2 className="project-header">My Projects</h2>
         <div className="project-actions">

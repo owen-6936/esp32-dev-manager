@@ -1,12 +1,16 @@
 import { motion } from "framer-motion";
 import { Plus, MapPin, Calculator } from "lucide-react";
 import { useState } from "react";
+import AddProject from "../Modals/AddProject";
+
 export default function Hero() {
   const [showAddProject, setShowAddProject] = useState(false);
   const [showPinMapper, setShowPinMapper] = useState(false);
   const [showPowerCalculator, setShowPowerCalculator] = useState(false);
+
   return (
     <div className="hero">
+      {showAddProject && <AddProject setShowAddProject={setShowAddProject} />}
       {/* Hero Section */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}

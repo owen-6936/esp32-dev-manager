@@ -13,3 +13,7 @@
 button {
   @apply transition-colors duration-300 cursor-pointer;
 }
+
+option {
+  @apply text-gray-800 bg-white;
+}
