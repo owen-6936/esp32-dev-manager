@@ -20,16 +20,16 @@ export interface Project {
   deadline?: string;
   githubUrl?: string;
   components: Component[];
-  progress: number;
-  timeSpent: number;
-  estimatedTime: number;
-  budget: number;
-  actualCost: number;
-  notes: string;
-  codeSnippets: CodeSnippet[];
-  pinConfig: PinConfig[];
-  photos: string[];
-  powerConsumption: number;
+  progress?: number;
+  timeSpent?: number;
+  estimatedTime?: number;
+  budget?: number;
+  actualCost?: number;
+  notes?: string;
+  codeSnippets?: CodeSnippet[];
+  pinConfig?: PinConfig[];
+  photos?: string[];
+  powerConsumption?: number;
 }
 
 export interface SharedProject {

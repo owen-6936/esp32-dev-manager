@@ -65,7 +65,15 @@ export default function PowerCalculator({
                   Total Estimated:
                 </span>
                 <span className="text-green-400 font-bold">
-                  {projects.reduce((acc, p) => acc + p.powerConsumption, 0)}mW
+                  {projects.reduce(
+                    (acc, p) =>
+                      acc +
+                      (typeof p.powerConsumption === "number"
+                        ? p.powerConsumption
+                        : 0),
+                    0
+                  )}
+                  mW
                 </span>
               </div>
             </div>
