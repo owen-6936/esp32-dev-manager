@@ -16,21 +16,24 @@ export interface LearningMetricsState {
   learningMetrics: LearningMetric[]; // Array to hold all learning metrics
 
   // Actions to interact with the store
-  addMetric: (metric: LearningMetric) => void;
-  updateMetric: (
+  addLearningMetric: (metric: LearningMetric) => void;
+  updateLearningMetric: (
     category: string,
     updatedFields: Partial<LearningMetric>
   ) => void;
-  setMetrics: (metrics: LearningMetric[]) => void;
-  resetMetrics: () => void;
+  setLearningMetrics: (metrics: LearningMetric[]) => void;
+  resetLearningMetrics: () => void;
 }
 
 export interface LearningGoalsState {
   learningGoals: LearningGoal[]; // Array to hold all learning goals
 
   // Actions to interact with the store
-  addGoal: (goal: LearningGoal) => void;
-  updateGoal: (category: string, updatedFields: Partial<LearningGoal>) => void;
-  setGoals: (goals: LearningGoal[]) => void;
-  resetGoals: () => void;
+  addLearningGoal: (goal: LearningGoal) => void;
+  updateLearningGoal: (
+    category: string,
+    updatedFields: Partial<LearningGoal>
+  ) => void;
+  setLearningGoals: (goals: LearningGoal[]) => void;
+  resetLearningGoals: () => void;
 }

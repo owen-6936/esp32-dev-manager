@@ -8,6 +8,7 @@ export interface JournalEntry {
   projectId: string; // Reference to the project this entry belongs to
   photos?: string[]; // Optional array of photo URLs
   createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface JournalState {

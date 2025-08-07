@@ -8,13 +8,34 @@ export interface CodeSnippet {
   tags: string[];
 }
 
+export interface task {
+  id: string;
+  title: string;
+  description: string;
+  status: "todo" | "in-progress" | "done";
+  priority: "low" | "medium" | "high";
+  dueDate?: string;
+}
 export interface Project {
   id: string;
   title: string;
   description: string;
   status: "planning" | "in-progress" | "completed" | "on-hold";
   difficulty: "beginner" | "intermediate" | "advanced";
-  category: "sensors" | "connectivity" | "display" | "automation" | "other";
+  category:
+    | "embedded_systems"
+    | "iot"
+    | "robotics"
+    | "web_development"
+    | "mobile_development"
+    | "data_processing"
+    | "sensors"
+    | "connectivity"
+    | "power_supply"
+    | "actuators"
+    | "display"
+    | "automation"
+    | "other";
   startDate: string;
   completedDate?: string;
   deadline?: string;
@@ -25,36 +46,16 @@ export interface Project {
   estimatedTime?: number;
   budget?: number;
   actualCost?: number;
-  notes?: string;
+  notes?: string[];
   codeSnippets?: CodeSnippet[];
   pinConfig?: PinConfig[];
   photos?: string[];
   powerConsumption?: number;
-}
-
-export interface SharedProject {
-  id: string;
-  title: string;
-  author: string;
-  description: string;
-  difficulty: string;
-  likes: number;
-  components: string[];
-  githubUrl?: string;
+  tasks?: task[];
 }
 
 export interface ProjectStoreState {
   projects: Project[];
   addProject: (project: Project) => void;
   removeProject: (id: string) => void;
-}
-
-export interface SharedProjectStoreState {
-  sharedProjects: SharedProject[];
-  isLoading: boolean; // Add a loading state for fetching data
-
-  // Actions
-  setSharedProjects: (projects: SharedProject[]) => void;
-  likeProject: (id: string) => void;
-  fetchSharedProjects: () => Promise<void>;
 }

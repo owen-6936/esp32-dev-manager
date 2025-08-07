@@ -9,6 +9,7 @@ export interface Component {
   datasheet?: string;
   inUse: number;
   description: string;
+  imageUrl?: string;
 }
 
 export interface ComponentStoreState {
