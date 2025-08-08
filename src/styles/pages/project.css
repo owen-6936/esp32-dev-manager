@@ -3,7 +3,7 @@
 @plugin "daisyui";
 
 .project {
-  @apply space-y-6 min-h-screen p-6;
+  @apply space-y-6 min-height p-6;
 }
 
 .project-header-container {

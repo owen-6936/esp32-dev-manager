@@ -5,7 +5,7 @@ export default function Learning() {
   const learningMetrics = useLearningStore((state) => state.learningMetrics);
   const learningGoals = useLearningGoalStore((state) => state.learningGoals);
   return (
-    <div className="space-y-6 min-h-full sm:min-h-screen p-6">
+    <div className="space-y-6 min-height p-6">
       <h2 className="text-3xl font-bold text-white">Learning Progress</h2>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

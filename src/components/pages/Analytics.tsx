@@ -4,16 +4,16 @@ export default function Analytics() {
   const projects = useProjectStore((state) => state.projects);
   const stats = {
     budgetUsed: projects.reduce(
-      (accumulator, project) => accumulator + project.budget,
+      (accumulator, project) => accumulator + (project.budget ?? 0),
       0
     ),
     timeSpent: projects.reduce(
-      (accumulator, project) => accumulator + project.timeSpent,
+      (accumulator, project) => accumulator + (project.timeSpent ?? 0),
       0
     ),
   };
   return (
-    <div className="space-y-6 min-h-full sm:min-h-screen p-6">
+    <div className="space-y-6 min-height p-6">
       <h2 className="text-2xl sm:text-3xl font-bold text-white">
         Project Analytics
       </h2>
@@ -70,7 +70,11 @@ export default function Analytics() {
               <div className="text-2xl font-bold text-white mb-1">
                 {(
                   (stats.budgetUsed /
-                    (projects.reduce((acc, p) => acc + p.budget, 0) || 1)) *
+                    (projects.reduce(
+                      (accumulator, project) =>
+                        accumulator + (project.budget ?? 0),
+                      0
+                    ) || 1)) *
                   100
                 ).toFixed(1)}
                 %
@@ -81,8 +85,11 @@ export default function Analytics() {
               <div className="text-2xl font-bold text-white mb-1">
                 {(
                   (stats.timeSpent /
-                    (projects.reduce((acc, p) => acc + p.estimatedTime, 0) ||
-                      1)) *
+                    (projects.reduce(
+                      (accumulator, project) =>
+                        accumulator + (project.estimatedTime ?? 0),
+                      0
+                    ) || 1)) *
                   100
                 ).toFixed(1)}
                 %

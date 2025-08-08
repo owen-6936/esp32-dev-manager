@@ -3,7 +3,7 @@
 @plugin "daisyui";
 
 .dashboard {
-  @apply flex flex-col items-center justify-center min-h-screen p-4 max-w-7xl mx-auto;
+  @apply flex flex-col items-center justify-center min-height p-4 max-w-7xl mx-auto;
 }
 .dashboard-stats {
   @apply flex flex-wrap items-center justify-center gap-6 sm:w-[80%] mt-5;

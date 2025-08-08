@@ -11,7 +11,7 @@ export default function Journal() {
   const [showAddJournal, setShowAddJournal] = useState(false);
   const journalEntries = useJournalStore((state) => state.journalEntries);
   return (
-    <div className="space-y-6 min-h-screen p-6">
+    <div className="space-y-6 min-height p-6">
       <div className="flex gap-4 items-center justify-between">
         {showAddJournal && <AddJournal setShowAddJournal={setShowAddJournal} />}
         <h2 className="text-xl sm:text-3xl font-bold text-white">

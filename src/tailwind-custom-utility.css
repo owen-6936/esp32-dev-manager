@@ -12,3 +12,11 @@
 @utility bg-gradient-btn-hover {
   @apply hover:from-blue-600 hover:to-purple-700 transition-all shadow-lg;
 }
+
+@utility text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600;
+}
+
+@utility min-height {
+  @apply min-h-[calc(100vh-5rem)];
+}

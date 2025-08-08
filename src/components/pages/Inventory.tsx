@@ -20,7 +20,7 @@ export default function Inventory() {
     return matchesSearch && matchesCategory;
   });
   return (
-    <div className="space-y-6 min-h-full sm:min-h-screen p-6">
+    <div className="space-y-6 min-height p-6">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl sm:text-3xl font-bold text-white">
           Component Inventory
@@ -112,7 +112,10 @@ export default function Inventory() {
                 <div className="flex items-center justify-between">
                   <span className="text-blue-200 text-sm">Total Value:</span>
                   <span className="text-white">
-                    ${(component.quantity * component.unitPrice).toFixed(2)}
+                    $
+                    {(component.quantity * (component.unitPrice ?? 0)).toFixed(
+                      2
+                    )}
                   </span>
                 </div>
               </div>
