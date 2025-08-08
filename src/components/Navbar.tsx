@@ -12,7 +12,7 @@ export default function Navbar() {
     | "learning"
     | "inventory"
     | "journal"
-    | "community"
+    | "account"
   >("");
   useEffect(() => {
     setActiveTab(location.pathname.split("/")[1] as any);

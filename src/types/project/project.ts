@@ -16,26 +16,28 @@ export interface task {
   priority: "low" | "medium" | "high";
   dueDate?: string;
 }
+
+export type Category =
+  | "embedded_systems"
+  | "iot"
+  | "robotics"
+  | "web_development"
+  | "mobile_development"
+  | "data_processing"
+  | "sensors"
+  | "connectivity"
+  | "power_supply"
+  | "actuators"
+  | "display"
+  | "automation"
+  | "other";
 export interface Project {
   id: string;
   title: string;
   description: string;
+  category: Category[];
   status: "planning" | "in-progress" | "completed" | "on-hold";
   difficulty: "beginner" | "intermediate" | "advanced";
-  category:
-    | "embedded_systems"
-    | "iot"
-    | "robotics"
-    | "web_development"
-    | "mobile_development"
-    | "data_processing"
-    | "sensors"
-    | "connectivity"
-    | "power_supply"
-    | "actuators"
-    | "display"
-    | "automation"
-    | "other";
   startDate: string;
   completedDate?: string;
   deadline?: string;

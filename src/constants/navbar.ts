@@ -5,7 +5,7 @@ import {
   Code,
   FileText,
   Package,
-  Users,
+  User,
 } from "lucide-react";
 import type { ReactNode } from "react";
 
@@ -22,6 +22,6 @@ const navbarItems: NavbarItem[] = [
   { key: "learning", label: "Learning", icon: BookOpen },
   { key: "inventory", label: "Inventory", icon: Package },
   { key: "journal", label: "Journal", icon: FileText },
-  { key: "community", label: "Community", icon: Users },
+  { key: "account", label: "Account", icon: User },
 ];
 export default navbarItems;

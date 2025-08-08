@@ -17,3 +17,10 @@ button {
 option {
   @apply text-gray-800 bg-white;
 }
+
+select[multiple] option {
+  @apply text-white bg-transparent p-1;
+}
+select[multiple] option:hover {
+  @apply bg-white/10;
+}

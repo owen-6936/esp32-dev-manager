@@ -13,7 +13,7 @@ export default function AddProject({
     description: "",
     status: "planning",
     difficulty: "beginner",
-    category: "sensors",
+    category: ["sensors"],
     components: [],
     progress: 0,
     timeSpent: 0,
@@ -142,11 +142,34 @@ export default function AddProject({
               <option value="advanced">Advanced</option>
             </select>
             <select
-              value={newProject.category || "sensors"}
+              value={newProject.status || "planning"}
               onChange={(e) =>
                 setNewProject({
                   ...newProject,
-                  category: e.target.value as Project["category"],
+                  status: e.target.value as Project["status"],
+                })
+              }
+              className="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white"
+            >
+              <option value="planning">Planning</option>
+              <option value="in-progress">In Progress</option>
+              <option value="completed">Completed</option>
+              <option value="on-hold">On Hold</option>
+            </select>
+          </div>
+
+          {/* Status & Components */}
+          <div className="grid grid-cols-2 gap-4">
+            <select
+              value={newProject.category || ["sensors"]}
+              multiple
+              onChange={(e) =>
+                setNewProject({
+                  ...newProject,
+                  category: Array.from(
+                    e.target.selectedOptions,
+                    (option) => option.value
+                  ) as Project["category"],
                 })
               }
               className="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white"
@@ -165,8 +188,24 @@ export default function AddProject({
               <option value="automation">Automation</option>
               <option value="other">Other</option>
             </select>
+            <select
+              value={
+                newProject.components?.length
+                  ? "has-components"
+                  : "no-components"
+              }
+              multiple
+              onChange={(e) =>
+                setNewProject({
+                  ...newProject,
+                  components: e.target.value === "has-components" ? [] : [],
+                })
+              }
+              className="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white"
+            >
+              <option value="no-components">No Components</option>
+            </select>
           </div>
-
           {/* Estimated Time & Budget */}
           <div className="grid grid-cols-2 gap-4">
             <div>
@@ -210,17 +249,33 @@ export default function AddProject({
               )}
             </div>
           </div>
-
-          {/* Deadline */}
-          <input
-            type="date"
-            placeholder="Deadline"
-            value={newProject.deadline || ""}
-            onChange={(e) =>
-              setNewProject({ ...newProject, deadline: e.target.value })
-            }
-            className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white"
-          />
+          <div className="grid grid-cols-2 gap-4">
+            {/* Deadline */}
+            <label className="text-white text-sm mb-2">
+              Start Date (optional):
+              <input
+                type="date"
+                placeholder="Start Date"
+                value={newProject.startDate || ""}
+                onChange={(e) =>
+                  setNewProject({ ...newProject, startDate: e.target.value })
+                }
+                className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white"
+              />
+            </label>
+            <label className="text-white text-sm mb-2">
+              Deadline (optional):
+              <input
+                type="date"
+                placeholder="Deadline"
+                value={newProject.deadline || ""}
+                onChange={(e) =>
+                  setNewProject({ ...newProject, deadline: e.target.value })
+                }
+                className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white"
+              />
+            </label>
+          </div>
         </div>
 
         {/* Action Buttons */}
