@@ -4,7 +4,7 @@ import { features } from "../../../constants/ui/features";
 export default function Features() {
   return (
     <motion.div
-      className="bg-white/10 rounded-xl p-8 border border-white/20 sm:w-[73%] mt-10"
+      className="bg-white/10 rounded-xl p-8 border border-white/20 sm:w-[73%] w-[90%] mt-10"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
