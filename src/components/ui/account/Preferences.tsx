@@ -4,11 +4,21 @@ export default function Preferences() {
   const [preferences, setPreferences] = useState({
     theme: "dark",
     language: "english",
-    timezone: "GMT",
+    timezone: "PST",
     notifications: {
       projectDeadlines: true,
       componentLowStock: true,
       newAchievements: true,
+      weeklyReports: false,
+      securityAlerts: true,
+      marketingEmails: false,
+    },
+    privacy: {
+      profilePublic: true,
+      projectsPublic: false,
+      showEmail: false,
+      showPhone: false,
+      allowMessages: true,
     },
   });
 

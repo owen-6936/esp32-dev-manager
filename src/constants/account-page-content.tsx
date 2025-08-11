@@ -4,6 +4,8 @@ import Profile from "../components/ui/account/Profile";
 import Stats from "../components/ui/account/Stats";
 import Achievements from "../components/ui/account/Achievements";
 import Preferences from "../components/ui/account/Preferences";
+import Security from "../components/ui/account/Security";
+import DataAndPrivacy from "../components/ui/account/data-and-privacy";
 
 interface Props {
   isMobile: boolean;
@@ -58,12 +60,12 @@ const AccountPageContent: React.FC<Props> = ({ isMobile }) => {
     {
       key: "security",
       title: "Security",
-      panel: <div>/* JSX for security including change password */</div>,
+      panel: <Security />,
     },
     {
       key: "data",
       title: "Data & Privacy",
-      panel: <div>/* JSX for export/import and privacy toggles */</div>,
+      panel: <DataAndPrivacy />,
     },
   ];
 
