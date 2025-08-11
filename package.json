@@ -1,5 +1,7 @@
 {
   "name": "esp32-dev-manager",
+  "description": "A comprehensive full-stack application designed to track and manage all aspects of your embedded systems development journey, with a special focus on ESP32 S3 projects.",
+  "keywords": [ "ESP32", "embedded systems", "development", "management", "tracking", "monitoring", "logging", "IoT", "firmware", "debugging" ],
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,6 +9,7 @@
     "dev": "vite --host",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "test": "echo \"No tests specified\"",
     "preview": "vite preview"
   },
   "dependencies": {
