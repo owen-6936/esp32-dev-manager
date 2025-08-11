@@ -8,7 +8,18 @@ export interface StatProps {
   valueColor: string;
   subtitleColor: string;
   subtitleIcon: React.ReactNode;
-  cardVariants?: any;
+  cardVariants?: {
+    hidden: {
+      opacity: number;
+      scale: number;
+      y: number;
+    };
+    visible: {
+      opacity: number;
+      scale: number;
+      y: number;
+    };
+  };
 }
 
 export interface StatCardProps {

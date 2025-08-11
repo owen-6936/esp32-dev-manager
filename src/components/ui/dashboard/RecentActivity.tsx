@@ -6,7 +6,18 @@ export default function RecentActivity({
   cardVariants,
 }: {
   journalEntries: JournalEntry[];
-  cardVariants: any;
+  cardVariants: {
+    hidden: {
+      opacity: number;
+      scale: number;
+      y: number;
+    };
+    visible: {
+      opacity: number;
+      scale: number;
+      y: number;
+    };
+  };
 }) {
   return (
     <motion.div

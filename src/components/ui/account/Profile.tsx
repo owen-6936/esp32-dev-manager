@@ -29,6 +29,15 @@ export default function Profile({
       <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/20">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-white">Profile Information</h2>
+          {showEditProfile && (
+            <button
+              onClick={() => setShowEditProfile(false)}
+              className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-all flex items-center space-x-2"
+            >
+              <Edit3 className="w-4 h-4" />
+              <span>Cancel</span>
+            </button>
+          )}
           <button
             onClick={() => setShowEditProfile(true)}
             className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-all flex items-center space-x-2"

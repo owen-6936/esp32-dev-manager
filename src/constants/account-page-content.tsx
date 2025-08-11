@@ -24,7 +24,7 @@ const stats = {
 const AccountPageContent: React.FC<Props> = ({ isMobile }) => {
   const [active, setActive] = useState("profile");
 
-  const [userProfile, setUserProfile] = useState({
+  const userProfile = {
     name: "Owen Erhabor",
     email: "owen.erhabor@example.com",
     bio: "Passionate about web development, software dev & engineering, abit in Gaming and Embedded Systems. Always eager to learn and share knowledge, especially in the areas of React and TypeScript.",
@@ -35,7 +35,7 @@ const AccountPageContent: React.FC<Props> = ({ isMobile }) => {
     phone: "+44 7438782177",
     company: "Nexicore Digital",
     jobTitle: "Full Stack Developer",
-  });
+  };
 
   const sections = [
     {

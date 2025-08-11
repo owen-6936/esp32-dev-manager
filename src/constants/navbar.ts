@@ -6,13 +6,18 @@ import {
   FileText,
   Package,
   User,
+  type LucideProps,
 } from "lucide-react";
 import type { ReactNode } from "react";
 
 export interface NavbarItem {
   key: string;
   label: string;
-  icon: ReactNode | any;
+  icon:
+    | ReactNode
+    | React.ForwardRefExoticComponent<
+        Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>
+      >;
 }
 
 const navbarItems: NavbarItem[] = [

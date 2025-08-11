@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useProjectStore } from "../../../store/project/project";
 import type { Project } from "../../../types/project/project";
 import { useFormValidator } from "../../../hooks/useFormValidator";
-import { p } from "framer-motion/client";
 
 export default function AddProject({
   setShowAddProject,
@@ -17,7 +16,7 @@ export default function AddProject({
     state.getProjectById(projectId || "")
   );
 
-  let initialProject: Partial<Project> = project || {
+  const initialProject: Partial<Project> = project || {
     title: "",
     description: "",
     status: "planning",
