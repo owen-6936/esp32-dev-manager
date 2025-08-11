@@ -1,10 +1,22 @@
 // AccountPageContent.tsx
 import React, { useState } from "react";
 import Profile from "../components/ui/account/Profile";
+import Stats from "../components/ui/account/Stats";
+import Achievements from "../components/ui/account/Achievements";
+import Preferences from "../components/ui/account/Preferences";
 
 interface Props {
   isMobile: boolean;
 }
+
+const stats = {
+  totalProjects: 23,
+  completedProjects: 18,
+  totalComponents: 127,
+  timeSpent: 156,
+  streakDays: 12,
+  achievements: 8,
+};
 
 const AccountPageContent: React.FC<Props> = ({ isMobile }) => {
   const [active, setActive] = useState("profile");
@@ -31,17 +43,17 @@ const AccountPageContent: React.FC<Props> = ({ isMobile }) => {
     {
       key: "stats",
       title: "Statistics",
-      panel: <div>/* JSX for stats section */</div>,
+      panel: <Stats {...stats} />,
     },
     {
       key: "achievements",
       title: "Achievements",
-      panel: <div>/* JSX for achievements section */</div>,
+      panel: <Achievements />,
     },
     {
       key: "preferences",
       title: "Preferences",
-      panel: <div>/* JSX for preferences with toggles */</div>,
+      panel: <Preferences />,
     },
     {
       key: "security",
