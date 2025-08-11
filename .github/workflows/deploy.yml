@@ -100,6 +100,35 @@ jobs:
         name: my-react-app-build
         path: build/
 
+  deploy:
+    # The deploy job will run on the latest Ubuntu runner.
+    runs-on: ubuntu-latest
+    
+    # This job will only run when a new build artifact is successfully uploaded from the main branch.
+    # It depends on the `build` job finishing successfully.
+    needs: build
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout Repository
+        # We need to checkout the repository to access the gh-pages action.
+        uses: actions/checkout@v4
+      
+      - name: Download Build Artifact
+        # This step downloads the build output that was created and uploaded in the 'build' job.
+        uses: actions/download-artifact@v4
+        with:
+          name: my-react-app-build
+
+      - name: Deploy to GitHub Pages
+        # This action deploys the contents of the `build` folder to the `gh-pages` branch.
+        # GitHub Pages will then serve the site from this branch.
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/
+          publish_branch: gh-pages
+  
   first-interaction:
     # This job runs on its own on the latest ubuntu runner
     runs-on: ubuntu-latest
