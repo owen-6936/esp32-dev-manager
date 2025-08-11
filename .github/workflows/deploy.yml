@@ -47,37 +47,30 @@ jobs:
       # The `npm ci` command is faster than `npm install` for CI/CD environments.
       run: npm ci
 
-    # --- Debugging Steps ---
-    # These steps are added to help you diagnose the specific failure on Node 18.
-    - name: Debugging Information
-      run: |
-        echo "Node.js version: $(node -v)"
-        echo "npm version: $(npm -v)"
-        echo "TypeScript version: $(npx tsc -v || echo 'TypeScript not found')"
-    # -----------------------
-
     - name: Run Linter
       # This step runs a linter to check for code quality issues like unused variables.
-      # The '|| true' at the end ensures the job continues even if this step fails.
-      # This is for debugging purposes to see the full log.
+      # The workflow will now fail if this step fails, which is the correct behavior for CI.
       # Make sure you have a `lint` script in your package.json.
-      run: npm run lint || true
+      run: npm run lint
 
     - name: Run Build
       # This command runs the build script defined in your package.json.
-      # The '|| true' at the end ensures the job continues even if this step fails.
+      # The workflow will now fail if this step fails, which is the correct behavior for CI.
       # The '--if-present' flag prevents the command from failing if no build script exists.
-      run: npm run build --if-present || true
+      run: npm run build --if-present
 
     - name: Run Tests
       # This command runs the test script defined in your package.json.
-      # The '|| true' at the end ensures the job continues even if this step fails.
-      run: npm test || true
+      # The workflow will now fail if this step fails, which is the correct behavior for CI.
+      run: npm test
 
     # ---
     # The following steps are for caching the build output and uploading it as an artifact.
     # Caching the build directory can speed up deployment jobs if they run on a different runner.
     # ---
+    - name: Verify Build Directory
+      # This is a check to ensure the build folder exists before trying to upload it.
+      run: test -d build && echo "Build exists" || (echo "Build missing" && exit 1)
 
     - name: Cache Build Output
       # We'll cache the 'build' folder created by the `npm run build` command.
