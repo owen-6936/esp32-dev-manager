@@ -44,25 +44,23 @@ const getComponentStats = (components: Component[]) => {
 };
 
 // 3. Create the main stats store
-export const useStatsStore: UseBoundStore<StoreApi<StatsStore>> = create(
-  (set) => {
-    // Get initial state from both stores
-    const initialProjects = useProjectStore.getState().projects;
-    const initialComponents = useComponentStore.getState().components;
+export const useStatsStore: UseBoundStore<StoreApi<StatsStore>> = create(() => {
+  // Get initial state from both stores
+  const initialProjects = useProjectStore.getState().projects;
+  const initialComponents = useComponentStore.getState().components;
 
-    const projectStats = getProjectStats(initialProjects);
-    const componentStats = getComponentStats(initialComponents);
+  const projectStats = getProjectStats(initialProjects);
+  const componentStats = getComponentStats(initialComponents);
 
-    return {
-      ...projectStats,
-      ...componentStats,
-      timeSpent: initialProjects.reduce(
-        (sum, project) => sum + (project.timeSpent || 0),
-        0
-      ),
-    };
-  }
-);
+  return {
+    ...projectStats,
+    ...componentStats,
+    timeSpent: initialProjects.reduce(
+      (sum, project) => sum + (project.timeSpent || 0),
+      0
+    ),
+  };
+});
 
 // Subscribe to both stores to keep stats updated
 

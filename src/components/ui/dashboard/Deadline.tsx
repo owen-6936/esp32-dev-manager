@@ -6,7 +6,18 @@ export default function Deadline({
   cardVariants,
 }: {
   projects: Project[];
-  cardVariants: any;
+  cardVariants: {
+    hidden: {
+      opacity: number;
+      scale: number;
+      y: number;
+    };
+    visible: {
+      opacity: number;
+      scale: number;
+      y: number;
+    };
+  };
 }) {
   return (
     <motion.div

@@ -5,19 +5,21 @@ import "../styles/navbar.css";
 import { Link } from "react-router-dom";
 
 export default function Navbar() {
-  const [activeTab, setActiveTab] = useState<
+  type activeTabType =
     | ""
     | "project"
     | "analytics"
     | "learning"
     | "inventory"
     | "journal"
-    | "account"
-  >("");
+    | "account";
+  const [activeTab, setActiveTab] = useState<activeTabType>("");
+
   useEffect(() => {
-    setActiveTab(location.pathname.split("/")[1] as any);
-    console.log("Active tab set to:", location.pathname.split("/")[1]);
-  }, [location.pathname]);
+    const tab = location.pathname.split("/")[1] as activeTabType;
+    setActiveTab(tab);
+    console.log("Active tab set to:", tab);
+  }, []);
   return (
     <nav className="navbar">
       <div className="cpu-container">
@@ -36,7 +38,7 @@ export default function Navbar() {
             <Link
               key={key}
               to={`/${key}`}
-              onClick={() => setActiveTab(key as any)}
+              onClick={() => setActiveTab(key as activeTabType)}
               className={`navbar-items ${
                 activeTab === key ? "active" : "unactive"
               }`}
@@ -87,7 +89,7 @@ export default function Navbar() {
               <Link
                 to={`/${key}`}
                 key={key}
-                onClick={() => setActiveTab(key as any)}
+                onClick={() => setActiveTab(key as activeTabType)}
                 className={`navbar-items ${
                   activeTab === key ? "active" : "unactive"
                 }`}

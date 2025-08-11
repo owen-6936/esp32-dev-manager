@@ -12,7 +12,12 @@ export default function Hero() {
 
   return (
     <div className="hero">
-      {showAddProject && <AddProject setShowAddProject={setShowAddProject} />}
+      {showAddProject && (
+        <AddProject
+          mode="Add New Project"
+          setShowAddProject={setShowAddProject}
+        />
+      )}
       {showPinMapper && (
         <PinMapper
           setShowPinMapper={setShowPinMapper}

@@ -6,6 +6,7 @@ import Lottie from "lottie-react";
 import emptyAnimation from "../../assets/lottie/empty-state.json";
 import "../../styles/pages/project.css";
 import AddProject from "../ui/Modals/AddProject";
+import CodeEditor from "../ui/Modals/CodeEditor";
 
 export default function Project() {
   const [showAddProject, setShowAddProject] = useState(false);
@@ -22,6 +23,12 @@ export default function Project() {
       )}
       <div className="project-header-container">
         <h2 className="project-header">My Projects</h2>
+        {showCodeEditor && (
+          <CodeEditor
+            projectId={selectedProject || ""}
+            setShowCodeEditor={setShowCodeEditor}
+          />
+        )}
         <div className="project-actions">
           <button
             onClick={() => setShowCodeEditor(true)}

@@ -10,6 +10,7 @@ import useMediaQuery from "../../hooks/useMediaQuery";
 export default function Journal() {
   const [showAddJournal, setShowAddJournal] = useState(false);
   const journalEntries = useJournalStore((state) => state.journalEntries);
+  const isMobile = useMediaQuery("(max-width: 640px)");
   return (
     <div className="space-y-6 min-height p-6">
       <div className="flex gap-4 items-center justify-between">
@@ -28,7 +29,7 @@ export default function Journal() {
 
       {journalEntries.length === 0 ? (
         <div className="flex flex-col items-center justify-center text-center mt-20 px-4 sm:px-6 lg:px-8 max-w-2xl mx-auto">
-          {useMediaQuery("(min-width: 640px)") ? (
+          {isMobile ? (
             <Lottie
               animationData={emptyStateAnimation}
               className="w-60 aspect-square"

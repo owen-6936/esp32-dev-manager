@@ -6,6 +6,13 @@ export default function Security() {
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold text-white">Security</h2>
+      {showChangePassword && (
+        <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+          <h3 className="text-lg font-bold text-white mb-4">
+            Password & Authentication
+          </h3>
+        </div>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
           <h3 className="text-lg font-bold text-white mb-4">

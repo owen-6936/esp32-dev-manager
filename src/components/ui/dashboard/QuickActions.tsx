@@ -1,8 +1,21 @@
 import { motion } from "framer-motion";
 import { Code, FileText, Package } from "lucide-react";
 import { useState } from "react";
+import AddJournal from "../Modals/AddJournal";
+import CodeEditor from "../Modals/CodeEditor";
 
-export default function QuickActions(cardVariants: any) {
+export default function QuickActions(cardVariants: {
+  hidden: {
+    opacity: number;
+    scale: number;
+    y: number;
+  };
+  visible: {
+    opacity: number;
+    scale: number;
+    y: number;
+  };
+}) {
   const [showAddJournal, setShowAddJournal] = useState(false);
   const [showCodeEditor, setShowCodeEditor] = useState(false);
   return (
@@ -15,6 +28,10 @@ export default function QuickActions(cardVariants: any) {
       transition={{ duration: 0.65, ease: "easeOut", delay: 0.1 }}
     >
       <h3 className="text-xl font-bold text-white mb-4">Quick Actions</h3>
+      {showAddJournal && <AddJournal setShowAddJournal={setShowAddJournal} />}
+      {showCodeEditor && (
+        <CodeEditor projectId="" setShowCodeEditor={setShowCodeEditor} />
+      )}
       <div className="space-y-3">
         <button
           onClick={() => setShowAddJournal(true)}
