@@ -1,0 +1,107 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+# This workflow is designed to build and test a Node.js project.
+# It includes caching for both npm dependencies and the build output
+# to significantly speed up subsequent runs.
+# It also includes a job to greet first-time contributors.
+
+name: Node.js CI/CD and Community Management
+
+# This workflow will run on every push to the "main" branch and on pull requests
+# targeting the "main" branch. The `first-interaction` job will run on new
+# pull requests and issues.
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  issues:
+    types: [opened]
+
+jobs:
+  build:
+    # We will run this job on the latest version of Ubuntu.
+    runs-on: ubuntu-latest
+
+    # This strategy creates a matrix of jobs for different Node.js versions.
+    # The 'node-version' variable will be used in the steps below.
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+
+    steps:
+    - name: Checkout Repository
+      # This action checks out your repository under $GITHUB_WORKSPACE,
+      # so your workflow can access your code.
+      uses: actions/checkout@v4
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      # This action sets up a Node.js environment.
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        # The 'cache' option automatically sets up caching for npm dependencies.
+        # It's a simpler way to manage caching for your node_modules.
+        cache: 'npm'
+
+    - name: Install Dependencies
+      # This command installs all dependencies from package-lock.json.
+      # The `npm ci` command is faster than `npm install` for CI/CD environments.
+      run: npm ci
+
+    - name: Run Build
+      # This command runs the build script defined in your package.json.
+      # The '--if-present' flag prevents the command from failing if no build script exists.
+      run: npm run build --if-present
+
+    - name: Run Tests
+      # This command runs the test script defined in your package.json.
+      run: npm test
+
+    # ---
+    # The following steps are for caching the build output and uploading it as an artifact.
+    # Caching the build directory can speed up deployment jobs if they run on a different runner.
+    # ---
+
+    - name: Cache Build Output
+      # We'll cache the 'build' folder created by the `npm run build` command.
+      # The key is based on the runner's OS and a hash of the package-lock.json,
+      # ensuring the cache is only restored if the dependencies haven't changed.
+      id: cache-build
+      uses: actions/cache@v4
+      with:
+        path: build
+        key: ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-
+
+    - name: Upload Build Artifacts
+      # This step uploads the build folder as an artifact.
+      # This is a crucial step if you want a different job or workflow to download
+      # and deploy this build.
+      uses: actions/upload-artifact@v4
+      with:
+        name: my-react-app-build
+        path: build/
+
+  first-interaction:
+    # This job runs on its own on the latest ubuntu runner
+    runs-on: ubuntu-latest
+    
+    # This job will only run if the event is a new pull request or a new issue.
+    # We check if the event is an issue that was opened or a pull request that was opened.
+    if: github.event_name == 'issues' || github.event.action == 'opened'
+
+    steps:
+      - name: First Interaction
+        uses: actions/first-interaction@v1.3.0
+        with:
+          # This token is automatically provided by GitHub to your workflow.
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          # The message to post on an individual's first issue.
+          issue-message: "Hello and welcome to the project! Thanks for opening your first issue. We're excited to have you here!"
+          # The message to post on an individual's first pull request.
+          pr-message: "Hello and welcome to the project! Thanks for your first pull request. We'll be reviewing it shortly!"
+
+          
