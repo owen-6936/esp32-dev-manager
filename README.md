@@ -1,4 +1,3 @@
-````markdown
 # ESP32 S3 Journey Tracker
 
 A comprehensive full-stack application designed to track and manage all aspects of your embedded systems development journey, with a special focus on ESP32 S3 projects.
@@ -122,4 +121,3 @@ Contributions are welcome! If you have suggestions or find a bug, please open an
 ## 📄 License
 
 This project is licensed under the MIT License.
-```
