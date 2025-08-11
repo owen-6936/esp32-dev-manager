@@ -1,5 +1,6 @@
 // AccountPageContent.tsx
 import React, { useState } from "react";
+import Profile from "../components/ui/account/Profile";
 
 interface Props {
   isMobile: boolean;
@@ -8,13 +9,24 @@ interface Props {
 const AccountPageContent: React.FC<Props> = ({ isMobile }) => {
   const [active, setActive] = useState("profile");
 
-  // ... state setup for profile, preferences, stats, achievements, activity, etc. (same as before)...
+  const [userProfile, setUserProfile] = useState({
+    name: "Owen Erhabor",
+    email: "owen.erhabor@example.com",
+    bio: "Passionate about web development, software dev & engineering, abit in Gaming and Embedded Systems. Always eager to learn and share knowledge, especially in the areas of React and TypeScript.",
+    location: "London, UK",
+    website: "https://portfolio.owenlibrary.com",
+    github: "owen-6936",
+    joinDate: "2025-01-15",
+    phone: "+44 7438782177",
+    company: "Nexicore Digital",
+    jobTitle: "Full Stack Developer",
+  });
 
   const sections = [
     {
       key: "profile",
       title: "Profile",
-      panel: <div>/* JSX for profile section */</div>,
+      panel: <Profile {...userProfile} />,
     },
     {
       key: "stats",
