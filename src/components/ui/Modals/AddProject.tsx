@@ -2,13 +2,22 @@ import { useState } from "react";
 import { useProjectStore } from "../../../store/project/project";
 import type { Project } from "../../../types/project/project";
 import { useFormValidator } from "../../../hooks/useFormValidator";
+import { p } from "framer-motion/client";
 
 export default function AddProject({
   setShowAddProject,
+  mode = "Add New Project",
+  projectId,
 }: {
   setShowAddProject: (show: boolean) => void;
+  mode: "Add New Project" | "Update Project";
+  projectId?: string;
 }) {
-  const initialProject: Partial<Project> = {
+  const project = useProjectStore((state) =>
+    state.getProjectById(projectId || "")
+  );
+
+  let initialProject: Partial<Project> = project || {
     title: "",
     description: "",
     status: "planning",
@@ -79,14 +88,14 @@ export default function AddProject({
         onSubmit={(e) => e.preventDefault()}
         className="bg-slate-800 rounded-xl p-6 w-full max-w-2xl border border-white/20 max-h-[90vh] overflow-y-auto"
       >
-        <h3 className="text-xl font-bold text-white mb-4">Add New Project</h3>
+        <h3 className="text-xl font-bold text-white mb-4">{mode}</h3>
         <div className="space-y-4">
           {/* Title */}
           <div>
             <input
               type="text"
               placeholder="Project Title"
-              value={newProject.title || ""}
+              value={newProject.title}
               onChange={(e) =>
                 setNewProject({ ...newProject, title: e.target.value })
               }
@@ -102,7 +111,7 @@ export default function AddProject({
           <div>
             <textarea
               placeholder="Project Description"
-              value={newProject.description || ""}
+              value={newProject.description}
               onChange={(e) =>
                 setNewProject({ ...newProject, description: e.target.value })
               }
@@ -191,8 +200,8 @@ export default function AddProject({
             <select
               value={
                 newProject.components?.length
-                  ? "has-components"
-                  : "no-components"
+                  ? newProject.components.toString().split(",")
+                  : ["no-components"]
               }
               multiple
               onChange={(e) =>
@@ -206,7 +215,7 @@ export default function AddProject({
               <option value="no-components">No Components</option>
             </select>
           </div>
-          {/* Estimated Time & Budget */}
+          {/* Estimated Time & Time Spent */}
           <div className="grid grid-cols-2 gap-4">
             <div>
               <input
@@ -233,6 +242,29 @@ export default function AddProject({
             <div>
               <input
                 type="number"
+                placeholder="Time Spent (hours)"
+                value={newProject.timeSpent || ""}
+                onChange={(e) =>
+                  setNewProject({
+                    ...newProject,
+                    timeSpent: parseFloat(e.target.value) || 0,
+                  })
+                }
+                onBlur={(e) =>
+                  handleBlur("timeSpent", parseFloat(e.target.value))
+                }
+                className={inputClass("timeSpent")}
+              />
+              {errors.timeSpent && (
+                <p className="text-red-400 text-sm mt-1">{errors.timeSpent}</p>
+              )}
+            </div>
+          </div>
+          {/* Budget & Actual Cost */}
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <input
+                type="number"
                 placeholder="Budget ($)"
                 value={newProject.budget || ""}
                 onChange={(e) =>
@@ -246,6 +278,26 @@ export default function AddProject({
               />
               {errors.budget && (
                 <p className="text-red-400 text-sm mt-1">{errors.budget}</p>
+              )}
+            </div>
+            <div>
+              <input
+                type="number"
+                placeholder="Actual Cost ($)"
+                value={newProject.actualCost || ""}
+                onChange={(e) =>
+                  setNewProject({
+                    ...newProject,
+                    actualCost: parseFloat(e.target.value) || 0,
+                  })
+                }
+                onBlur={(e) =>
+                  handleBlur("actualCost", parseFloat(e.target.value))
+                }
+                className={inputClass("actualCost")}
+              />
+              {errors.actualCost && (
+                <p className="text-red-400 text-sm mt-1">{errors.actualCost}</p>
               )}
             </div>
           </div>

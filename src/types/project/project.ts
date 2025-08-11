@@ -60,4 +60,5 @@ export interface ProjectStoreState {
   projects: Project[];
   addProject: (project: Project) => void;
   removeProject: (id: string) => void;
+  getProjectById: (id: string) => Project | undefined;
 }

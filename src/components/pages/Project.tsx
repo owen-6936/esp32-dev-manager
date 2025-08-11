@@ -14,7 +14,12 @@ export default function Project() {
   const projects = useProjectStore((state) => state.projects);
   return (
     <div className="project">
-      {showAddProject && <AddProject setShowAddProject={setShowAddProject} />}
+      {showAddProject && (
+        <AddProject
+          setShowAddProject={setShowAddProject}
+          mode="Add New Project"
+        />
+      )}
       <div className="project-header-container">
         <h2 className="project-header">My Projects</h2>
         <div className="project-actions">
@@ -152,9 +157,20 @@ export default function Project() {
                     </a>
                   )}
                   <button
-                    onClick={() => setSelectedProject(project.id)}
+                    onClick={() => {
+                      setSelectedProject(project.id);
+                      setShowAddProject(true);
+                    }}
                     className="text-green-400 hover:text-green-300"
                   >
+                    {showAddProject && (
+                      <AddProject
+                        setShowAddProject={setShowAddProject}
+                        mode="Update Project"
+                        key={project.id}
+                        projectId={project.id}
+                      />
+                    )}
                     <Edit3 className="w-4 h-4" />
                   </button>
                 </div>

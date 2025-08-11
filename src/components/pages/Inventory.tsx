@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useComponentStore } from "../../store/component/component";
 import emptyBoxAnimation from "../../assets/lottie/empty-box.json";
 import Lottie from "lottie-react";
+import AddComponent from "../ui/Modals/AddComponent";
 
 export default function Inventory() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -25,6 +26,9 @@ export default function Inventory() {
         <h2 className="text-2xl sm:text-3xl font-bold text-white">
           Component Inventory
         </h2>
+        {showAddComponent && (
+          <AddComponent setShowAddComponent={setShowAddComponent} />
+        )}
         <button
           onClick={() => setShowAddComponent(true)}
           className="bg-gradient-btn flex items-center space-x-2"
