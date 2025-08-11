@@ -6,6 +6,7 @@ import Achievements from "../components/ui/account/Achievements";
 import Preferences from "../components/ui/account/Preferences";
 import Security from "../components/ui/account/Security";
 import DataAndPrivacy from "../components/ui/account/data-and-privacy";
+import Activity from "../components/ui/account/Activity";
 
 interface Props {
   isMobile: boolean;
@@ -46,6 +47,11 @@ const AccountPageContent: React.FC<Props> = ({ isMobile }) => {
       key: "stats",
       title: "Statistics",
       panel: <Stats {...stats} />,
+    },
+    {
+      key: "activity",
+      title: "Activities",
+      panel: <Activity />,
     },
     {
       key: "achievements",
