@@ -20,7 +20,7 @@ const Button = ({
 }: ButtonProps) => {
   // Base styling for all buttons.
   const baseStyles =
-    "inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer";
+    "inline-flex items-center justify-center rounded-lg gap-2 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer";
 
   // Styling based on the 'variant' prop.
   const variantStyles = {
