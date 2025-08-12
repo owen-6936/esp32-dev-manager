@@ -44,7 +44,7 @@ const StatCard: React.FC<StatCardProps> = ({
       key={index}
       className={cn(
         "bg-white/10 rounded-xl p-6 border border-white/20 hover:scale-105 transition-transform duration-300 cursor-pointer w-full",
-        className ? className : ""
+        className ?? ""
       )}
       variants={currentVariants}
       whileInView="visible"
