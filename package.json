@@ -1,5 +1,18 @@
 {
   "name": "esp32-dev-manager",
+  "description": "A comprehensive full-stack application designed to track and manage all aspects of your embedded systems development journey, with a special focus on ESP32 S3 projects.",
+  "keywords": [
+    "ESP32",
+    "embedded systems",
+    "development",
+    "management",
+    "tracking",
+    "monitoring",
+    "logging",
+    "IoT",
+    "firmware",
+    "debugging"
+  ],
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,14 +20,18 @@
     "dev": "vite --host",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "test": "echo \"No tests specified\"",
     "preview": "vite preview"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.7",
     "framer-motion": "^12.23.12",
+    "lottie-react": "^2.4.1",
     "lucide-react": "^0.536.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.8.0",
+    "zustand": "^5.0.7"
   },
   "devDependencies": {
     "@eslint/js": "^9.30.1",
