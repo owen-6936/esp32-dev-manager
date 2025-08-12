@@ -17,5 +17,5 @@
 }
 
 #root {
-  @apply min-h-screen bg-gradient;
+  @apply min-h-screen;
 }
