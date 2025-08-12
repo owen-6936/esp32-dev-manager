@@ -1,8 +1,5 @@
 import React from "react";
-
-function cn(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
+import { cn } from "../utils/utils";
 
 // Define the component's props interface for better type-checking with TypeScript.
 interface ButtonProps {
