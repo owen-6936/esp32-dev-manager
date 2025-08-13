@@ -3,7 +3,7 @@ import { cn } from "../utils/utils";
 
 // Define the component's props interface for better type-checking with TypeScript.
 interface ButtonProps {
-  variant?: "default" | "outline" | "ghost" | "gradient";
+  variant?: "default" | "outline" | "ghost" | "gradient" | "classic";
   size?: "sm" | "md" | "lg";
   children: React.ReactNode;
   onClick?: () => void;
@@ -30,6 +30,7 @@ const Button = ({
     ghost: "bg-transparent text-blue-600 hover:bg-blue-100",
     gradient:
       "bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700",
+    classic: "bg-white/10 text-white border border-white/20 hover:bg-white/20",
   };
 
   // Styling based on the 'size' prop.

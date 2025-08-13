@@ -20,6 +20,10 @@
   @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600;
 }
 
+@utility min-height-screen {
+  @apply min-h-[calc(100vh-5rem)];
+}
+
 #root {
   @apply min-h-screen bg-gradient;
 }
