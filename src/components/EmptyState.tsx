@@ -5,20 +5,20 @@ import Lottie from "lottie-react";
 interface EmptyStateProps {
   title: string;
   message: string;
-  Button: React.ReactNode;
   // This prop can now be an object for Lottie or a string for an image URL.
   media: object | string;
   // New prop to specify the type of media.
   mediaType: "lottie" | "image";
+  children?: React.ReactNode;
 }
 
 // The reusable EmptyState component.
 const EmptyState: React.FC<EmptyStateProps> = ({
   title,
   message,
-  Button,
   media,
   mediaType,
+  children,
 }) => {
   const renderMedia = () => {
     if (mediaType === "lottie" && typeof media === "object") {
@@ -45,7 +45,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
       {renderMedia()}
       <h3 className="text-xl font-semibold mb-2">{title}</h3>
       <p className="text-sm mb-4">{message}</p>
-      {Button}
+      {children}
     </motion.div>
   );
 };

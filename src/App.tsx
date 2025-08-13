@@ -1,14 +1,14 @@
 import "./App.css";
 import Navbar from "./components/Navbar";
 import { BrowserRouter } from "react-router-dom";
-import Dashboard from "./components/pages/Dashboard";
+import Project from "./components/pages/Project";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Navbar />
-        <Dashboard />
+        <Project />
       </BrowserRouter>
     </>
   );
