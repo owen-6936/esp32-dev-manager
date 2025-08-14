@@ -51,7 +51,7 @@ const Card: React.FC<CardProps> & {
 
 // Sub-component for the card header
 const CardHeader: React.FC<CardSectionProps> = ({ children, className }) => (
-  <div className={cn("text-xl font-bold text-white mb-2", className ?? "")}>
+  <div className={cn("text-xl font-bold text-white mb-6", className ?? "")}>
     {children}
   </div>
 );

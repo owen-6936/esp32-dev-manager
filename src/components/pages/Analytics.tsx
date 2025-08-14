@@ -1,4 +1,4 @@
-import type { Project } from "../../types/project/project";
+import type { Project } from "../../types/project";
 import Card from "../Card";
 import StatusItem from "../StatusItem";
 
@@ -36,7 +36,7 @@ export default function Analytics() {
               Time vs Budget Analysis
             </h3>
           </Card.Header>
-          <Card.Body>
+          <Card.Body className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="text-center">
               <div className="text-2xl font-bold text-white mb-1">
                 {(

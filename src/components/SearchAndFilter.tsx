@@ -2,9 +2,9 @@ import { Search } from "lucide-react";
 
 interface SearchAndFilterProps {
   searchTerm: string;
-  onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSearchChange: (value: string) => void;
   filterCategory: string;
-  onFilterChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  onFilterChange: (value: string) => void;
   categories: string[];
   placeholder?: string;
 }
@@ -26,13 +26,13 @@ const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
           type="text"
           placeholder={placeholder ?? "start typing..."}
           value={searchTerm}
-          onChange={onSearchChange}
+          onChange={(e) => onSearchChange(e.target.value)}
           className="w-full pl-10 pr-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
       <select
         value={filterCategory}
-        onChange={onFilterChange}
+        onChange={(e) => onFilterChange(e.target.value)}
         className="px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
       >
         <option value="all">All Categories</option>

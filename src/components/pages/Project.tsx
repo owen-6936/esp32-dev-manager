@@ -1,7 +1,7 @@
 import { Code, Edit3, Github, Plus } from "lucide-react";
 import Button from "../Button";
 import emptyAnimation from "../../assets/lottie/empty-state.json";
-import type { Project } from "../../types/project/project";
+import type { Project } from "../../types/project";
 import { getDifficultyColor, getStatusColor } from "../../utils/utils";
 import EmptyState from "../EmptyState";
 
