@@ -17,23 +17,28 @@ interface CardSectionProps {
 }
 
 // Default variants for the framer-motion animation.
-const defaultVariants: Variants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: { opacity: 1, y: 0 },
-};
+const defaultVariants: Variants[] = [
+  { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } },
+  { hidden: { opacity: 0, x: -20 }, visible: { opacity: 1, x: 0 } },
+  { hidden: { opacity: 0, x: 20 }, visible: { opacity: 1, x: 0 } },
+  { hidden: { opacity: 0, scale: 0.95 }, visible: { opacity: 1, scale: 1 } },
+];
 
 // The main reusable Card component.
 const Card: React.FC<CardProps> & {
   Header: React.FC<CardSectionProps>;
   Body: React.FC<CardSectionProps>;
   Footer: React.FC<CardSectionProps>;
-} = ({ children, index, className, cardVariants }) => {
-  const currentVariants = cardVariants || defaultVariants;
-
+} = ({
+  children,
+  index,
+  className,
+  cardVariants = defaultVariants[index ? index : 0 % defaultVariants.length],
+}) => {
   return (
     <motion.div
-      className={cn("bg-white/10 rounded-lg p-3", className ?? "")}
-      variants={currentVariants}
+      className={cn("bg-white/10 rounded-lg p-6", className ?? "")}
+      variants={cardVariants}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
@@ -46,7 +51,7 @@ const Card: React.FC<CardProps> & {
 
 // Sub-component for the card header
 const CardHeader: React.FC<CardSectionProps> = ({ children, className }) => (
-  <div className={cn("text-lg font-medium text-white mb-2", className ?? "")}>
+  <div className={cn("text-xl font-bold text-white mb-2", className ?? "")}>
     {children}
   </div>
 );

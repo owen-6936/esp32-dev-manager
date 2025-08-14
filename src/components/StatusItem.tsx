@@ -28,7 +28,7 @@ const StatusItem: React.FC<StatusItemProps> = ({
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <span className="text-blue-200 capitalize">
+      <span className="text-blue-200 text-[16px] m-1.5 capitalize">
         {status.replace("-", " ")}
       </span>
       <div className="flex items-center space-x-2">
