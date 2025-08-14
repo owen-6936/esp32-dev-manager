@@ -1,14 +1,14 @@
 import "./App.css";
 import Navbar from "./components/Navbar";
 import { BrowserRouter } from "react-router-dom";
-import Inventory from "./components/pages/Inventory";
+import Journal from "./components/pages/Journal";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Navbar />
-        <Inventory />
+        <Journal />
       </BrowserRouter>
     </>
   );

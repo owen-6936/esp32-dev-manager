@@ -18,10 +18,10 @@ interface CardSectionProps {
 
 // Default variants for the framer-motion animation.
 const defaultVariants: Variants[] = [
-  { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } },
-  { hidden: { opacity: 0, x: -20 }, visible: { opacity: 1, x: 0 } },
-  { hidden: { opacity: 0, x: 20 }, visible: { opacity: 1, x: 0 } },
-  { hidden: { opacity: 0, scale: 0.95 }, visible: { opacity: 1, scale: 1 } },
+  { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }, // Slide up
+  { hidden: { opacity: 0, scale: 0.95 }, visible: { opacity: 1, scale: 1 } }, // Pop in
+  { hidden: { opacity: 0, x: -20 }, visible: { opacity: 1, x: 0 } }, // Slide left
+  { hidden: { opacity: 0, x: 20 }, visible: { opacity: 1, x: 0 } }, // Slide right
 ];
 
 // The main reusable Card component.
