@@ -5,6 +5,7 @@ import emptyBoxAnimation from "../../assets/lottie/empty-box.json";
 import EmptyState from "../EmptyState";
 import SearchAndFilter from "../SearchAndFilter";
 import Card from "../Card";
+import Button from "../Button";
 
 export default function Inventory() {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -29,13 +30,10 @@ export default function Inventory() {
         <h2 className="text-2xl sm:text-3xl font-bold text-white">
           Component Inventory
         </h2>
-        <button
-          onClick={() => {}}
-          className="bg-gradient-btn flex items-center space-x-2"
-        >
+        <Button variant="gradient" onClick={() => {}}>
           <Plus className="w-5 h-5" />
-          <span className=" whitespace-nowrap">Add Component</span>
-        </button>
+          <span className="whitespace-nowrap">Add Component</span>
+        </Button>
       </div>
 
       {/* Search and Filter */}

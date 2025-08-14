@@ -27,3 +27,7 @@
 #root {
   @apply min-h-screen bg-gradient;
 }
+
+option {
+  @apply text-blue-600;
+}

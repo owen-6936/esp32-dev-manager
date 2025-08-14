@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 import { cn } from "../utils/utils";
 
 // Define the component's props interface for better type-checking with TypeScript.
@@ -41,8 +42,13 @@ const Button = ({
   };
 
   return (
-    <button
+    <motion.button
       onClick={onClick}
+      whileHover={{ scale: 1.03 }}
+      whileTap={{ scale: 0.97, y: 1 }}
+      initial={{ opacity: 0, y: -4 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.15, ease: "easeOut" }}
       className={cn(
         baseStyles,
         variantStyles[variant],
@@ -51,7 +57,7 @@ const Button = ({
       )}
     >
       {children}
-    </button>
+    </motion.button>
   );
 };
 
