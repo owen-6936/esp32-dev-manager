@@ -33,7 +33,7 @@ const Card: React.FC<CardProps> & {
   children,
   index,
   className,
-  cardVariants = defaultVariants[index ? index : 0 % defaultVariants.length],
+  cardVariants = defaultVariants[(index ?? 0) % defaultVariants.length],
 }) => {
   return (
     <motion.div
@@ -42,7 +42,7 @@ const Card: React.FC<CardProps> & {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
-      transition={{ delay: 0.5 + (index || 0) * 0.1, duration: 0.4 }}
+      transition={{ delay: 0.2 + (index || 0) * 0.1, duration: 0.4 }}
     >
       {children}
     </motion.div>

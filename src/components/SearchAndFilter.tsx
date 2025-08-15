@@ -1,33 +1,5 @@
-import { motion, type Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import { Search } from "lucide-react";
-
-export const searchBarVariants: Variants = {
-  hidden: { opacity: 0, y: -10 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.15, ease: "easeOut" },
-  },
-};
-
-export const dropdownVariants: Variants = {
-  hidden: { opacity: 0, y: -6 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.12, ease: "easeOut" },
-  },
-  exit: { opacity: 0, y: -6, transition: { duration: 0.1, ease: "easeIn" } },
-};
-
-export const resultsVariants: Variants = {
-  hidden: { opacity: 0, y: 8 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.18, ease: "easeOut" },
-  },
-};
 interface SearchAndFilterProps {
   searchTerm: string;
   onSearchChange: (value: string) => void;

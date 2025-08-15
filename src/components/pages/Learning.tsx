@@ -9,7 +9,7 @@ export default function Learning() {
       <h2 className="text-3xl font-bold text-white">Learning Progress</h2>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
+        <Card index={0}>
           <Card.Header>Skill Development</Card.Header>
           <Card.Body className="space-y-4">
             {learningMetrics.map((metric, index) => {
@@ -39,18 +39,23 @@ export default function Learning() {
         <Card index={1}>
           <Card.Header>Learning Goals</Card.Header>
           <Card.Body className="space-y-4">
-            {learningGoals.map(({ icon: Icon, category, description }) => (
-              <div className="bg-white/5 rounded-lg p-4 border border-white/10">
-                <div className="flex items-center space-x-2 mb-3">
-                  {Icon}
-                  <h4 className="text-white font-semibold">{category}</h4>
+            {learningGoals.map(
+              ({ icon: Icon, category, description }, index) => (
+                <div
+                  key={category || index}
+                  className="bg-white/5 rounded-lg p-4 border border-white/10"
+                >
+                  <div className="flex items-center space-x-2 mb-3">
+                    {Icon}
+                    <h4 className="text-white font-semibold">{category}</h4>
+                  </div>
+                  <p className="text-blue-200 text-sm mb-3">{description}</p>
+                  <div className="w-full bg-white/10 rounded-full h-1">
+                    <div className="bg-green-500 h-1 rounded-full w-3/5"></div>
+                  </div>
                 </div>
-                <p className="text-blue-200 text-sm mb-3">{description}</p>
-                <div className="w-full bg-white/10 rounded-full h-1">
-                  <div className="bg-green-500 h-1 rounded-full w-3/5"></div>
-                </div>
-              </div>
-            ))}
+              )
+            )}
           </Card.Body>
         </Card>
       </div>
