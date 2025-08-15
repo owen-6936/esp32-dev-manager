@@ -14,7 +14,7 @@ export default function Hero() {
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.7 }}
-        className="text-center py-12"
+        className="text-center pt-2"
       >
         <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
           Welcome to Your ESP32 S3 Adventure

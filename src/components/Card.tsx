@@ -37,7 +37,7 @@ const Card: React.FC<CardProps> & {
 }) => {
   return (
     <motion.div
-      className={cn("bg-white/10 rounded-lg p-6", className ?? "")}
+      className={cn("bg-white/10 rounded-2xl px-8 py-7", className ?? "")}
       variants={cardVariants}
       initial="hidden"
       whileInView="visible"
@@ -51,7 +51,7 @@ const Card: React.FC<CardProps> & {
 
 // Sub-component for the card header
 const CardHeader: React.FC<CardSectionProps> = ({ children, className }) => (
-  <div className={cn("text-xl font-bold text-white mb-6", className ?? "")}>
+  <div className={cn("text-xl font-bold text-white mb-4", className ?? "")}>
     {children}
   </div>
 );

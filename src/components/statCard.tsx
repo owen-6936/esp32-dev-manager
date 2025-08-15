@@ -40,7 +40,7 @@ const StatCard: React.FC<StatCardProps> = ({
     <motion.div
       key={index}
       className={cn(
-        "bg-white/10 rounded-xl p-5.5 border border-white/20 hover:scale-105 transition-transform duration-300 cursor-pointer w-full",
+        "bg-white/10 rounded-xl p-5.5 border border-white/20 hover:scale-105 transition-transform duration-300 w-full",
         className
       )}
       variants={cardVariants}
