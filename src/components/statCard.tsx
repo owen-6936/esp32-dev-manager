@@ -17,6 +17,11 @@ interface StatCardProps {
   cardVariants?: Variants;
 }
 
+const defaultVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
+
 // The reusable StatCard component.
 const StatCard: React.FC<StatCardProps> = ({
   title,
@@ -28,25 +33,17 @@ const StatCard: React.FC<StatCardProps> = ({
   icon,
   iconBg,
   index,
-  className,
-  cardVariants,
+  className = "",
+  cardVariants = defaultVariants,
 }) => {
-  // Define default animation variants if not provided.
-  const defaultVariants: Variants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-  };
-
-  const currentVariants = cardVariants || defaultVariants;
-
   return (
     <motion.div
       key={index}
       className={cn(
-        "bg-white/10 rounded-xl p-6 border border-white/20 hover:scale-105 transition-transform duration-300 cursor-pointer w-full",
-        className ?? ""
+        "bg-white/10 rounded-xl p-5.5 border border-white/20 hover:scale-105 transition-transform duration-300 cursor-pointer w-full",
+        className
       )}
-      variants={currentVariants}
+      variants={cardVariants}
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
       initial="hidden"
@@ -56,13 +53,13 @@ const StatCard: React.FC<StatCardProps> = ({
       <div className="flex items-center justify-between">
         <div>
           <p className="text-sm text-blue-200">{title}</p>
-          <p className={cn("text-3xl font-bold", valueColor)}>{value}</p>
+          <p className={cn("text-2xl font-bold", valueColor)}>{value}</p>
           <p className={cn("text-xs flex items-center mt-1", subtitleColor)}>
             {subtitleIcon}
             {subtitle}
           </p>
         </div>
-        <div className={cn("p-4 rounded-lg", iconBg)}>{icon}</div>
+        <div className={cn("p-3.5 rounded-lg", iconBg)}>{icon}</div>
       </div>
     </motion.div>
   );

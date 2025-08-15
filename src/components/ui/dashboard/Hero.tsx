@@ -16,7 +16,7 @@ export default function Hero() {
         transition={{ duration: 0.7 }}
         className="text-center py-12"
       >
-        <h2 className="text-2xl sm:text-5xl font-bold text-white mb-4">
+        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
           Welcome to Your ESP32 S3 Adventure
         </h2>
         <p className="text-l sm:text-lg text-blue-200 mb-8 max-w-2xl mx-auto">
