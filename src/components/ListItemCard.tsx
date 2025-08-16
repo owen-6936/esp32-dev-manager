@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { cn } from "../utils/utils";
 // Define the component's props interface for better type-checking.
 interface ListItemCardProps {
-  icon: React.ElementType; // Icon component type
+  icon: React.ElementType<React.SVGProps<SVGSVGElement>>; // Icon component type
   title: string;
   desc: string;
   index: number;
