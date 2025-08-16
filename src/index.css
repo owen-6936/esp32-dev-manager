@@ -24,6 +24,27 @@
   @apply min-h-[calc(100vh-5rem)];
 }
 
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500 bg-clip-text text-transparent;
+  }
+
+  /* Animate gradient "flow" */
+  .animate-gradient {
+    background-size: 200% auto;
+    animation: gradient-flow 4s linear infinite;
+  }
+
+  @keyframes gradient-flow {
+    0% {
+      background-position: 0% center;
+    }
+    100% {
+      background-position: -200% center;
+    }
+  }
+}
+
 #root {
   @apply min-h-screen bg-gradient;
 }

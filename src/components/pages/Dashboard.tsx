@@ -103,7 +103,7 @@ export default function Dashboard() {
   };
 
   return (
-    <main className="min-height-screen p-4 w-[90%] flex flex-col gap-12 mx-auto">
+    <main className="min-height-screen p-4 w-[90%] flex flex-col gap-8 sm:gap-12 mx-auto max-w-7xl">
       <Hero />
       <Stat
         budgetUsed={stats.budgetUsed}
