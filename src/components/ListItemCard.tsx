@@ -2,16 +2,18 @@ import { motion } from "framer-motion";
 import { cn } from "../utils/utils";
 // Define the component's props interface for better type-checking.
 interface ListItemCardProps {
-  icon: React.ReactNode;
+  icon: React.ElementType; // Icon component type
   title: string;
   desc: string;
   index: number;
   className?: string;
+  iconColor?: string;
 }
 
 // The reusable ListItemCard component.
 const ListItemCard: React.FC<ListItemCardProps> = ({
-  icon,
+  icon: Icon,
+  iconColor,
   title,
   desc,
   index,
@@ -26,9 +28,9 @@ const ListItemCard: React.FC<ListItemCardProps> = ({
       viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
-      {icon}
+      {<Icon className={`w-6 h-6 ${iconColor}`} />}
       <div>
-        <p className="text-white font-semibold">{title}</p>
+        <p className="text-white font-semibold text-lg">{title}</p>
         <p className="text-gray-400 text-sm">{desc}</p>
       </div>
     </motion.div>

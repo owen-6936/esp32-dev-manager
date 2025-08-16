@@ -1,6 +1,7 @@
 import type { Project } from "../../types/project";
 import Deadline from "../ui/dashboard/Deadline";
 import Hero from "../ui/dashboard/Hero";
+import MicroControllerFeatures from "../ui/dashboard/MicroControllerFeatures";
 import QuickActions from "../ui/dashboard/QuickActions";
 import RecentActivity from "../ui/dashboard/RecentActivity";
 import Stat from "../ui/dashboard/Stat";
@@ -115,6 +116,7 @@ export default function Dashboard() {
       <QuickActions />
       <RecentActivity />
       <Deadline projects={projects} />
+      <MicroControllerFeatures />
     </main>
   );
 }
