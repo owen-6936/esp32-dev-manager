@@ -53,8 +53,8 @@ const EmptyState: React.FC<EmptyStateProps> = ({
       transition={{ duration: 0.5 }}
     >
       {renderMedia()}
-      <h3 className="text-xl font-semibold m-2">{title}</h3>
-      <p className="text-sm mb-4">{message}</p>
+      <h3 className="text-xl sm:text-2xl font-semibold m-2">{title}</h3>
+      <p className="text-sm sm:text-base mb-4">{message}</p>
       {children}
     </motion.div>
   );

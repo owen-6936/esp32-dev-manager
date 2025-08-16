@@ -65,7 +65,7 @@ export default function Deadline({ projects }: { projects: Project[] }) {
             return (
               <Card.Body key={project.id} className="p-3">
                 <motion.div
-                  className="bg-white/5 rounded-lg p-4 flex items-center justify-between"
+                  className="bg-white/5 rounded-lg p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
                   variants={{
                     hidden: { opacity: 0, y: 10, scale: 0.98 },
                     visible: { opacity: 1, y: 0, scale: 1 },
@@ -77,26 +77,26 @@ export default function Deadline({ projects }: { projects: Project[] }) {
                 >
                   {/* Left side: Title + Date */}
                   <div className="flex flex-col">
-                    <span className="text-white text-sm font-semibold truncate">
+                    <span className="text-white text-sm sm:text-base font-semibold truncate">
                       {project.title || "Untitled Project"}
                     </span>
-                    <span className="text-blue-200 text-xs flex items-center gap-1 mt-1">
+                    <span className="text-blue-200 text-xs sm:text-sm flex items-center gap-1 mt-1">
                       <CalendarDays className="w-3 h-3 text-blue-300" />
                       {new Date(project.deadline!).toLocaleDateString()}
                     </span>
                   </div>
 
                   {/* Right side: Status + Progress */}
-                  <div className="flex flex-col items-end space-y-1">
+                  <div className="flex flex-col items-end sm:items-center space-y-1">
                     <span
-                      className={`text-xs px-2 py-1 rounded-full font-medium min-w-[80px] flex items-center justify-center gap-1 ${statusColor}`}
+                      className={`text-xs sm:text-sm px-2 py-1 rounded-full font-medium min-w-[80px] flex items-center justify-center gap-1 ${statusColor}`}
                     >
                       {statusIcon}
                       {statusLabel}
                     </span>
 
                     {/* Progress bar */}
-                    <div className="w-24 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                    <div className="w-24 h-1.5 sm:h-2 bg-white/10 rounded-full overflow-hidden">
                       <div
                         className={`h-full rounded-full ${
                           daysLeft < 0

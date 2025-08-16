@@ -52,9 +52,14 @@ const StatCard: React.FC<StatCardProps> = ({
     >
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm text-blue-200">{title}</p>
+          <p className="text-sm sm:text-base text-blue-200">{title}</p>
           <p className={cn("text-2xl font-bold", valueColor)}>{value}</p>
-          <p className={cn("text-xs flex items-center mt-1", subtitleColor)}>
+          <p
+            className={cn(
+              "text-xs sm:text-sm flex items-center mt-1",
+              subtitleColor
+            )}
+          >
             {subtitleIcon}
             {subtitle}
           </p>

@@ -10,7 +10,7 @@ interface ProgressListItemProps {
   color: string;
 }
 
-// Define the component
+// Define the component, ProgressListItem
 const ProgressListItem: React.FC<ProgressListItemProps> = ({
   icon,
   title,
