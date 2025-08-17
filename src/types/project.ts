@@ -54,3 +54,10 @@ export interface Project {
   powerConsumption?: number;
   tasks?: task[];
 }
+
+export interface ProjectStoreState {
+  projects: Project[];
+  getProjectById: (id: string) => Project | undefined;
+  addProject: (project: Project) => void;
+  removeProject: (id: string) => void;
+}

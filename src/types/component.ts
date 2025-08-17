@@ -22,3 +22,12 @@ export interface Component {
   totalCost?: number;
   budget?: number;
 }
+
+export interface ComponentStoreState {
+  components: Component[];
+  // Actions
+  getComponentById: (id: string) => Component | undefined;
+  addComponent: (component: Component) => void;
+  updateComponent: (id: string, updatedFields: Partial<Component>) => void;
+  deleteComponent: (id: string) => void;
+}
