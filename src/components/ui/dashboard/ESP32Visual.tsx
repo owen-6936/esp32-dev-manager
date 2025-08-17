@@ -1,20 +1,9 @@
 import { Canvas, useLoader } from "@react-three/fiber";
 import { Stage, OrbitControls, Html, Preload } from "@react-three/drei";
-import {
-  Suspense,
-  useEffect,
-  useState,
-  useRef,
-  type Dispatch,
-  type SetStateAction,
-} from "react";
+import { Suspense, useEffect, useState, useRef } from "react";
 import { DRACOLoader, GLTFLoader } from "three/examples/jsm/Addons.js";
 
-export default function ESP32Visual({
-  setLoaded,
-}: {
-  setLoaded: Dispatch<SetStateAction<boolean>>;
-}) {
+export default function ESP32Visual() {
   const [visible, setVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -76,7 +65,7 @@ export default function ESP32Visual({
                 adjustCamera={false}
                 intensity={0} // disable stage lights
               >
-                <ESP32Model setLoaded={setLoaded} />
+                <ESP32Model />
               </Stage>
             </Suspense>
 
@@ -97,11 +86,7 @@ export default function ESP32Visual({
   );
 }
 
-function ESP32Model({
-  setLoaded,
-}: {
-  setLoaded: Dispatch<SetStateAction<boolean>>;
-}) {
+function ESP32Model() {
   const { scene } = useLoader(
     GLTFLoader,
     "/models/esp32-s3-draco.glb",
@@ -111,9 +96,5 @@ function ESP32Model({
       loader.setDRACOLoader(dracoLoader);
     }
   );
-  if (scene) {
-    setLoaded(true);
-    console.log("ESP32 Model Loaded", scene);
-  }
   return <primitive object={scene} scale={35} position={[0, -0.5, 0]} />;
 }

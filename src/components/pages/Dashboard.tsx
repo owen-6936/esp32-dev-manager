@@ -22,7 +22,6 @@ export default function Dashboard() {
 
   // Intersection observer for lazy mounting
   const [load3D, setLoad3D] = useState(false);
-  const [loaded, setLoaded] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -58,11 +57,7 @@ export default function Dashboard() {
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="w-full"
             >
-              {loaded ? (
-                <LazyESP32Visual setLoaded={setLoaded} />
-              ) : (
-                <LazyESP32Visual setLoaded={setLoaded} />
-              )}
+              <LazyESP32Visual />
             </motion.div>
           </Suspense>
         ) : (
