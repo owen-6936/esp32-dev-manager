@@ -1,14 +1,20 @@
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useLoader } from "@react-three/fiber";
+import { Stage, OrbitControls, Html, Preload } from "@react-three/drei";
 import {
-  Stage,
-  OrbitControls,
-  Html,
-  useGLTF,
-  Preload,
-} from "@react-three/drei";
-import { Suspense, useEffect, useState, useRef } from "react";
+  Suspense,
+  useEffect,
+  useState,
+  useRef,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
+import { DRACOLoader, GLTFLoader } from "three/examples/jsm/Addons.js";
 
-export default function ESP32Visual() {
+export default function ESP32Visual({
+  setLoaded,
+}: {
+  setLoaded: Dispatch<SetStateAction<boolean>>;
+}) {
   const [visible, setVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -39,7 +45,12 @@ export default function ESP32Visual() {
 
       <div className="relative w-full h-[350px] md:h-[500px]">
         {visible && (
-          <Canvas shadows camera={{ position: [0, 1.5, 3], fov: 45 }}>
+          <Canvas
+            shadows
+            camera={{ position: [0, 1.5, 3], fov: 45 }}
+            gl={{ antialias: true, powerPreference: "high-performance" }}
+            performance={{ min: 0.5 }}
+          >
             <ambientLight intensity={0.6} />
             <directionalLight position={[5, 5, 5]} intensity={1.2} castShadow />
             <directionalLight position={[-5, 5, 5]} intensity={0.8} />
@@ -65,7 +76,7 @@ export default function ESP32Visual() {
                 adjustCamera={false}
                 intensity={0} // disable stage lights
               >
-                <ESP32Model />
+                <ESP32Model setLoaded={setLoaded} />
               </Stage>
             </Suspense>
 
@@ -86,8 +97,23 @@ export default function ESP32Visual() {
   );
 }
 
-function ESP32Model() {
-  useGLTF.preload("/models/esp32-s3-draco.glb");
-  const { scene } = useGLTF("/models/esp32-s3-draco.glb", true);
+function ESP32Model({
+  setLoaded,
+}: {
+  setLoaded: Dispatch<SetStateAction<boolean>>;
+}) {
+  const { scene } = useLoader(
+    GLTFLoader,
+    "/models/esp32-s3-draco.glb",
+    (loader) => {
+      const dracoLoader = new DRACOLoader();
+      dracoLoader.setDecoderPath("/draco/");
+      loader.setDRACOLoader(dracoLoader);
+    }
+  );
+  if (scene) {
+    setLoaded(true);
+    console.log("ESP32 Model Loaded", scene);
+  }
   return <primitive object={scene} scale={35} position={[0, -0.5, 0]} />;
 }
