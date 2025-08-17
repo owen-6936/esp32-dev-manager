@@ -110,9 +110,9 @@ export default function Navbar() {
       </button>
 
       {/* Mobile Drawer */}
-      {showOverlay && (
+      {toggleDrawer && (
         <div
-          className={`fixed inset-0 z-50 sm:hidden transition-opacity duration-300 ${
+          className={`fixed inset-0 z-50 sm:hidden transition-opacity duration-200 ${
             drawerOpen
               ? "opacity-100 pointer-events-auto"
               : "opacity-0 pointer-events-none"
@@ -138,7 +138,7 @@ export default function Navbar() {
             {/* Close button */}
             <button
               onClick={() => toggleDrawer()}
-              className="scale-110 absolute top-6 right-6 text-white cursor-pointer active:translate-y-[1px] active:scale-[0.98] transition-transform duration-75"
+              className="scale-120 absolute top-6 right-6 text-white cursor-pointer active:translate-y-[1px] active:scale-[0.98] transition-transform duration-75"
             >
               ✕
             </button>
