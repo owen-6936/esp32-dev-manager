@@ -26,13 +26,14 @@ export default function Navbar() {
   const [showOverlay, setShowOverlay] = useState(false);
 
   const toggleDrawer = () => {
-    if (!drawerOpen) {
-      setDrawerOpen(true);
-      setShowOverlay(true);
-    } else {
-      setDrawerOpen(false);
-      setTimeout(() => setShowOverlay(false), 300); // wait for animation
-    }
+    setTimeout(() => {
+      if (!drawerOpen) {
+        setDrawerOpen(true);
+        setShowOverlay(true);
+      } else {
+        setDrawerOpen(false);
+      }
+    }, 150); // delay for smoother animation
   };
   const location = useLocation();
 
@@ -42,6 +43,22 @@ export default function Navbar() {
     setActiveTab(tab);
     setDrawerOpen(false); // close drawer on route change
   }, [location]);
+
+  useEffect(() => {
+    if (!drawerOpen) setShowOverlay(false);
+  }, [drawerOpen]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 640) {
+        setDrawerOpen(false); // close drawer on desktop
+        setShowOverlay(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const menuItems = [
     { key: "dashboard", label: "Dashboard", icon: Activity },
