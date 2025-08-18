@@ -6,10 +6,12 @@ import EmptyState from "../EmptyState";
 import SearchAndFilter from "../SearchAndFilter";
 import Card from "../Card";
 import Button from "../Button";
+import AddComponent from "../ui/Modals/AddComponent";
 
 export default function Inventory() {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filterCategory, setFilterCategory] = useState<string>("all");
+  const [showAddComponent, setShowAddComponent] = useState<boolean>(false);
   const components: Component[] = [];
 
   const categories: string[] = Array.from(
@@ -30,11 +32,14 @@ export default function Inventory() {
         <h2 className="text-2xl sm:text-3xl font-bold text-white">
           Component Inventory
         </h2>
-        <Button variant="gradient" onClick={() => {}}>
+        <Button variant="gradient" onClick={() => setShowAddComponent(true)}>
           <Plus className="w-5 h-5" />
           <span className="whitespace-nowrap">Add Component</span>
         </Button>
       </div>
+      {showAddComponent && (
+        <AddComponent setShowAddComponent={setShowAddComponent} />
+      )}
 
       {/* Search and Filter */}
       <SearchAndFilter
