@@ -1,5 +1,6 @@
 import { CheckCircle } from "lucide-react";
 import { cn, getRarityColor } from "../utils/utils";
+import Card from "./Card";
 
 interface AchievementCardProps {
   id: number;
@@ -11,6 +12,7 @@ interface AchievementCardProps {
   date?: string;
   progress?: number;
   total?: number;
+  index?: number;
 }
 
 export const AchievementCard: React.FC<AchievementCardProps> = ({
@@ -23,22 +25,21 @@ export const AchievementCard: React.FC<AchievementCardProps> = ({
   date,
   progress,
   total,
+  index = 0,
 }) => {
   const rarityColor = getRarityColor(rarity);
   const progressPercent = progress && total ? (progress / total) * 100 : 0;
 
   return (
-    <div
+    <Card
       key={id}
-      className={cn(
-        "bg-white/10 backdrop-blur-sm rounded-xl p-6 border",
-        earned
-          ? "border-white/20 hover:bg-white/15"
-          : "border-white/10 opacity-60"
-      )}
+      index={index}
+      bg={earned ? "bg-white/15" : "bg-white/10"}
+      className={earned ? "hover:bg-white/20" : "opacity-60"}
+      padding="p-5"
     >
-      <div className="flex items-start space-x-4">
-        <div className={cn("p-3 rounded-lg", rarityColor)}>
+      <div className="flex items-start space-x-3">
+        <div className={cn("p-2 sm:p-3 rounded-lg", rarityColor)}>
           <Icon className="w-6 h-6" />
         </div>
         <div className="flex-1">
@@ -83,6 +84,6 @@ export const AchievementCard: React.FC<AchievementCardProps> = ({
           )}
         </div>
       </div>
-    </div>
+    </Card>
   );
 };

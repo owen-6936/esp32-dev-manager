@@ -1,6 +1,7 @@
 import React from "react";
 import { motion, type Variants } from "framer-motion";
 import { cn } from "../utils/utils";
+import { defaultVariants } from "../constants/variant";
 
 // Define the component's props interface for better type-checking.
 interface StatCardProps {
@@ -17,11 +18,6 @@ interface StatCardProps {
   cardVariants?: Variants;
 }
 
-const defaultVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 },
-};
-
 // The reusable StatCard component.
 const StatCard: React.FC<StatCardProps> = ({
   title = "",
@@ -34,7 +30,7 @@ const StatCard: React.FC<StatCardProps> = ({
   iconBg = "bg-white/20",
   index = 0,
   className = "",
-  cardVariants = defaultVariants,
+  cardVariants = defaultVariants[(index ?? 0) % defaultVariants.length],
 }) => {
   return (
     <motion.div
@@ -47,7 +43,7 @@ const StatCard: React.FC<StatCardProps> = ({
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
       initial="hidden"
-      transition={{ duration: 0.5, delay: index * 0.1 }}
+      transition={{ duration: 0.5, delay: 0.2 + (index || 0) * 0.1 }}
       custom={index}
     >
       <div className="flex items-center justify-between">

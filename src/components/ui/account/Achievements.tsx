@@ -1,14 +1,21 @@
+import { TrophyIcon } from "lucide-react";
 import { achievements } from "../../../constants/achievements";
 import { AchievementCard } from "../../AchievementCard";
+import Card from "../../Card";
 
 export default function Achievements() {
   return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-white">Achievements</h2>
+    <Card className="space-y-6" bg="transparent" padding="p-2">
+      <Card.Header
+        title="Milestones"
+        subtitle="Track your progress and unlocks"
+        icon={<TrophyIcon className="w-6 h-5 text-yellow-500" />}
+      />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {achievements.map((achievement) => (
+        {achievements.map((achievement, index) => (
           <AchievementCard
             key={achievement.id}
+            index={index}
             {...achievement}
             rarity={
               achievement.rarity as
@@ -21,6 +28,6 @@ export default function Achievements() {
           />
         ))}
       </div>
-    </div>
+    </Card>
   );
 }

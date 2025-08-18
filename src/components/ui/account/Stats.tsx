@@ -29,19 +29,23 @@ export default function Stats({
             streakDays,
             achievements,
           }).map(
-            ({
-              title,
-              icon: Icon,
-              iconColor,
-              iconBg,
-              subtitle,
-              subtitleColor,
-              subtitleIcon: SubtitleIcon,
-              value,
-            }) => (
+            (
+              {
+                title,
+                icon: Icon,
+                iconColor,
+                iconBg,
+                subtitle,
+                subtitleColor,
+                subtitleIcon: SubtitleIcon,
+                value,
+              },
+              index
+            ) => (
               <StatCard
                 key={title}
                 title={title}
+                index={index}
                 value={value}
                 icon={<Icon className={`w-4 h-4 ${iconColor}`} />}
                 iconBg={iconBg}
