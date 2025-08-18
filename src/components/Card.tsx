@@ -106,7 +106,7 @@ const CardHeader: React.FC<CardHeaderProps> = ({
       </h2>
     </div>
     {subtitle && (
-      <p className={cn("text-sm text-gray-300", alignment[align])}>
+      <p className={cn("text-sm text-gray-300 mt-1", alignment[align])}>
         {subtitle}
       </p>
     )}
