@@ -6,28 +6,46 @@ import { getDifficultyColor, getStatusColor } from "../../utils/utils";
 import EmptyState from "../EmptyState";
 import AddProject from "../ui/Modals/AddProject";
 import { useState } from "react";
+import CodeEditor from "../ui/Modals/CodeEditor";
+import useProjectStore from "../../store/project";
 
 export default function Project() {
+  const [showCodeEditor, setShowCodeEditor] = useState(false);
   const [showAddProject, setShowAddProject] = useState(false);
-  const projects: Project[] = [];
+  const [selectedProject, setSelectedProject] = useState<string | null>(null);
+  const projects = useProjectStore((state) => state.projects);
+
   return (
     <div className="space-y-6 min-height p-6">
+      {showCodeEditor && (
+        <CodeEditor
+          projectId={selectedProject ?? undefined}
+          setShowCodeEditor={setShowCodeEditor}
+        />
+      )}
       <div className="flex flex-wrap items-center justify-center gap-x-16 gap-y-4 sm:justify-between">
         {showAddProject && (
           <AddProject
             setShowAddProject={setShowAddProject}
-            mode="Add New Project"
+            mode={selectedProject ? "Update Project" : "Add New Project"}
+            projectId={selectedProject ?? undefined}
           />
         )}
         <h2 className="text-2xl sm:text-3xl font-bold text-white">
           My Projects
         </h2>
         <div className="flex space-x-2">
-          <Button variant="gradient">
+          <Button variant="gradient" onClick={() => setShowCodeEditor(true)}>
             <Code className="w-5 h-5" />
             <span>Code Snippet</span>
           </Button>
-          <Button variant="gradient" onClick={() => setShowAddProject(true)}>
+          <Button
+            variant="gradient"
+            onClick={() => {
+              setSelectedProject(null);
+              setShowAddProject(true);
+            }}
+          >
             <Plus className="w-5 h-5" />
             <span>Add Project</span>
           </Button>
@@ -143,7 +161,13 @@ export default function Project() {
                       <Github className="w-4 h-4" />
                     </a>
                   )}
-                  <Button className="text-green-400 hover:text-green-300">
+                  <Button
+                    onClick={() => {
+                      setSelectedProject(project.id);
+                      setShowAddProject(true);
+                    }}
+                    className="text-green-400 hover:text-green-300"
+                  >
                     <Edit3 className="w-4 h-4" />
                   </Button>
                 </div>
