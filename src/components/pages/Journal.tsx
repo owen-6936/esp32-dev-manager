@@ -5,23 +5,29 @@ import useMediaQuery from "../../hooks/useMediaQuery";
 import type { JournalEntry } from "../../types/journal";
 import EmptyState from "../EmptyState";
 import Card from "../Card";
+import Button from "../Button";
+import AddJournal from "../ui/Modals/AddJournal";
+import { useState } from "react";
+import useJournalStore from "../../store/journal";
 
 export default function Journal() {
-  const journalEntries: JournalEntry[] = [];
+  const [showAddJournal, setShowAddJournal] = useState(false);
+  const journalEntries: JournalEntry[] = useJournalStore(
+    (state) => state.journalEntries
+  );
   const isMobile = useMediaQuery("(max-width: 640px)");
+
   return (
     <div className="space-y-6 min-height p-6">
+      {showAddJournal && <AddJournal setShowAddJournal={setShowAddJournal} />}
       <div className="flex gap-4 items-center justify-between">
         <h2 className="text-xl sm:text-3xl font-bold text-white">
           Development Journal
         </h2>
-        <button
-          onClick={() => {}}
-          className="bg-gradient-btn flex items-center space-x-2"
-        >
-          <Plus className="w-5 h-5" />
-          <span className="text-sm whitespace-nowrap">Add Entry</span>
-        </button>
+        <Button onClick={() => setShowAddJournal(true)} variant="gradient">
+          <Plus />
+          Add Entry
+        </Button>
       </div>
 
       {journalEntries.length === 0 ? (

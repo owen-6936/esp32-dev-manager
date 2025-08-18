@@ -10,3 +10,9 @@ export interface JournalEntry {
   createdAt: Date;
   updatedAt?: Date;
 }
+
+export interface JournalState {
+  journalEntries: JournalEntry[];
+  addJournalEntry: (entry: JournalEntry) => void;
+  removeJournalEntry: (id: string) => void;
+}
