@@ -4,10 +4,12 @@ import Button from "../../Button";
 import AddProject from "../Modals/AddProject";
 import { useState } from "react";
 import PinMapper from "../Modals/PinMapper";
+import PowerCalculator from "../Modals/PowerCalculator";
 
 export default function Hero() {
   const [showAddProject, setShowAddProject] = useState(false);
   const [showPinMapper, setShowPinMapper] = useState(false);
+  const [showPowerCalculator, setShowPowerCalculator] = useState(false);
   return (
     <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-indigo-600/10 p-8 mt-4">
       {/* --- Background Layers --- */}
@@ -110,7 +112,14 @@ export default function Hero() {
             <MapPin className="w-5 h-5" />
             <span>Pin Mapper</span>
           </Button>
-          <Button variant="classic" className="py-5 px-8">
+          {showPowerCalculator && (
+            <PowerCalculator setShowPowerCalculator={setShowPowerCalculator} />
+          )}
+          <Button
+            variant="classic"
+            className="py-5 px-8"
+            onClick={() => setShowPowerCalculator(true)}
+          >
             <Calculator className="w-5 h-5" />
             <span>Power Calculator</span>
           </Button>
