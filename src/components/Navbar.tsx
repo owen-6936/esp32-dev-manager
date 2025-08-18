@@ -25,15 +25,16 @@ export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
 
+  const DRAWER_ANIMATION_DURATION = 150;
+
   const toggleDrawer = () => {
-    setTimeout(() => {
-      if (!drawerOpen) {
-        setDrawerOpen(true);
-        setShowOverlay(true);
-      } else {
-        setDrawerOpen(false);
-      }
-    }, 150); // delay for smoother animation
+    if (!drawerOpen) {
+      setDrawerOpen(true);
+      setShowOverlay(true);
+    } else {
+      setDrawerOpen(false);
+      setTimeout(() => setShowOverlay(false), DRAWER_ANIMATION_DURATION); // wait for animation
+    }
   };
   const location = useLocation();
 
