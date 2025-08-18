@@ -45,9 +45,9 @@ export default function CodeEditor({
                   </div>
 
                   <p className="text-blue-200 text-sm mb-3">
-                  <p className="text-blue-200 text-sm mb-3">
-                    {snippet.description ? snippet.description : "No description provided."}
+                    {"No description provided."}
                   </p>
+
                   <div className="bg-black/30 rounded-lg p-4 overflow-x-auto">
                     <pre className="text-green-400 text-sm font-mono whitespace-pre-wrap">
                       {snippet.code}
