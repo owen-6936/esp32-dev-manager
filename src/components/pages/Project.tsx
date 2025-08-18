@@ -4,12 +4,21 @@ import emptyAnimation from "../../assets/lottie/empty-state.json";
 import type { Project } from "../../types/project";
 import { getDifficultyColor, getStatusColor } from "../../utils/utils";
 import EmptyState from "../EmptyState";
+import AddProject from "../ui/Modals/AddProject";
+import { useState } from "react";
 
 export default function Project() {
+  const [showAddProject, setShowAddProject] = useState(false);
   const projects: Project[] = [];
   return (
     <div className="space-y-6 min-height p-6">
       <div className="flex flex-wrap items-center justify-center gap-x-16 gap-y-4 sm:justify-between">
+        {showAddProject && (
+          <AddProject
+            setShowAddProject={setShowAddProject}
+            mode="Add New Project"
+          />
+        )}
         <h2 className="text-2xl sm:text-3xl font-bold text-white">
           My Projects
         </h2>
@@ -18,7 +27,7 @@ export default function Project() {
             <Code className="w-5 h-5" />
             <span>Code Snippet</span>
           </Button>
-          <Button variant="gradient">
+          <Button variant="gradient" onClick={() => setShowAddProject(true)}>
             <Plus className="w-5 h-5" />
             <span>Add Project</span>
           </Button>
@@ -33,7 +42,7 @@ export default function Project() {
           media={emptyAnimation}
           message="Start by adding your first project to get started!"
         >
-          <Button variant="gradient">
+          <Button variant="gradient" onClick={() => setShowAddProject(true)}>
             <Plus className="w-5 h-5" />
             <span>Add Project</span>
           </Button>

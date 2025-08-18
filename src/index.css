@@ -24,6 +24,10 @@
   @apply min-h-[calc(100vh-5rem)];
 }
 
+@utility scrollbar-none {
+  scrollbar-width: none;
+}
+
 @layer utilities {
   .text-gradient {
     @apply bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500 bg-clip-text text-transparent;
@@ -67,5 +71,16 @@
 }
 
 option {
-  @apply text-blue-600;
+  @apply text-gray-800 bg-white;
+}
+
+select {
+  @apply scrollbar-none;
+}
+
+select[multiple] option {
+  @apply text-white bg-transparent p-1;
+}
+select[multiple] option:hover {
+  @apply bg-white/10;
 }
