@@ -11,10 +11,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      actions: read
-
     strategy:
       matrix:
         node-version: [18.x, 20.x, 22.x]
@@ -34,24 +30,15 @@ jobs:
 
       - name: Run Linter
         run: npm run lint
-        continue-on-error: false
 
       - name: Run Build
-        run: npm run build --if-present
+        run: npm run build
 
-      - name: Verify Build Directory
-        run: test -d dist && echo "Build exists" || (echo "Build missing" && exit 1)
+      - name: Run Tests
+        run: npm test
 
-      - name: Cache Build Output
-        id: cache-build
-        uses: actions/cache@v4
-        with:
-          path: dist
-          key: ${{ runner.os }}-vite-dist-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-vite-dist-
-
-      - name: Upload Build Artifacts
+      - name: Upload Build Artifact (only on Node 20.x)
+        if: matrix.node-version == '20.x'
         uses: actions/upload-artifact@v4
         with:
           name: esp32-dashboard-dist
@@ -84,25 +71,10 @@ jobs:
           publish_dir: ./dist/
           publish_branch: gh-pages
 
-  first-interaction:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'issues' || github.event.action == 'opened'
-    permissions:
-      issues: write
-      pull-requests: write
-
-    steps:
-      - name: First Interaction
-        uses: actions/first-interaction@v1.3.0
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          issue-message: "Hello and welcome to the project! Thanks for opening your first issue. We're excited to have you here!"
-          pr-message: "Hello and welcome to the project! Thanks for your first pull request. We'll be reviewing it shortly!"
-
   preview-deploy:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
     needs: build
+    if: github.event_name == 'pull_request'
     permissions:
       contents: write
 
@@ -122,3 +94,18 @@ jobs:
           publish_dir: ./dist/
           publish_branch: gh-pages
           destination_dir: pr-preview/pr-${{ github.event.pull_request.number }}
+
+  first-interaction:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'issues' || github.event.action == 'opened'
+    permissions:
+      issues: write
+      pull-requests: write
+
+    steps:
+      - name: First Interaction
+        uses: actions/first-interaction@v1.3.0
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-message: "Hello and welcome to the project! Thanks for opening your first issue. We're excited to have you here!"
+          pr-message: "Hello and welcome to the project! Thanks for your first pull request. We'll be reviewing it shortly!"
