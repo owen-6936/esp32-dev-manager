@@ -19,6 +19,7 @@ export default defineConfig({
         theme_color: "#1e293b",
         background_color: "#0f172a",
         display: "standalone",
+
         icons: [
           {
             src: "pwa-192x192.png",
@@ -68,5 +69,8 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ["@react-three/fiber", "@react-three/drei", "three"],
+  },
+  build: {
+    outDir: "dist",
   },
 });
