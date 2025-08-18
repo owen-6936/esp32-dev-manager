@@ -39,27 +39,23 @@ jobs:
       - name: Run Build
         run: npm run build --if-present
 
-      - name: Run Tests
-        run: npm test
-        continue-on-error: false
-
       - name: Verify Build Directory
-        run: test -d build && echo "Build exists" || (echo "Build missing" && exit 1)
+        run: test -d dist && echo "Build exists" || (echo "Build missing" && exit 1)
 
       - name: Cache Build Output
         id: cache-build
         uses: actions/cache@v4
         with:
-          path: build
-          key: ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
+          path: dist
+          key: ${{ runner.os }}-vite-dist-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-build-
+            ${{ runner.os }}-vite-dist-
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: my-react-app-build
-          path: build/
+          name: esp32-dashboard-dist
+          path: dist/
           retention-days: 7
 
   deploy:
@@ -79,13 +75,13 @@ jobs:
       - name: Download Build Artifact
         uses: actions/download-artifact@v4
         with:
-          name: my-react-app-build
+          name: esp32-dashboard-dist
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build/
+          publish_dir: ./dist/
           publish_branch: gh-pages
 
   first-interaction:
@@ -102,6 +98,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           issue-message: "Hello and welcome to the project! Thanks for opening your first issue. We're excited to have you here!"
           pr-message: "Hello and welcome to the project! Thanks for your first pull request. We'll be reviewing it shortly!"
+
   preview-deploy:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
@@ -116,12 +113,12 @@ jobs:
       - name: Download Build Artifact
         uses: actions/download-artifact@v4
         with:
-          name: my-react-app-build
+          name: esp32-dashboard-dist
 
       - name: Deploy PR Preview to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build/
+          publish_dir: ./dist/
           publish_branch: gh-pages
           destination_dir: pr-preview/pr-${{ github.event.pull_request.number }}

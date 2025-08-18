@@ -21,7 +21,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "test": "echo \"No tests specified\"",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.7",
