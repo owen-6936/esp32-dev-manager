@@ -21,7 +21,7 @@ export default function Analytics() {
       </h2>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card index={1}>
-          <Card.Header>Project Status</Card.Header>
+          <Card.Header title="Project Status" />
           <Card.Body>
             <StatusItem count={10} percentage={100} status="completed" />
             <StatusItem count={5} percentage={50} status="in-progress" />
@@ -31,11 +31,7 @@ export default function Analytics() {
         </Card>
 
         <Card index={2}>
-          <Card.Header>
-            <h3 className="text-xl font-bold text-white mb-4">
-              Time vs Budget Analysis
-            </h3>
-          </Card.Header>
+          <Card.Header title="Time vs Budget Analysis" />
           <Card.Body className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="text-center">
               <div className="text-2xl font-bold text-white mb-1">

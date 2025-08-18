@@ -12,16 +12,16 @@ import { useState } from "react";
 import type { ProfileProps } from "../../../types/account/profile";
 
 export default function Profile({
-  name = "John Doe",
-  jobTitle = "Software Engineer",
-  company = "Acme Corp",
-  bio = "Lorem ipsum dolor sit amet.",
-  email = "john.doe@example.com",
-  phone = "(123) 456-7890",
-  location = "New York, NY",
-  website = "https://johndoe.com",
-  github = "https://github.com/johndoe",
-  joinDate = "January 1, 2020",
+  name = "",
+  jobTitle = "",
+  company = "",
+  bio = "",
+  email = "",
+  phone = "",
+  location = "",
+  website = "",
+  github = "",
+  joinDate = "",
 }: ProfileProps) {
   const [showEditProfile, setShowEditProfile] = useState(false);
   return (

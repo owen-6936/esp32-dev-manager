@@ -10,7 +10,7 @@ export default function Learning() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card index={0}>
-          <Card.Header>Skill Development</Card.Header>
+          <Card.Header title="Skill Development" />
           <Card.Body className="space-y-4">
             {learningMetrics.map((metric, index) => {
               const percentage = (metric.completed / metric.total) * 100;
@@ -37,7 +37,7 @@ export default function Learning() {
         </Card>
 
         <Card index={1}>
-          <Card.Header>Learning Goals</Card.Header>
+          <Card.Header title="Learning Goals" />
           <Card.Body className="space-y-4">
             {learningGoals.map(
               ({ icon: Icon, category, description }, index) => (

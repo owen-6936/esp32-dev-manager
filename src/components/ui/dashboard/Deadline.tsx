@@ -6,7 +6,7 @@ import { CalendarDays, AlertTriangle, Clock, CheckCircle } from "lucide-react";
 export default function Deadline({ projects }: { projects: Project[] }) {
   return (
     <Card index={1}>
-      <Card.Header>Upcoming Deadlines</Card.Header>
+      <Card.Header title="Upcoming Deadlines" />
       <div className="space-y-3">
         {projects
           .filter((p) => p.deadline && p.status !== "completed")

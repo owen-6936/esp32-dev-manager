@@ -6,13 +6,13 @@ import { cn } from "../utils/utils";
 interface StatCardProps {
   title: string;
   value: string | number;
-  valueColor: string;
+  valueColor?: string;
   subtitle: string;
-  subtitleColor: string;
+  subtitleColor?: string;
   subtitleIcon: React.ReactNode;
   icon: React.ReactNode;
-  iconBg: string;
-  index: number;
+  iconBg?: string;
+  index?: number;
   className?: string;
   cardVariants?: Variants;
 }
@@ -24,15 +24,15 @@ const defaultVariants: Variants = {
 
 // The reusable StatCard component.
 const StatCard: React.FC<StatCardProps> = ({
-  title,
-  value,
-  valueColor,
-  subtitle,
-  subtitleColor,
+  title = "",
+  value = 0,
+  valueColor = "text-gray-200",
+  subtitle = "",
+  subtitleColor = "text-gray-400",
   subtitleIcon,
   icon,
-  iconBg,
-  index,
+  iconBg = "bg-white/20",
+  index = 0,
   className = "",
   cardVariants = defaultVariants,
 }) => {
@@ -56,7 +56,7 @@ const StatCard: React.FC<StatCardProps> = ({
           <p className={cn("text-2xl font-bold", valueColor)}>{value}</p>
           <p
             className={cn(
-              "text-xs sm:text-sm flex items-center mt-1",
+              "text-xs sm:text-sm flex items-center mt-1 gap-1",
               subtitleColor
             )}
           >

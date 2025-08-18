@@ -5,7 +5,7 @@ import ListButton from "../../ListButton";
 export default function QuickActions() {
   return (
     <Card key={0} index={0}>
-      <Card.Header>Quick Actions</Card.Header>
+      <Card.Header title="Quick Actions" />
       <Card.Body className="grid grid-cols-1 gap-4">
         <ListButton
           icon={<FileText />}
