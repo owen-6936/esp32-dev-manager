@@ -1,0 +1,127 @@
+name: Node.js CI/CD and Community Management
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  issues:
+    types: [opened]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Linter
+        run: npm run lint
+        continue-on-error: false
+
+      - name: Run Build
+        run: npm run build --if-present
+
+      - name: Run Tests
+        run: npm test
+        continue-on-error: false
+
+      - name: Verify Build Directory
+        run: test -d build && echo "Build exists" || (echo "Build missing" && exit 1)
+
+      - name: Cache Build Output
+        id: cache-build
+        uses: actions/cache@v4
+        with:
+          path: build
+          key: ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-react-app-build
+          path: build/
+          retention-days: 7
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: write
+
+    environment:
+      name: production
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: my-react-app-build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/
+          publish_branch: gh-pages
+
+  first-interaction:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'issues' || github.event.action == 'opened'
+    permissions:
+      issues: write
+      pull-requests: write
+
+    steps:
+      - name: First Interaction
+        uses: actions/first-interaction@v1.3.0
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-message: "Hello and welcome to the project! Thanks for opening your first issue. We're excited to have you here!"
+          pr-message: "Hello and welcome to the project! Thanks for your first pull request. We'll be reviewing it shortly!"
+  preview-deploy:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    needs: build
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: my-react-app-build
+
+      - name: Deploy PR Preview to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/
+          publish_branch: gh-pages
+          destination_dir: pr-preview/pr-${{ github.event.pull_request.number }}
