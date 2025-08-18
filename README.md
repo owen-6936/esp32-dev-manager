@@ -1,13 +1,12 @@
 # ESP32 S3 Journey Tracker
 
-![Deploy to GitHub Pages](https://github.com/<owen-6936>/<esp32-dev-manager>/actions/workflows/deploy.yaml/badge.svg)
+![Deploy to GitHub Pages](https://github.com/owen-6936/esp32-dev-manager/actions/workflows/deploy.yaml/badge.svg)
 
 A comprehensive full-stack application designed to track and manage all aspects of your embedded systems development journey, with a special focus on ESP32 S3 projects.
 
 **Project Name:** `esp32-dev-manager`
 
 ![ESP32 S3 Journey Tracker UI Preview](https://your-image-url.com/preview.png)
-*(Replace with a screenshot or GIF of your application)*
 
 ## 📚 Table of Contents
 
