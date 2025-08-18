@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 import useProjectStore from "../../../store/project";
-import { esp32s3Pins, type PinConfig } from "../../../constants/esp32s3-pins";
+import { esp32s3Pins } from "../../../constants/esp32s3-pins";
 
 export default function PinMapper({
   setShowPinMapper,
