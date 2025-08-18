@@ -41,7 +41,7 @@ const StatCard: React.FC<StatCardProps> = ({
       )}
       variants={cardVariants}
       whileInView="visible"
-      viewport={{ once: true, amount: 0.3 }}
+      viewport={{ once: true, amount: 0.2, margin: "0px" }}
       initial="hidden"
       transition={{ duration: 0.5, delay: 0.2 + (index || 0) * 0.1 }}
       custom={index}

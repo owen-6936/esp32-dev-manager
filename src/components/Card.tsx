@@ -53,7 +53,7 @@ const Card: React.FC<CardProps> & {
       variants={cardVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.3 }}
+      viewport={{ once: true, amount: 0.2, margin: "0px" }}
       transition={{ delay: 0.2 + (index || 0) * 0.1, duration: 0.4 }}
     >
       {children}
@@ -72,7 +72,7 @@ const CardHeader: React.FC<CardHeaderProps> = ({
 }) => (
   <div className={cn("mb-4", className)}>
     <div className={`flex items-center gap-2 ${alignment[align]}`}>
-      {icon && <div className="w-5 h-5 text-blue-400">{icon}</div>}
+      {icon && <div className="w-5 h-5 mb-0.5 text-blue-400">{icon}</div>}
       <h2
         className={cn(
           "text-xl md:text-2xl font-bold mb-1",

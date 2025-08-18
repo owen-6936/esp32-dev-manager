@@ -1,4 +1,4 @@
-import { Key, Shield, X } from "lucide-react";
+import { Key, Lock, Shield, X } from "lucide-react";
 import { useState } from "react";
 import Card from "../../Card";
 import ChangePassword from "../Modals/ChangePassword";
@@ -7,7 +7,10 @@ export default function Security() {
   const [showChangePassword, setShowChangePassword] = useState<boolean>(false);
   return (
     <Card className="space-y-6" bg="transparent" padding="p-2">
-      <Card.Header title="Security" icon={<Shield className="w-5 h-5" />} />
+      <Card.Header
+        title="Security"
+        icon={<Lock className="w-5 h-5 text-yellow-500" />}
+      />
       {showChangePassword && (
         <ChangePassword setShowChangePassword={setShowChangePassword} />
       )}

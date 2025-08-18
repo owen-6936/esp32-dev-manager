@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Card from "../../Card";
+import { Settings } from "lucide-react";
 
 export default function Preferences() {
   const [preferences, setPreferences] = useState({
@@ -27,6 +28,7 @@ export default function Preferences() {
     <Card bg="transparent" padding="p-2" className="space-y-6">
       <Card.Header
         title="Customize Your Experience"
+        icon={<Settings className="w-5 h-5 text-gray-500" />}
         subtitle="Adjust settings to match your workflow and style"
       />
 
