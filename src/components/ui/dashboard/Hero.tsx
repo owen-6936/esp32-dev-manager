@@ -1,8 +1,13 @@
 import { motion } from "framer-motion";
 import { Calculator, MapPin, Plus } from "lucide-react";
 import Button from "../../Button";
+import AddProject from "../Modals/AddProject";
+import { useState } from "react";
+import PinMapper from "../Modals/PinMapper";
 
 export default function Hero() {
+  const [showAddProject, setShowAddProject] = useState(false);
+  const [showPinMapper, setShowPinMapper] = useState(false);
   return (
     <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-indigo-600/10 p-8 mt-4">
       {/* --- Background Layers --- */}
@@ -82,11 +87,26 @@ export default function Hero() {
           and community features for your ESP32 S3 development journey.
         </p>
         <div className="flex justify-center flex-wrap gap-4 items-center">
-          <Button variant="gradient" className="py-5 px-8">
+          {showAddProject && (
+            <AddProject
+              setShowAddProject={setShowAddProject}
+              mode="Add New Project"
+            />
+          )}
+          <Button
+            variant="gradient"
+            className="py-5 px-8"
+            onClick={() => setShowAddProject(true)}
+          >
             <Plus className="w-5 h-5" />
             <span>Start New Project</span>
           </Button>
-          <Button variant="classic" className="py-5 px-8">
+          {showPinMapper && <PinMapper setShowPinMapper={setShowPinMapper} />}
+          <Button
+            variant="classic"
+            className="py-5 px-8"
+            onClick={() => setShowPinMapper(true)}
+          >
             <MapPin className="w-5 h-5" />
             <span>Pin Mapper</span>
           </Button>
