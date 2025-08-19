@@ -1,6 +1,6 @@
 # ESP32 S3 Journey Tracker
 
-![Deploy to GitHub Pages](https://github.com/owen-6936/esp32-dev-manager/actions/workflows/deploy.yaml/badge.svg)
+![Deploy to GitHub Pages](https://github.com/owen-6936/esp32-dev-manager/actions/workflows/checks.yml/badge.svg)
 ![Vercel Preview Automation](https://github.com/owen-6936/esp32-dev-manager/actions/workflows/vercel-preview.yml/badge.svg)
 
 A comprehensive full-stack application designed to track and manage all aspects of your embedded systems development journey, with a special focus on ESP32 S3 projects.
