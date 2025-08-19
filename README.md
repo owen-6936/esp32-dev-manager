@@ -1,12 +1,15 @@
 # ESP32 S3 Journey Tracker
 
 ![Deploy to GitHub Pages](https://github.com/owen-6936/esp32-dev-manager/actions/workflows/deploy.yaml/badge.svg)
+![Vercel Preview Automation](https://github.com/owen-6936/esp32-dev-manager/actions/workflows/vercel-preview.yml/badge.svg)
 
 A comprehensive full-stack application designed to track and manage all aspects of your embedded systems development journey, with a special focus on ESP32 S3 projects.
 
 **Project Name:** `esp32-dev-manager`
 
-![ESP32 S3 Journey Tracker UI Preview](https://your-image-url.com/preview.png)
+![ESP32 S3 Journey Tracker UI Preview](/public/app-preview.png)
+
+---
 
 ## 📚 Table of Contents
 
@@ -14,6 +17,7 @@ A comprehensive full-stack application designed to track and manage all aspects 
 - [💻 Tech Stack](#-tech-stack)
 - [🚀 Getting Started](#-getting-started)
 - [📁 Project Structure](#-project-structure)
+- [🧪 Preview Automation](#-preview-automation)
 - [🔮 Future Enhancements](#-future-enhancements)
 - [🤝 Contributing](#-contributing)
 - [📄 License](#-license)
@@ -35,21 +39,21 @@ A comprehensive full-stack application designed to track and manage all aspects 
 
 ### Frontend
 
-- **React**: A JavaScript library for building user interfaces.
-- **TypeScript**: A strongly typed programming language that builds on JavaScript.
-- **Zustand**: A fast and scalable state management solution for React.
-- **Tailwind CSS**: A utility-first CSS framework for rapid UI development.
-- **Lucide Icons**: A library of beautiful, customizable open-source icons.
-- **Framer Motion**: A library for animations.
-- **Vaul**: A library for building interactive drawers.
-- **Headless UI**: A library of completely unstyled, accessible UI components.
-- **React Router Dom**: A library for client-side routing.
+- **React**
+- **TypeScript**
+- **Zustand**
+- **Tailwind CSS**
+- **Lucide Icons**
+- **Framer Motion**
+- **Vaul**
+- **Headless UI**
+- **React Router Dom**
 
 ### Backend (Planned)
 
-- **Node.js**: The runtime environment for the server-side logic.
-- **Express.js**: A minimal and flexible Node.js web application framework.
-- **Database**: (e.g., MongoDB, PostgreSQL, etc.)
+- **Node.js**
+- **Express.js**
+- **Database**: (e.g., MongoDB, PostgreSQL)
 
 ---
 
@@ -63,63 +67,79 @@ A comprehensive full-stack application designed to track and manage all aspects 
 
 ### Installation
 
-1. **Clone the repository:**
+```bash
+git clone https://github.com/owen-6936/esp32-dev-manager.git
+cd esp32-dev-manager
 
-   ```bash
-   git clone [https://github.com/owen-6936/esp32-dev-manager.git](https://github.com/owen-6936/esp32-dev-manager.git)
-   cd esp32-dev-manager
-   ```
+npm install
+# or
+yarn install
 
-2. **Install dependencies:**
+npm run dev
+# or
+yarn dev
+```
 
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
-
-3. **Run the development server:**
-
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   ```
-
-   The application will be accessible at `http://localhost:5173`.
+The application will be accessible at `http://localhost:5173`.
 
 ---
 
 ## 📁 Project Structure
 
-A high-level overview of the project's architecture:
-
-````
-
+```
 src/
-├── components/          \# Reusable UI components
-├── store/               \# Zustand stores for state management
+├── components/          # Reusable UI components
+├── store/               # Zustand stores for state management
 │   ├── component/
 │   ├── journal/
 │   ├── learning/
 │   └── project/
-├── types/               \# Type definitions and interfaces
+├── types/               # Type definitions and interfaces
 │   ├── project/
 │   └── shared/
-└── ...                  \# Other files and assets
-
+└── ...                  # Other files and assets
 ```
 
-This structure follows a "feature-first" pattern, keeping related logic, types, and components organized.
+---
+
+## 🧪 Preview Automation
+
+This project uses a custom GitHub Action to automatically post Vercel preview links on every pull request, complete with a QR code for mobile testing.
+
+### 🔧 How It Works
+
+- When a PR is opened or updated, a comment is posted with:
+  - A live preview link (based on the PR number)
+  - A QR code for quick mobile access
+  - Auto-cleanup of older preview comments
+
+### 🛠️ Workflow Files
+
+```bash
+.github/workflows/vercel-preview.yml
+.github/actions/vercel-preview-comment/action.yml
+```
+
+### 🧪 Example Output
+
+> 🚀 **Vercel Preview Available**  
+> 🔗 [View Live Preview](https://esp32-dev-manager-git-pr-42-owen-6936.vercel.app)  
+>
+> 📱 Scan on mobile:  
+> ![QR Code](https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://esp32-dev-manager-git-pr-42-owen-6936.vercel.app)  
+>
+> 🧪 This preview is auto-generated for PR #42.
 
 ---
 
 ## 🔮 Future Enhancements
 
-- **User Authentication**: Implement user registration and login functionality.
-- **API Integration**: Connect the frontend to a Node.js backend with a database for persistent data storage.
-- **Real-time Updates**: Use WebSockets for real-time tracking of project progress.
-- **Advanced Analytics**: Add more detailed charts and graphs for project time, budget, and component usage.
+- **User Authentication**
+- **API Integration**
+- **Real-time Updates**
+- **Advanced Analytics**
+- **Slack Notifications**
+- **Deploy Status Polling**
 
 ---
 
@@ -132,4 +152,3 @@ Contributions are welcome! If you have suggestions or find a bug, please open an
 ## 📄 License
 
 This project is licensed under the MIT License.
-````

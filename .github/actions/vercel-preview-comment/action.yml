@@ -1,0 +1,70 @@
+name: "Vercel Preview Comment"
+description: "Posts a Vercel preview link with QR code and cleans up old comments"
+
+inputs:
+  pr_number:
+    description: "Pull request number"
+    required: true
+  repo_owner:
+    description: "Repository owner"
+    required: true
+  repo_name:
+    description: "Repository name"
+    required: true
+  github_token:
+    description: "GitHub token for authentication"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Generate Preview URL
+      id: vercel
+      shell: bash
+      run: |
+        echo "url=https://esp32-dev-manager-git-pr-${{ inputs.pr_number }}-${{ inputs.repo_owner }}.vercel.app" >> $GITHUB_OUTPUT
+
+    - name: Delete Previous Comments
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{ inputs.github_token }}
+        script: |
+          const { data: comments } = await github.rest.issues.listComments({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number
+          });
+
+          for (const comment of comments) {
+            if (comment.body && comment.body.includes("🚀 **Vercel Preview Available**")) {
+              await github.rest.issues.deleteComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: comment.id
+              });
+            }
+          }
+
+    - name: Post New Comment
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{ inputs.github_token }}
+        script: |
+          const url = 'https://esp32-dev-manager-git-pr-' + '${{ inputs.pr_number }}' + '-' + '${{ inputs.repo_owner }}' + '.vercel.app';
+          const qr = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + encodeURIComponent(url);
+          const body = [
+            '🚀 **Vercel Preview Available**',
+            '🔗 [View Live Preview](' + url + ')',
+            '',
+            '📱 Scan on mobile:',
+            '![QR Code](' + qr + ')',
+            '',
+            '🧪 This preview is auto-generated for PR #' + '${{ inputs.pr_number }}' + '.'
+          ].join('\n');
+
+          await github.rest.issues.createComment({
+            issue_number: parseInt('${{ inputs.pr_number }}'),
+            owner: '${{ inputs.repo_owner }}',
+            repo: '${{ inputs.repo_name }}',
+            body
+          });
