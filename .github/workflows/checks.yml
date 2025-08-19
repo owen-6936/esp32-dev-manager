@@ -1,4 +1,4 @@
-name: Node.js CI/CD and Community Management
+name: Node.js CI and Community Management
 
 on:
   push:
@@ -44,56 +44,6 @@ jobs:
           name: esp32-dashboard-dist
           path: dist/
           retention-days: 7
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    if: github.ref == 'refs/heads/main'
-    permissions:
-      contents: write
-
-    environment:
-      name: production
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Download Build Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: esp32-dashboard-dist
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist/
-          publish_branch: gh-pages
-
-  preview-deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    if: github.event_name == 'pull_request'
-    permissions:
-      contents: write
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Download Build Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: esp32-dashboard-dist
-
-      - name: Deploy PR Preview to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist/
-          publish_branch: gh-pages
-          destination_dir: pr-preview/pr-${{ github.event.pull_request.number }}
 
   first-interaction:
     runs-on: ubuntu-latest
