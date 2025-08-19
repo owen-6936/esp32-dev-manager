@@ -72,6 +72,7 @@ export default defineConfig({
     include: ["@react-three/fiber", "@react-three/drei", "three"],
   },
   build: {
+    chunkSizeWarningLimit: 5000, // set chunk size warning limit to 5MB
     outDir: "dist",
   },
 });
