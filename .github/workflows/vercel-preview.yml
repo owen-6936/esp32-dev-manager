@@ -1,7 +1,7 @@
 name: Vercel Preview Comment
 
 on:
-  pull_request:
+  pull_request_target:
     types: [opened, synchronize]
 
 jobs:
@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run Vercel Preview Comment Action
-        uses: ../../.github/actions/vercel-preview-comment
+        uses: ./.github/actions/vercel-preview-comment
         with:
           pr_number: ${{ github.event.pull_request.number }}
           repo_owner: ${{ github.repository_owner }}
