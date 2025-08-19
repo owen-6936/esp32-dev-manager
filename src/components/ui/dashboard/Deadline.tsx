@@ -12,13 +12,13 @@ export default function Deadline({ projects }: { projects: Project[] }) {
           .filter((p) => p.deadline && p.status !== "completed")
           .sort(
             (a, b) =>
-              new Date(a.deadline!).getTime() - new Date(b.deadline!).getTime()
+              new Date(a.deadline!).getTime() - new Date(b.deadline!).getTime(),
           )
           .slice(0, 3)
           .map((project, i, arr) => {
             const daysLeft = Math.ceil(
               (new Date(project.deadline!).getTime() - Date.now()) /
-                (1000 * 60 * 60 * 24)
+                (1000 * 60 * 60 * 24),
             );
 
             // Calculate progress if startDate exists, otherwise fallback
@@ -34,13 +34,13 @@ export default function Deadline({ projects }: { projects: Project[] }) {
                 Date.now() - new Date(project.startDate).getTime();
               progress = Math.min(
                 100,
-                Math.max(0, (elapsed / totalDuration) * 100)
+                Math.max(0, (elapsed / totalDuration) * 100),
               );
             } else {
               // If no startDate, estimate progress by subtracting a fixed percentage per day left
               progress = Math.max(
                 0,
-                Math.min(100, 100 - daysLeft * PROGRESS_DECREMENT_PER_DAY)
+                Math.min(100, 100 - daysLeft * PROGRESS_DECREMENT_PER_DAY),
               );
             }
 
@@ -102,8 +102,8 @@ export default function Deadline({ projects }: { projects: Project[] }) {
                           daysLeft < 0
                             ? "bg-red-500"
                             : daysLeft <= 7
-                            ? "bg-orange-400"
-                            : "bg-green-400"
+                              ? "bg-orange-400"
+                              : "bg-green-400"
                         }`}
                         style={{ width: `${progress}%` }}
                       />

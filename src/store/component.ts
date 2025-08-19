@@ -14,13 +14,13 @@ const useComponentStore = create<ComponentStoreState>((set, get) => ({
       components: state.components.map((component) =>
         component.id === componentId
           ? { ...component, ...updatedFields }
-          : component
+          : component,
       ),
     })),
   deleteComponent: (componentId) =>
     set((state: ComponentStoreState) => ({
       components: state.components.filter(
-        (component) => component.id !== componentId
+        (component) => component.id !== componentId,
       ),
     })),
 }));

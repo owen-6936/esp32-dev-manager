@@ -31,7 +31,7 @@ const ListButton: React.FC<ListButtonProps> = ({
         bgColor,
         hoverBgColor,
         textColor,
-        className
+        className,
       )}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}

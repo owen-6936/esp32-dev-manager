@@ -48,7 +48,7 @@ export const AchievementCard: React.FC<AchievementCardProps> = ({
             <span
               className={cn(
                 "px-2 py-1 rounded text-xs capitalize",
-                rarityColor
+                rarityColor,
               )}
             >
               {rarity}

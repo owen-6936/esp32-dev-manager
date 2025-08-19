@@ -11,7 +11,7 @@ const useJournalStore: UseBoundStore<StoreApi<JournalState>> = create(
       set((state) => ({
         journalEntries: state.journalEntries.filter((entry) => entry.id !== id),
       })),
-  })
+  }),
 );
 
 export default useJournalStore;

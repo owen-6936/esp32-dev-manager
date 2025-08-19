@@ -40,7 +40,7 @@ export default function Stats({
                 subtitleIcon: SubtitleIcon,
                 value,
               },
-              index
+              index,
             ) => (
               <StatCard
                 key={title}
@@ -54,7 +54,7 @@ export default function Stats({
                   <SubtitleIcon className={`w-4 h-4 ${subtitleColor}`} />
                 }
               />
-            )
+            ),
           )}
         </div>
       </Card.Body>

@@ -18,7 +18,7 @@ export default function PinMapper({
 
   // Create a Set of assigned pin numbers for efficient lookup
   const assignedPins = new Set(
-    (currentProject?.pinConfig || []).map((config) => config.pin)
+    (currentProject?.pinConfig || []).map((config) => config.pin),
   );
 
   return (

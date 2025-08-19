@@ -13,7 +13,7 @@ export default function ESP32Visual() {
       (entries) => {
         if (entries[0].isIntersecting) setVisible(true);
       },
-      { threshold: 0.2 }
+      { threshold: 0.2 },
     );
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
@@ -94,7 +94,7 @@ function ESP32Model() {
       const dracoLoader = new DRACOLoader();
       dracoLoader.setDecoderPath("/draco/");
       loader.setDRACOLoader(dracoLoader);
-    }
+    },
   );
   return <primitive object={scene} scale={35} position={[0, -0.5, 0]} />;
 }

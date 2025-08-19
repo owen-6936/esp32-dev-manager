@@ -67,7 +67,7 @@ export default function CodeEditor({
                     </div>
                   )}
                 </div>
-              ))
+              )),
             )
           ) : (
             <div className="text-center py-12">

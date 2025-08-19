@@ -153,7 +153,7 @@ export default function Preferences() {
                     />
                   </button>
                 </div>
-              )
+              ),
             );
           })()}
         </div>

@@ -37,7 +37,7 @@ const StatCard: React.FC<StatCardProps> = ({
       key={index}
       className={cn(
         "bg-white/10 rounded-xl p-5.5 border border-white/20 hover:scale-105 transition-transform duration-300 w-full",
-        className
+        className,
       )}
       variants={cardVariants}
       whileInView="visible"
@@ -53,7 +53,7 @@ const StatCard: React.FC<StatCardProps> = ({
           <p
             className={cn(
               "text-xs sm:text-sm flex items-center mt-1 gap-1",
-              subtitleColor
+              subtitleColor,
             )}
           >
             {subtitleIcon}

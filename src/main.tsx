@@ -12,5 +12,5 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     {/* Wrap the entire app in AliveScope */}
     <RouterProvider router={router} />
-  </StrictMode>
+  </StrictMode>,
 );

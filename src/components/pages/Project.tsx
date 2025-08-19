@@ -78,7 +78,7 @@ export default function Project() {
                 </h3>
                 <span
                   className={`px-2 py-1 rounded text-xs border ${getStatusColor(
-                    project.status
+                    project.status,
                   )}`}
                 >
                   {project.status.replace("-", " ")}
@@ -145,7 +145,7 @@ export default function Project() {
                 <div className="flex items-center space-x-2">
                   <div
                     className={`w-2 h-2 rounded-full ${getDifficultyColor(
-                      project.difficulty
+                      project.difficulty,
                     )}`}
                   ></div>
                   <span className="text-blue-200 text-xs capitalize">

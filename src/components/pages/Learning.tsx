@@ -54,7 +54,7 @@ export default function Learning() {
                     <div className="bg-green-500 h-1 rounded-full w-3/5"></div>
                   </div>
                 </div>
-              )
+              ),
             )}
           </Card.Body>
         </Card>

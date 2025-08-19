@@ -53,7 +53,7 @@ const Button = ({
         baseStyles,
         variantStyles[variant],
         sizeStyles[size],
-        className
+        className,
       )}
     >
       {children}

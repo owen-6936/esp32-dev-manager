@@ -13,7 +13,7 @@ export default function AddProject({
   projectId?: string;
 }) {
   const project = useProjectStore((state) =>
-    state.getProjectById(projectId || "")
+    state.getProjectById(projectId || ""),
   );
 
   const initialProject: Partial<Project> = project || {
@@ -176,7 +176,7 @@ export default function AddProject({
                   ...newProject,
                   category: Array.from(
                     e.target.selectedOptions,
-                    (option) => option.value
+                    (option) => option.value,
                   ) as Project["category"],
                 })
               }

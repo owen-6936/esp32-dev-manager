@@ -65,28 +65,28 @@ A comprehensive full-stack application designed to track and manage all aspects 
 
 1. **Clone the repository:**
 
-    ```bash
-    git clone [https://github.com/owen-6936/esp32-dev-manager.git](https://github.com/owen-6936/esp32-dev-manager.git)
-    cd esp32-dev-manager
-    ```
+   ```bash
+   git clone [https://github.com/owen-6936/esp32-dev-manager.git](https://github.com/owen-6936/esp32-dev-manager.git)
+   cd esp32-dev-manager
+   ```
 
 2. **Install dependencies:**
 
-    ```bash
-    npm install
-    # or
-    yarn install
-    ```
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
 3. **Run the development server:**
 
-    ```bash
-    npm run dev
-    # or
-    yarn dev
-    ```
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
 
-    The application will be accessible at `http://localhost:5173`.
+   The application will be accessible at `http://localhost:5173`.
 
 ---
 
@@ -132,3 +132,4 @@ Contributions are welcome! If you have suggestions or find a bug, please open an
 ## 📄 License
 
 This project is licensed under the MIT License.
+````

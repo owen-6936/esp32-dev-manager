@@ -121,8 +121,8 @@ export default function AddComponent({
                       value === ""
                         ? 0
                         : isNaN(Number(value))
-                        ? newComponent.quantity
-                        : parseInt(value, 10),
+                          ? newComponent.quantity
+                          : parseInt(value, 10),
                   });
                 }}
                 onBlur={(e) => handleBlur("quantity", e.target.value)}
@@ -149,8 +149,8 @@ export default function AddComponent({
                       value === ""
                         ? 0
                         : isNaN(Number(value))
-                        ? newComponent.unitPrice
-                        : parseFloat(value),
+                          ? newComponent.unitPrice
+                          : parseFloat(value),
                   });
                 }}
                 onBlur={(e) => handleBlur("unitPrice", e.target.value)}

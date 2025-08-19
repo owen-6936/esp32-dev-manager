@@ -7,11 +7,11 @@ export default function Analytics() {
   const stats = {
     budgetUsed: projects.reduce(
       (accumulator, project) => accumulator + (project.budget ?? 0),
-      0
+      0,
     ),
     timeSpent: projects.reduce(
       (accumulator, project) => accumulator + (project.timeSpent ?? 0),
-      0
+      0,
     ),
   };
   return (
@@ -40,7 +40,7 @@ export default function Analytics() {
                     (projects.reduce(
                       (accumulator, project) =>
                         accumulator + (project.budget ?? 0),
-                      0
+                      0,
                     ) || 1)) *
                   100
                 ).toFixed(1)}
@@ -55,7 +55,7 @@ export default function Analytics() {
                     (projects.reduce(
                       (accumulator, project) =>
                         accumulator + (project.estimatedTime ?? 0),
-                      0
+                      0,
                     ) || 1)) *
                   100
                 ).toFixed(1)}

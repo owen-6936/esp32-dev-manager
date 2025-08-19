@@ -79,7 +79,7 @@ const CardHeader: React.FC<CardHeaderProps> = ({
           gradient
             ? "bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text"
             : "text-white",
-          alignment[align]
+          alignment[align],
         )}
       >
         {title}
@@ -105,7 +105,7 @@ const CardFooter: React.FC<CardSectionProps> = ({ children, className }) => (
   <div
     className={cn(
       "mt-4 pt-2 border-t border-white/10 text-xs text-blue-300",
-      className ?? ""
+      className ?? "",
     )}
   >
     {children}

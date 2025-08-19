@@ -22,7 +22,8 @@
     "lint": "eslint .",
     "test": "echo \"No tests specified\"",
     "preview": "vite preview",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@headlessui/react": "^2.2.7",

@@ -13,7 +13,7 @@ import useJournalStore from "../../store/journal";
 export default function Journal() {
   const [showAddJournal, setShowAddJournal] = useState(false);
   const journalEntries: JournalEntry[] = useJournalStore(
-    (state) => state.journalEntries
+    (state) => state.journalEntries,
   );
   const isMobile = useMediaQuery("(max-width: 640px)");
 
@@ -64,10 +64,10 @@ export default function Journal() {
                       entry.type === "learning"
                         ? "bg-blue-400"
                         : entry.type === "problem"
-                        ? "bg-red-400"
-                        : entry.type === "progress"
-                        ? "bg-green-400"
-                        : "bg-yellow-400"
+                          ? "bg-red-400"
+                          : entry.type === "progress"
+                            ? "bg-green-400"
+                            : "bg-yellow-400"
                     }`}
                   ></div>
                   <h3 className="text-xl font-bold text-white">

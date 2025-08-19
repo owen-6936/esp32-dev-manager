@@ -15,7 +15,7 @@ export default function Inventory() {
   const components: Component[] = [];
 
   const categories: string[] = Array.from(
-    new Set(components.map((c) => c.category))
+    new Set(components.map((c) => c.category)),
   );
   const filteredComponents = components.filter((component) => {
     const matchesSearch =
@@ -97,7 +97,7 @@ export default function Inventory() {
                   <span className="text-white">
                     $
                     {(component.quantity * (component.unitPrice ?? 0)).toFixed(
-                      2
+                      2,
                     )}
                   </span>
                 </div>
