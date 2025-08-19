@@ -8,6 +8,7 @@ jobs:
   comment:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Run Vercel Preview Comment Action
         uses: ./.github/actions/vercel-preview-comment
         with:
