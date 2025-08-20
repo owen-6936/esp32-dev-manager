@@ -1,6 +1,15 @@
 {
   "name": "esp32-dev-manager",
   "description": "A comprehensive full-stack application designed to track and manage all aspects of your embedded systems development journey, with a special focus on ESP32 S3 projects.",
+  "author": "Owen Erhabor <erhaborowen@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erhab/esp32-dev-manager.git"
+  },
+  "engines": {
+    "node": "22.x"
+  },
   "keywords": [
     "ESP32",
     "embedded systems",
