@@ -11,10 +11,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Install Node.js 16.x
+      - name: Install Node.js 22.x
         uses: actions/setup-node@v4
         with:
-          node-version: 16.x
+          node-version: 22.x
           cache: "npm"
 
       - name: Install Vercel CLI
@@ -30,13 +30,13 @@ jobs:
           # and creates a .vercel directory with the project and scope IDs.
           # The --yes flag accepts all prompts, making it non-interactive.
           vercel link --yes --project ${{ secrets.VERCEL_PROJECT_ID }} --scope ${{ secrets.VERCEL_ORG_ID }} --token ${{ secrets.VERCEL_TOKEN }}
-          
+
           # 2. 'vercel pull' downloads the project's configuration settings
           # from Vercel to the local .vercel directory. It uses the context
           # from the 'vercel link' command, so we do not need to pass the
           # project and scope flags again.
           vercel pull --yes --environment=preview --token ${{ secrets.VERCEL_TOKEN }}
-          
+
           # 3. 'vercel build' builds the project locally on the runner,
           # using the settings downloaded by 'vercel pull'. It does not
           # need project or scope flags either.
