@@ -34,13 +34,13 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
         run: |
           vercel link --cwd . --yes --project $VERCEL_PROJECT_ID --scope $VERCEL_ORG_ID --token $VERCEL_TOKEN
-          vercel pull --yes --environment=preview --token $VERCEL_TOKEN
+          vercel pull --yes --token $VERCEL_TOKEN
 
           if [ "${{ github.event_name }}" = "pull_request" ]; then
-            vercel build --environment=preview
+            vercel build
             vercel_url=$(vercel deploy --prebuilt --cwd . --token $VERCEL_TOKEN)
           else
-            vercel build --environment=production
+            vercel build --prod
             vercel_url=$(vercel deploy --prebuilt --cwd . --prod --token $VERCEL_TOKEN)
           fi
 
