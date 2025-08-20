@@ -53,7 +53,7 @@ jobs:
           git config --global user.email "github-actions@github.com"
           git add README.md
           git commit -m "Update README with Vercel preview URL"
-          git push
+          git push origin HEAD:${{ github.head_ref }}
 
   comment:
     needs: build-and-deploy
