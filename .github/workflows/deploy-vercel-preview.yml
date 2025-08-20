@@ -7,15 +7,18 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    outputs:
+      vercel_url: ${{ steps.deploy.outputs.vercel_url }}
+      pr_number: ${{ github.event.pull_request.number }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Install Node.js 22.x
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22.x
-          cache: "npm"
+          cache: npm
 
       - name: Install Vercel CLI
         run: npm install -g vercel@latest
@@ -27,31 +30,30 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
         run: |
-          # Fail fast if secrets are missing
           if [ -z "$VERCEL_TOKEN" ] || [ -z "$VERCEL_PROJECT_ID" ] || [ -z "$VERCEL_ORG_ID" ]; then
             echo "Missing required Vercel secrets"
             exit 1
           fi
 
-          # Link project
           vercel link --cwd . --yes --project $VERCEL_PROJECT_ID --scope $VERCEL_ORG_ID --token $VERCEL_TOKEN
-
-          # Pull environment config
           vercel pull --yes --environment=preview --token $VERCEL_TOKEN
-
-          # Build locally
           vercel build
-
-          # Deploy prebuilt output
           vercel_url=$(vercel deploy --prebuilt --cwd . --token $VERCEL_TOKEN)
-          echo "vercel_url=${vercel_url}" >> $GITHUB_OUTPUT
 
-    outputs:
-      vercel_url: ${{ steps.deploy.outputs.vercel_url }}
-      pr_number: ${{ github.event.pull_request.number }}
-      repo_owner: ${{ github.repository_owner }}
-      repo_name: ${{ github.event.repository.name }}
-      branch_name: ${{ github.head_ref }}
+          echo "vercel_url=$vercel_url" >> $GITHUB_OUTPUT
+          echo "VERCEL_URL=$vercel_url" >> $GITHUB_ENV
+
+      - name: Update README with Preview URL
+        run: |
+          sed -i "s|<!--PREVIEW_URL-->|[Preview Deployment](${VERCEL_URL})|g" README.md
+
+      - name: Commit README update
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add README.md
+          git commit -m "Update README with Vercel preview URL"
+          git push
 
   comment:
     needs: build-and-deploy
@@ -65,6 +67,8 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ needs.build-and-deploy.outputs.pr_number }}
+          comment-id: vercel-preview-${{ needs.build-and-deploy.outputs.pr_number }}
+          edit-mode: replace
           body: |
             🚀 **Vercel Preview Available**
             🔗 [View Live Preview](${{ needs.build-and-deploy.outputs.vercel_url }})
