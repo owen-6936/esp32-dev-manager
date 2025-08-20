@@ -8,7 +8,7 @@
     "url": "git+https://github.com/erhab/esp32-dev-manager.git"
   },
   "engines": {
-    "node": "22.x"
+    "node": "16.x"
   },
   "keywords": [
     "ESP32",
