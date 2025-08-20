@@ -1,12 +1,15 @@
 name: Vercel Preview Comment
 
 on:
-  pull_request_target:
+  pull_request:
     types: [opened, synchronize]
 
 jobs:
   comment:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
       - name: Run Vercel Preview Comment Action
