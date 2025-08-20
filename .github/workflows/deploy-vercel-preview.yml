@@ -1,65 +1,75 @@
-#
-# GitHub Actions Workflow for Vercel Preview Deployments
-#
-# This workflow is triggered on pull requests to automatically build and deploy
-# a preview version of your application to Vercel.
-#
-# It combines the build, deployment, and PR commenting steps into a single,
-# robust pipeline.
-#
-
 name: Vercel Preview
 
 on:
   pull_request:
     types: [opened, synchronize]
-    # Restrict workflow to specific branches for performance, e.g.,
-    # branches:
-    #   - main
-    #   - develop
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: 📦 Checkout Repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: 🛠️ Set up Node.js 22.x
+      - name: Install Node.js 22.x
         uses: actions/setup-node@v4
         with:
           node-version: 22.x
+          cache: "npm"
 
-      # The Vercel GitHub integration can handle the build and deployment itself.
-      # You can run your own build and deployment steps if you have a custom setup,
-      # but Vercel's official action is more reliable and integrates better.
-      # This step handles the entire deployment process.
-      - name: 🚀 Deploy to Vercel
-        id: vercel-deploy
-        uses: vercel/actions/deploy-pull-request@v1
-        with:
-          # Your Vercel token, project ID, and organization ID are required secrets.
-          # These are typically configured in your repository settings.
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          # Project and Org ID are automatically detected, so you don't need to specify them here.
-          # vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          # vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          
-      - name: 📝 Post Vercel Preview Comment
-        id: create-comment
+      - name: Install Vercel CLI
+        run: npm install -g vercel@latest
+
+      - name: Deploy to Vercel
+        id: deploy
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+        run: |
+          # Fail fast if secrets are missing
+          if [ -z "$VERCEL_TOKEN" ] || [ -z "$VERCEL_PROJECT_ID" ] || [ -z "$VERCEL_ORG_ID" ]; then
+            echo "Missing required Vercel secrets"
+            exit 1
+          fi
+
+          # Link project
+          vercel link --cwd . --yes --project $VERCEL_PROJECT_ID --scope $VERCEL_ORG_ID --token $VERCEL_TOKEN
+
+          # Pull environment config
+          vercel pull --yes --environment=preview --token $VERCEL_TOKEN
+
+          # Build locally
+          vercel build
+
+          # Deploy prebuilt output
+          vercel_url=$(vercel deploy --prebuilt --cwd . --token $VERCEL_TOKEN)
+          echo "vercel_url=${vercel_url}" >> $GITHUB_OUTPUT
+
+    outputs:
+      vercel_url: ${{ steps.deploy.outputs.vercel_url }}
+      pr_number: ${{ github.event.pull_request.number }}
+      repo_owner: ${{ github.repository_owner }}
+      repo_name: ${{ github.event.repository.name }}
+      branch_name: ${{ github.head_ref }}
+
+  comment:
+    needs: build-and-deploy
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Post Vercel Preview Comment
         uses: peter-evans/create-or-update-comment@v4
         with:
-          # This token is automatically provided by GitHub Actions for every workflow run.
           token: ${{ secrets.GITHUB_TOKEN }}
-          issue-number: ${{ github.event.pull_request.number }}
+          issue-number: ${{ needs.build-and-deploy.outputs.pr_number }}
           body: |
             🚀 **Vercel Preview Available**
-            
-            This deployment was handled by Vercel's official GitHub Action.
-            
-            🔗 [View Live Preview](${{ steps.vercel-deploy.outputs.url }})
+            🔗 [View Live Preview](${{ needs.build-and-deploy.outputs.vercel_url }})
 
             📱 Scan on mobile:
-            ![QR Code](https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${{ steps.vercel-deploy.outputs.url }})
+            ![QR Code](https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${{ needs.build-and-deploy.outputs.vercel_url }})
 
-            🧪 This preview is for PR #${{ github.event.pull_request.number }}.
+            🧪 This preview is auto-generated for PR #${{ needs.build-and-deploy.outputs.pr_number }}.
