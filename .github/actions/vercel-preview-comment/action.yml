@@ -18,31 +18,71 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Validate Inputs
+      shell: bash
+      run: |
+        if [ -z "${{ inputs.pr_number }}" ]; then
+          echo "ERROR: PR number is required but not provided"
+          exit 1
+        fi
+        if [ -z "${{ inputs.repo_owner }}" ]; then
+          echo "ERROR: Repository owner is required but not provided"
+          exit 1
+        fi
+        if [ -z "${{ inputs.repo_name }}" ]; then
+          echo "ERROR: Repository name is required but not provided"
+          exit 1
+        fi
+        echo "✅ All required inputs are present"
+        echo "PR Number: ${{ inputs.pr_number }}"
+        echo "Repo Owner: ${{ inputs.repo_owner }}"
+        echo "Repo Name: ${{ inputs.repo_name }}"
+
     - name: Generate Preview URL
       id: vercel
       shell: bash
       run: |
-        echo "url=https://esp32-dev-manager-git-pr-${{ inputs.pr_number }}-${{ inputs.repo_owner }}.vercel.app" >> $GITHUB_OUTPUT
+        preview_url="https://esp32-dev-manager-git-pr-${{ inputs.pr_number }}-${{ inputs.repo_owner }}.vercel.app"
+        echo "Generated preview URL: $preview_url"
+        echo "url=$preview_url" >> $GITHUB_OUTPUT
 
     - name: Delete Previous Comments
       uses: actions/github-script@v7
       with:
         github-token: ${{ inputs.github_token }}
         script: |
-          const { data: comments } = await github.rest.issues.listComments({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            issue_number: context.issue.number
-          });
+          const prNumber = '${{ inputs.pr_number }}';
+          const repoOwner = '${{ inputs.repo_owner }}';
+          const repoName = '${{ inputs.repo_name }}';
+          
+          console.log(`Looking for previous comments on PR #${prNumber} in ${repoOwner}/${repoName}`);
+          
+          try {
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: repoOwner,
+              repo: repoName,
+              issue_number: parseInt(prNumber)
+            });
 
-          for (const comment of comments) {
-            if (comment.body && comment.body.includes("🚀 **Vercel Preview Available**")) {
-              await github.rest.issues.deleteComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: comment.id
-              });
+            console.log(`Found ${comments.length} total comments`);
+            
+            let deletedCount = 0;
+            for (const comment of comments) {
+              if (comment.body && comment.body.includes("🚀 **Vercel Preview Available**")) {
+                console.log(`Deleting previous preview comment: ${comment.id}`);
+                await github.rest.issues.deleteComment({
+                  owner: repoOwner,
+                  repo: repoName,
+                  comment_id: comment.id
+                });
+                deletedCount++;
+              }
             }
+            
+            console.log(`Deleted ${deletedCount} previous preview comments`);
+          } catch (error) {
+            console.error('Error managing previous comments:', error);
+            throw error;
           }
 
     - name: Post New Comment
@@ -50,21 +90,36 @@ runs:
       with:
         github-token: ${{ inputs.github_token }}
         script: |
-          const url = 'https://esp32-dev-manager-git-pr-' + '${{ inputs.pr_number }}' + '-' + '${{ inputs.repo_owner }}' + '.vercel.app';
-          const qr = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + encodeURIComponent(url);
+          const prNumber = '${{ inputs.pr_number }}';
+          const repoOwner = '${{ inputs.repo_owner }}';
+          const repoName = '${{ inputs.repo_name }}';
+          const url = `https://esp32-dev-manager-git-pr-${prNumber}-${repoOwner}.vercel.app`;
+          const qr = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(url)}`;
+          
           const body = [
             '🚀 **Vercel Preview Available**',
-            '🔗 [View Live Preview](' + url + ')',
+            `🔗 [View Live Preview](${url})`,
             '',
             '📱 Scan on mobile:',
-            '![QR Code](' + qr + ')',
+            `![QR Code](${qr})`,
             '',
-            '🧪 This preview is auto-generated for PR #' + '${{ inputs.pr_number }}' + '.'
+            `🧪 This preview is auto-generated for PR #${prNumber}.`
           ].join('\n');
 
-          await github.rest.issues.createComment({
-            issue_number: parseInt('${{ inputs.pr_number }}'),
-            owner: '${{ inputs.repo_owner }}',
-            repo: '${{ inputs.repo_name }}',
-            body
-          });
+          console.log(`Posting new preview comment for PR #${prNumber}`);
+          console.log(`Preview URL: ${url}`);
+          
+          try {
+            const response = await github.rest.issues.createComment({
+              issue_number: parseInt(prNumber),
+              owner: repoOwner,
+              repo: repoName,
+              body: body
+            });
+            
+            console.log(`Successfully posted comment with ID: ${response.data.id}`);
+            console.log(`Comment URL: ${response.data.html_url}`);
+          } catch (error) {
+            console.error('Error posting new comment:', error);
+            throw error;
+          }
