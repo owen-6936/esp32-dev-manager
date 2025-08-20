@@ -43,7 +43,7 @@ jobs:
           vercel build
 
           # Deploy prebuilt output
-          vercel_url=$(vercel deploy --prebuilt --cwd . --token $VERCEL_TOKEN --project $VERCEL_PROJECT_ID --scope $VERCEL_ORG_ID)
+          vercel_url=$(vercel deploy --prebuilt --cwd . --token $VERCEL_TOKEN)
           echo "vercel_url=${vercel_url}" >> $GITHUB_OUTPUT
 
     outputs:
