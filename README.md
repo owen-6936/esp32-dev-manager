@@ -4,9 +4,9 @@
 
 ## Live Preview
 
-<!--PREVIEW_URL-->
+[Preview Deployment](https://esp32-dev-manager-nyma4z641-owens-projects-2ab3ca8c.vercel.app)
 
-<!--QR_CODE-->
+![Scan to Preview](https://api.qrserver.com/v1/create-qr-code/?size=150x150<!--QR_CODE-->data=https://esp32-dev-manager-nyma4z641-owens-projects-2ab3ca8c.vercel.app)
 
 A comprehensive full-stack application designed to track and manage all aspects of your embedded systems development journey, with a special focus on ESP32 S3 projects.
 
