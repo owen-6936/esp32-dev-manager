@@ -14,27 +14,27 @@ inputs:
   github_token:
     description: "GitHub token for authentication"
     required: true
+  branch_name:
+    description: "The name of the Git branch from the pull request"
+    required: true
 
 runs:
   using: "composite"
   steps:
-    - name: Generate Preview URL
-      id: vercel
-      shell: bash
-      run: |
-        echo "url=https://esp32-dev-manager-git-pr-${{ inputs.pr_number }}-${{ inputs.repo_owner }}.vercel.app" >> $GITHUB_OUTPUT
-
+    # Delete Previous Comments
     - name: Delete Previous Comments
       uses: actions/github-script@v7
       with:
         github-token: ${{ inputs.github_token }}
         script: |
+          // Get a list of all comments on the pull request
           const { data: comments } = await github.rest.issues.listComments({
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: context.issue.number
           });
 
+          // Loop through the comments and delete the ones that match our message
           for (const comment of comments) {
             if (comment.body && comment.body.includes("🚀 **Vercel Preview Available**")) {
               await github.rest.issues.deleteComment({
@@ -45,26 +45,33 @@ runs:
             }
           }
 
+    # Post a New Comment
     - name: Post New Comment
       uses: actions/github-script@v7
       with:
         github-token: ${{ inputs.github_token }}
         script: |
-          const url = 'https://esp32-dev-manager-git-pr-' + '${{ inputs.pr_number }}' + '-' + '${{ inputs.repo_owner }}' + '.vercel.app';
-          const qr = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + encodeURIComponent(url);
+          const repoOwner = '${{ inputs.repo_owner }}';
+          const branchName = '${{ inputs.branch_name }}';
+
+          // Construct the correct Vercel preview URL using the branch name
+          const url = `https://esp32-dev-manager-git-${branchName}-${repoOwner}.vercel.app`;
+          const qr = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(url)}`;
+
           const body = [
             '🚀 **Vercel Preview Available**',
-            '🔗 [View Live Preview](' + url + ')',
+            `🔗 [View Live Preview](${url})`,
             '',
             '📱 Scan on mobile:',
-            '![QR Code](' + qr + ')',
+            `![QR Code](${qr})`,
             '',
-            '🧪 This preview is auto-generated for PR #' + '${{ inputs.pr_number }}' + '.'
+            `🧪 This preview is auto-generated for PR #${{ inputs.pr_number }}.`
           ].join('\n');
 
+          // Post the new comment to the pull request
           await github.rest.issues.createComment({
             issue_number: parseInt('${{ inputs.pr_number }}'),
-            owner: '${{ inputs.repo_owner }}',
+            owner: repoOwner,
             repo: '${{ inputs.repo_name }}',
             body
           });
