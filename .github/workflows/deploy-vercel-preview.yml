@@ -29,7 +29,7 @@ jobs:
           # It connects the local repository on the runner to your Vercel project
           # and creates a .vercel directory with the project and scope IDs.
           # The --yes flag accepts all prompts, making it non-interactive.
-          vercel link --yes ${{ secrets.VERCEL_PROJECT_ID }} --scope ${{ secrets.VERCEL_ORG_ID }} --token ${{ secrets.VERCEL_TOKEN }} --cwd .
+          vercel link --cwd --yes ${{ secrets.VERCEL_PROJECT_ID }} --scope ${{ secrets.VERCEL_ORG_ID }} --token ${{ secrets.VERCEL_TOKEN }}
 
           # 2. 'vercel pull' downloads the project's configuration settings
           # from Vercel to the local .vercel directory. It uses the context
