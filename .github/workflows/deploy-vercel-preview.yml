@@ -1,0 +1,53 @@
+name: Vercel Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel@28.1.0
+
+      - name: Deploy to Vercel
+        id: deploy
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          # Use `vercel build` to ensure the project is built
+          vercel build --prod --yes --token ${{ secrets.VERCEL_TOKEN }} --project ${{ secrets.VERCEL_PROJECT_ID }} --scope ${{ secrets.VERCEL_ORG_ID }}
+          
+          # The `vercel deploy` command prints the URL to stdout.
+          # We use --prebuilt to skip the build step since it was already done.
+          vercel_url=$(vercel deploy --prebuilt --token ${{ secrets.VERCEL_TOKEN }} --project ${{ secrets.VERCEL_PROJECT_ID }} --scope ${{ secrets.VERCEL_ORG_ID }})
+          echo "vercel_url=${vercel_url}" >> $GITHUB_OUTPUT
+
+    outputs:
+      vercel_url: ${{ steps.deploy.outputs.vercel_url }}
+      pr_number: ${{ github.event.pull_request.number }}
+      repo_owner: ${{ github.repository_owner }}
+      repo_name: ${{ github.event.repository.name }}
+      branch_name: ${{ github.head_ref }}
+
+  comment:
+    needs: build-and-deploy
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Post Vercel Preview Comment
+        uses: ./.github/actions/vercel-preview-comment
+        with:
+          pr_number: ${{ needs.build-and-deploy.outputs.pr_number }}
+          repo_owner: ${{ needs.build-and-deploy.outputs.repo_owner }}
+          repo_name: ${{ needs.build-and-deploy.outputs.repo_name }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch_name: ${{ needs.build-and-deploy.outputs.branch_name }}
+          vercel_url: ${{ needs.build-and-deploy.outputs.vercel_url }}
