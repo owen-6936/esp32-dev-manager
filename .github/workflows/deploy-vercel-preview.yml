@@ -21,7 +21,8 @@ jobs:
         run: |
           # The 'vercel link' command is crucial here to set up the project context
           # for the 'vercel build' command to work correctly.
-          vercel link --yes --project ${{ secrets.VERCEL_PROJECT_ID }} --scope ${{ secrets.VERCEL_ORG_ID }}
+          # We pass the Vercel token here to authenticate the command.
+          vercel link --yes --project ${{ secrets.VERCEL_PROJECT_ID }} --scope ${{ secrets.VERCEL_ORG_ID }} --token ${{ secrets.VERCEL_TOKEN }}
           
           # Use 'vercel build' to build the project locally on the runner.
           # It automatically uses the context from the 'vercel link' command.
