@@ -19,10 +19,15 @@ jobs:
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
-          # Use `vercel build` to ensure the project is built
-          vercel build --prod --yes --token ${{ secrets.VERCEL_TOKEN }} --project ${{ secrets.VERCEL_PROJECT_ID }} --scope ${{ secrets.VERCEL_ORG_ID }}
+          # The 'vercel link' command is crucial here to set up the project context
+          # for the 'vercel build' command to work correctly.
+          vercel link --yes --project ${{ secrets.VERCEL_PROJECT_ID }} --scope ${{ secrets.VERCEL_ORG_ID }}
           
-          # The `vercel deploy` command prints the URL to stdout.
+          # Use 'vercel build' to build the project locally on the runner.
+          # It automatically uses the context from the 'vercel link' command.
+          vercel build --prod
+
+          # The 'vercel deploy' command prints the URL to stdout.
           # We use --prebuilt to skip the build step since it was already done.
           vercel_url=$(vercel deploy --prebuilt --token ${{ secrets.VERCEL_TOKEN }} --project ${{ secrets.VERCEL_PROJECT_ID }} --scope ${{ secrets.VERCEL_ORG_ID }})
           echo "vercel_url=${vercel_url}" >> $GITHUB_OUTPUT
