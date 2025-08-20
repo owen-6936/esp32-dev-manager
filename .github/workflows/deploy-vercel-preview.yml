@@ -24,28 +24,26 @@ jobs:
         id: deploy
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
         run: |
-          # 1. 'vercel link' is the first and most crucial step.
-          # It connects the local repository on the runner to your Vercel project
-          # and creates a .vercel directory with the project and scope IDs.
-          # The --yes flag accepts all prompts, making it non-interactive.
-          vercel link --cwd --yes ${{ secrets.VERCEL_PROJECT_ID }} --scope ${{ secrets.VERCEL_ORG_ID }} --token ${{ secrets.VERCEL_TOKEN }}
+          # Fail fast if secrets are missing
+          if [ -z "$VERCEL_TOKEN" ] || [ -z "$VERCEL_PROJECT_ID" ] || [ -z "$VERCEL_ORG_ID" ]; then
+            echo "Missing required Vercel secrets"
+            exit 1
+          fi
 
-          # 2. 'vercel pull' downloads the project's configuration settings
-          # from Vercel to the local .vercel directory. It uses the context
-          # from the 'vercel link' command, so we do not need to pass the
-          # project and scope flags again.
-          vercel pull --yes --environment=preview --token ${{ secrets.VERCEL_TOKEN }}
+          # Link project
+          vercel link --cwd . --yes --project $VERCEL_PROJECT_ID --scope $VERCEL_ORG_ID --token $VERCEL_TOKEN
 
-          # 3. 'vercel build' builds the project locally on the runner,
-          # using the settings downloaded by 'vercel pull'. It does not
-          # need project or scope flags either.
-          vercel build --prod
+          # Pull environment config
+          vercel pull --yes --environment=preview --token $VERCEL_TOKEN
 
-          # 4. 'vercel deploy' uploads the built output from the local .vercel/output directory
-          # to the Vercel project. It requires the project and scope flags to
-          # know where to upload the assets.
-          vercel_url=$(vercel deploy --prebuilt --token ${{ secrets.VERCEL_TOKEN }} --project ${{ secrets.VERCEL_PROJECT_ID }} --scope ${{ secrets.VERCEL_ORG_ID }})
+          # Build locally
+          vercel build
+
+          # Deploy prebuilt output
+          vercel_url=$(vercel deploy --prebuilt --cwd . --token $VERCEL_TOKEN --project $VERCEL_PROJECT_ID --scope $VERCEL_ORG_ID)
           echo "vercel_url=${vercel_url}" >> $GITHUB_OUTPUT
 
     outputs:
