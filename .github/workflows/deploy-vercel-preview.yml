@@ -46,10 +46,14 @@ jobs:
       - name: Export Preview URL to Environment
         run: echo "VERCEL_URL=${{ steps.deploy.outputs.vercel_url }}" >> $GITHUB_ENV
 
+      - name: Set up JQ
+        run: sudo apt-get install -y jq
+
       - name: Update README with Preview URL and QR Code
         run: |
-          sed -i "s|<!--PREVIEW_URL-->|[Preview Deployment](${VERCEL_URL})|g" README.md
-          sed -i "s|<!--QR_CODE-->|![Scan to Preview](https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${VERCEL_URL})|g" README.md
+          ENCODED_URL=$(echo "${VERCEL_URL}" | jq -sRr @uri)
+          sed -i "/<!--PREVIEW_URL_START-->/, /<!--PREVIEW_URL_END-->/c\<!--PREVIEW_URL_START-->\n[Preview Deployment](${VERCEL_URL})\n<!--PREVIEW_URL_END-->" README.md
+          sed -i "/<!--QR_CODE_START-->/, /<!--QR_CODE_END-->/c\<!--QR_CODE_START-->\n![Scan to Preview](https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${ENCODED_URL})\n<!--QR_CODE_END-->" README.md
 
       - name: Commit README update
         env:
