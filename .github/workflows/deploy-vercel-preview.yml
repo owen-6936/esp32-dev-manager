@@ -59,14 +59,17 @@ jobs:
     permissions:
       issues: write
       pull-requests: write
-    if: github.event_name == 'pull_request'
     steps:
       - name: Post Vercel Preview Comment
-        uses: ./.github/actions/vercel-preview-comment
+        uses: peter-evans/create-or-update-comment@v4
         with:
-          pr_number: ${{ needs.build-and-deploy.outputs.pr_number }}
-          repo_owner: ${{ needs.build-and-deploy.outputs.repo_owner }}
-          repo_name: ${{ needs.build-and-deploy.outputs.repo_name }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch_name: ${{ needs.build-and-deploy.outputs.branch_name }}
-          vercel_url: ${{ needs.build-and-deploy.outputs.vercel_url }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ needs.build-and-deploy.outputs.pr_number }}
+          body: |
+            🚀 **Vercel Preview Available**
+            🔗 [View Live Preview](${{ needs.build-and-deploy.outputs.vercel_url }})
+
+            📱 Scan on mobile:
+            ![QR Code](https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${{ needs.build-and-deploy.outputs.vercel_url }})
+
+            🧪 This preview is auto-generated for PR #${{ needs.build-and-deploy.outputs.pr_number }}.
