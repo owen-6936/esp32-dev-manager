@@ -51,10 +51,13 @@ jobs:
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
+          git fetch origin ${{ github.head_ref }}
+          git checkout ${{ github.head_ref }}
+          git pull origin ${{ github.head_ref }}
           git add README.md
           git commit -m "Update README with Vercel preview URL"
-          git push origin HEAD:${{ github.head_ref }}
-
+          git push origin ${{ github.head_ref }}
+          # Ensure the push command targets the correct branch
   comment:
     needs: build-and-deploy
     runs-on: ubuntu-latest
