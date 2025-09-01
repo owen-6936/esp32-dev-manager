@@ -4,7 +4,7 @@ import emptyAnimation from "../../assets/lottie/empty-state.json";
 import type { Project } from "../../types/project";
 import { getDifficultyColor, getStatusColor } from "../../utils/utils";
 import EmptyState from "../EmptyState";
-import AddProject from "../ui/Modals/AddProject";
+import ProjectForm from "../ui/Modals/ProjectForm";
 import { useState } from "react";
 import CodeEditor from "../ui/Modals/CodeEditor";
 import useProjectStore from "../../store/project";
@@ -25,7 +25,7 @@ export default function Project() {
             )}
             <div className="flex flex-wrap items-center justify-center gap-x-16 gap-y-4 sm:justify-between">
                 {showAddProject && (
-                    <AddProject
+                    <ProjectForm
                         setShowAddProject={setShowAddProject}
                         mode={
                             selectedProject
@@ -109,12 +109,12 @@ export default function Project() {
                                             <div
                                                 className="bg-blue-500 h-2 rounded-full transition-all duration-300"
                                                 style={{
-                                                    width: `${project.progress}%`,
+                                                    width: `${project.progress ?? 0}%`,
                                                 }}
                                             ></div>
                                         </div>
                                         <span className="text-white text-sm">
-                                            {project.progress}%
+                                            {project.progress ?? 0}%
                                         </span>
                                     </div>
                                 </div>
@@ -124,8 +124,8 @@ export default function Project() {
                                         Time Spent:
                                     </span>
                                     <span className="text-white text-sm">
-                                        {project.timeSpent}h /{" "}
-                                        {project.estimatedTime}h
+                                        {project.timeSpent ?? 0}h /{" "}
+                                        {project.estimatedTime ?? 0}h
                                     </span>
                                 </div>
 
@@ -134,37 +134,40 @@ export default function Project() {
                                         Budget:
                                     </span>
                                     <span className="text-white text-sm">
-                                        ${project.actualCost} / $
-                                        {project.budget}
+                                        ${project.actualCost ?? 0} / $
+                                        {project.budget ?? 0}
                                     </span>
                                 </div>
                             </div>
 
-                            {project.components.length > 0 && (
-                                <div className="mt-4">
-                                    <p className="text-blue-200 text-sm mb-2">
-                                        Components:
-                                    </p>
-                                    <div className="flex flex-wrap gap-1">
-                                        {project.components
-                                            .slice(0, 3)
-                                            .map((component, index) => (
-                                                <span
-                                                    key={index}
-                                                    className="bg-blue-500/20 text-blue-200 px-2 py-1 rounded text-xs"
-                                                >
-                                                    {component.name}
+                            {project.components &&
+                                project.components.length > 0 && (
+                                    <div className="mt-4">
+                                        <p className="text-blue-200 text-sm mb-2">
+                                            Components:
+                                        </p>
+                                        <div className="flex flex-wrap gap-1">
+                                            {project.components
+                                                .slice(0, 3)
+                                                .map((component, index) => (
+                                                    <span
+                                                        key={index}
+                                                        className="bg-blue-500/20 text-blue-200 px-2 py-1 rounded text-xs"
+                                                    >
+                                                        {component.name}
+                                                    </span>
+                                                ))}
+                                            {project.components.length > 3 && (
+                                                <span className="bg-gray-500/20 text-gray-300 px-2 py-1 rounded text-xs">
+                                                    +
+                                                    {project.components.length -
+                                                        3}{" "}
+                                                    more
                                                 </span>
-                                            ))}
-                                        {project.components.length > 3 && (
-                                            <span className="bg-gray-500/20 text-gray-300 px-2 py-1 rounded text-xs">
-                                                +{project.components.length - 3}{" "}
-                                                more
-                                            </span>
-                                        )}
+                                            )}
+                                        </div>
                                     </div>
-                                </div>
-                            )}
+                                )}
 
                             <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/10">
                                 <div className="flex items-center space-x-2">
@@ -187,10 +190,7 @@ export default function Project() {
                                         </a>
                                     )}
                                     <Button
-                                        onClick={() => {
-                                            setSelectedProject(project.id);
-                                            setShowAddProject(true);
-                                        }}
+                                        onClick={() => {}}
                                         className="text-green-400 hover:text-green-300"
                                     >
                                         <Edit3 className="w-4 h-4" />

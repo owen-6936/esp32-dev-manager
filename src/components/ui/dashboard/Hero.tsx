@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Calculator, MapPin, Plus } from "lucide-react";
 import Button from "../../Button";
-import AddProject from "../Modals/AddProject";
+import AddProject from "../Modals/ProjectForm";
 import { useState } from "react";
 import PinMapper from "../Modals/PinMapper";
 import PowerCalculator from "../Modals/PowerCalculator";
