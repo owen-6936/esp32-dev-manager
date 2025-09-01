@@ -9,8 +9,8 @@ import { useGLTF } from "@react-three/drei";
 useGLTF.preload("/models/esp32-s3-draco.glb");
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    {/* Wrap the entire app in AliveScope */}
-    <RouterProvider router={router} />
-  </StrictMode>,
+    <StrictMode>
+        {/* Wrap the entire app in AliveScope */}
+        <RouterProvider router={router} />
+    </StrictMode>,
 );

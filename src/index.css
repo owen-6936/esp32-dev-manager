@@ -1,86 +1,86 @@
 @import "tailwindcss";
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 @utility bg-gradient {
-  @apply bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900;
+    @apply bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900;
 }
 
 @utility bg-gradient-btn {
-  @apply bg-gradient-to-r from-blue-500 to-purple-600  px-4 py-2 rounded-lg bg-gradient-btn-hover text-white;
+    @apply bg-gradient-to-r from-blue-500 to-purple-600  px-4 py-2 rounded-lg bg-gradient-btn-hover text-white;
 }
 
 @utility bg-gradient-btn-hover {
-  @apply hover:from-blue-600 hover:to-purple-700 transition-all shadow-lg;
+    @apply hover:from-blue-600 hover:to-purple-700 transition-all shadow-lg;
 }
 
 @utility text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600;
 }
 
 @utility min-height-screen {
-  @apply min-h-[calc(100vh-5rem)];
+    @apply min-h-[calc(100vh-5rem)];
 }
 
 @utility scrollbar-none {
-  scrollbar-width: none;
+    scrollbar-width: none;
 }
 
 @layer utilities {
-  .text-gradient {
-    @apply bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500 bg-clip-text text-transparent;
-  }
-
-  /* Animate gradient "flow" */
-  .animate-gradient {
-    background-size: 200% auto;
-    animation: gradient-flow 4s linear infinite;
-  }
-
-  @keyframes gradient-flow {
-    0% {
-      background-position: 0% center;
+    .text-gradient {
+        @apply bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500 bg-clip-text text-transparent;
     }
-    100% {
-      background-position: -200% center;
+
+    /* Animate gradient "flow" */
+    .animate-gradient {
+        background-size: 200% auto;
+        animation: gradient-flow 4s linear infinite;
     }
-  }
+
+    @keyframes gradient-flow {
+        0% {
+            background-position: 0% center;
+        }
+        100% {
+            background-position: -200% center;
+        }
+    }
 }
 
 @keyframes gradient-glow {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .animate-gradient-glow {
-  background-size: 200% 200%;
-  animation: gradient-glow 5s ease infinite;
+    background-size: 200% 200%;
+    animation: gradient-glow 5s ease infinite;
 }
 
 #root {
-  @apply min-h-screen bg-gradient;
+    @apply min-h-screen bg-gradient;
 }
 
 option {
-  @apply text-gray-800 bg-white;
+    @apply text-gray-800 bg-white;
 }
 
 select {
-  @apply scrollbar-none;
+    @apply scrollbar-none;
 }
 
 select[multiple] option {
-  @apply text-white bg-transparent p-1;
+    @apply text-white bg-transparent p-1;
 }
 select[multiple] option:hover {
-  @apply bg-white/10;
+    @apply bg-white/10;
 }

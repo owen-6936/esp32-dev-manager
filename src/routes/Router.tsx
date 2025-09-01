@@ -10,40 +10,40 @@ import Account from "../components/pages/Account";
 
 // We can define our routes as an array of objects.
 export const routes = [
-  {
-    path: "/",
-    element: <RootLayout />,
-    children: [
-      {
-        index: true,
-        element: <Dashboard />,
-      },
-      {
-        path: "/project",
-        element: <Project />,
-      },
-      {
-        path: "/analytics",
-        element: <Analytics />,
-      },
-      {
-        path: "/learning",
-        element: <Learning />,
-      },
-      {
-        path: "/inventory",
-        element: <Inventory />,
-      },
-      {
-        path: "/journal",
-        element: <Journal />,
-      },
-      {
-        path: "/account",
-        element: <Account />,
-      },
-    ],
-  },
+    {
+        path: "/",
+        element: <RootLayout />,
+        children: [
+            {
+                index: true,
+                element: <Dashboard />,
+            },
+            {
+                path: "/project",
+                element: <Project />,
+            },
+            {
+                path: "/analytics",
+                element: <Analytics />,
+            },
+            {
+                path: "/learning",
+                element: <Learning />,
+            },
+            {
+                path: "/inventory",
+                element: <Inventory />,
+            },
+            {
+                path: "/journal",
+                element: <Journal />,
+            },
+            {
+                path: "/account",
+                element: <Account />,
+            },
+        ],
+    },
 ];
 
 // Then, we create a router instance from our routes.

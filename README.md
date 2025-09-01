@@ -5,11 +5,11 @@
 ## Live Preview
 
 <!--PREVIEW_URL_START-->
-[Preview Deployment](https://esp32-dev-manager-4alnwg24v-owens-projects-2ab3ca8c.vercel.app)
+[Preview Deployment](https://esp32-dev-manager-lpys5ig1a-owens-projects-2ab3ca8c.vercel.app)
 <!--PREVIEW_URL_END-->
 
 <!--QR_CODE_START-->
-![Scan to Preview](https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fesp32-dev-manager-4alnwg24v-owens-projects-2ab3ca8c.vercel.app%0A)
+![Scan to Preview](https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fesp32-dev-manager-lpys5ig1a-owens-projects-2ab3ca8c.vercel.app%0A)
 <!--QR_CODE_END-->
 
 A comprehensive full-stack application designed to track and manage all aspects of your embedded systems development journey, with a special focus on ESP32 S3 projects.
@@ -118,9 +118,9 @@ This project uses a custom GitHub Action to automatically post Vercel preview li
 ### 🔧 How It Works
 
 - When a PR is opened or updated, a comment is posted with:
-  - A live preview link (based on the PR number)
-  - A QR code for quick mobile access
-  - Auto-cleanup of older preview comments
+    - A live preview link (based on the PR number)
+    - A QR code for quick mobile access
+    - Auto-cleanup of older preview comments
 
 ### 🛠️ Workflow Files
 
@@ -132,10 +132,10 @@ This project uses a custom GitHub Action to automatically post Vercel preview li
 ### 🧪 Example Output
 
 > 🚀 **Vercel Preview Available**  
-> 🔗 [View Live Preview](https://esp32-dev-manager-git-pr-42-owen-6936.vercel.app)  
+> 🔗 [View Live Preview](https://esp32-dev-manager-git-pr-42-owen-6936.vercel.app)
 >
 > 📱 Scan on mobile:  
-> ![QR Code](https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://esp32-dev-manager-git-pr-42-owen-6936.vercel.app)  
+> ![QR Code](https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://esp32-dev-manager-git-pr-42-owen-6936.vercel.app)
 >
 > 🧪 This preview is auto-generated for PR #42.
 

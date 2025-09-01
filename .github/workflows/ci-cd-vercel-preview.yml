@@ -1,101 +1,101 @@
 name: Vercel CI/CD
 
 on:
-  pull_request:
-    types: [opened, synchronize]
-  push:
-    branches:
-      - main
+    pull_request:
+        types: [opened, synchronize]
+    push:
+        branches:
+            - main
 
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    outputs:
-      vercel_url: ${{ steps.deploy.outputs.vercel_url }}
-      pr_number: ${{ github.event.pull_request.number }}
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+    build-and-deploy:
+        runs-on: ubuntu-latest
+        outputs:
+            vercel_url: ${{ steps.deploy.outputs.vercel_url }}
+            pr_number: ${{ github.event.pull_request.number }}
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22.x
-          cache: npm
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 22.x
+                  cache: npm
 
-      - name: Install Vercel CLI
-        run: npm install -g vercel@latest
+            - name: Install Vercel CLI
+              run: npm install -g vercel@latest
 
-      - name: Build and Deploy to Vercel
-        id: deploy
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-        run: |
-          vercel link --cwd . --yes --project $VERCEL_PROJECT_ID --scope $VERCEL_ORG_ID --token $VERCEL_TOKEN
-          vercel pull --yes --token $VERCEL_TOKEN
+            - name: Build and Deploy to Vercel
+              id: deploy
+              env:
+                  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+                  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+                  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+              run: |
+                  vercel link --cwd . --yes --project $VERCEL_PROJECT_ID --scope $VERCEL_ORG_ID --token $VERCEL_TOKEN
+                  vercel pull --yes --token $VERCEL_TOKEN
 
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            vercel build
-            vercel_url=$(vercel deploy --prebuilt --cwd . --token $VERCEL_TOKEN)
-          else
-            vercel build --prod
-            vercel_url=$(vercel deploy --prebuilt --cwd . --prod --token $VERCEL_TOKEN)
-          fi
+                  if [ "${{ github.event_name }}" = "pull_request" ]; then
+                    vercel build
+                    vercel_url=$(vercel deploy --prebuilt --cwd . --token $VERCEL_TOKEN)
+                  else
+                    vercel build --prod
+                    vercel_url=$(vercel deploy --prebuilt --cwd . --prod --token $VERCEL_TOKEN)
+                  fi
 
-          echo "vercel_url=$vercel_url" >> $GITHUB_OUTPUT
-          echo "VERCEL_URL=$vercel_url" >> $GITHUB_ENV
+                  echo "vercel_url=$vercel_url" >> $GITHUB_OUTPUT
+                  echo "VERCEL_URL=$vercel_url" >> $GITHUB_ENV
 
-      - name: Export Preview URL to Environment
+            - name: Export Preview URL to Environment
+              if: github.event_name == 'pull_request'
+              run: echo "VERCEL_URL=${{ steps.deploy.outputs.vercel_url }}" >> $GITHUB_ENV
+
+            - name: Set up JQ
+              if: github.event_name == 'pull_request'
+              run: sudo apt-get install -y jq
+
+            - name: Update README with Preview URL and QR Code
+              if: github.event_name == 'pull_request'
+              run: |
+                  ENCODED_URL=$(echo "${VERCEL_URL}" | jq -sRr @uri)
+                  sed -i "/<!--PREVIEW_URL_START-->/, /<!--PREVIEW_URL_END-->/c\<!--PREVIEW_URL_START-->\n[Preview Deployment](${VERCEL_URL})\n<!--PREVIEW_URL_END-->" README.md
+                  sed -i "/<!--QR_CODE_START-->/, /<!--QR_CODE_END-->/c\<!--QR_CODE_START-->\n![Scan to Preview](https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${ENCODED_URL})\n<!--QR_CODE_END-->" README.md
+
+            - name: Commit README update
+              if: github.event_name == 'pull_request'
+              env:
+                  TARGET_BRANCH: ${{ github.head_ref }}
+              run: |
+                  git config --global user.name "github-actions"
+                  git config --global user.email "github-actions@github.com"
+                  git fetch origin $TARGET_BRANCH
+                  git checkout $TARGET_BRANCH
+                  git pull origin $TARGET_BRANCH
+                  git add README.md
+                  git commit -m "Update README with Vercel preview and QR code" || echo "No changes to commit"
+                  git push origin $TARGET_BRANCH
+
+    comment:
         if: github.event_name == 'pull_request'
-        run: echo "VERCEL_URL=${{ steps.deploy.outputs.vercel_url }}" >> $GITHUB_ENV
+        needs: build-and-deploy
+        runs-on: ubuntu-latest
+        permissions:
+            issues: write
+            pull-requests: write
+        steps:
+            - name: Post Vercel Preview Comment
+              uses: peter-evans/create-or-update-comment@v4
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  issue-number: ${{ needs.build-and-deploy.outputs.pr_number }}
+                  comment-id: vercel-preview-${{ needs.build-and-deploy.outputs.pr_number }}
+                  edit-mode: replace
+                  body: |
+                      🚀 **Vercel Preview Available**
+                      🔗 [View Live Preview](${{ needs.build-and-deploy.outputs.vercel_url }})
 
-      - name: Set up JQ
-        if: github.event_name == 'pull_request'
-        run: sudo apt-get install -y jq
+                      📱 Scan on mobile:
+                      ![QR Code](https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${{ needs.build-and-deploy.outputs.vercel_url }})
 
-      - name: Update README with Preview URL and QR Code
-        if: github.event_name == 'pull_request'
-        run: |
-          ENCODED_URL=$(echo "${VERCEL_URL}" | jq -sRr @uri)
-          sed -i "/<!--PREVIEW_URL_START-->/, /<!--PREVIEW_URL_END-->/c\<!--PREVIEW_URL_START-->\n[Preview Deployment](${VERCEL_URL})\n<!--PREVIEW_URL_END-->" README.md
-          sed -i "/<!--QR_CODE_START-->/, /<!--QR_CODE_END-->/c\<!--QR_CODE_START-->\n![Scan to Preview](https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${ENCODED_URL})\n<!--QR_CODE_END-->" README.md
-
-      - name: Commit README update
-        if: github.event_name == 'pull_request'
-        env:
-          TARGET_BRANCH: ${{ github.head_ref }}
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-          git fetch origin $TARGET_BRANCH
-          git checkout $TARGET_BRANCH
-          git pull origin $TARGET_BRANCH
-          git add README.md
-          git commit -m "Update README with Vercel preview and QR code" || echo "No changes to commit"
-          git push origin $TARGET_BRANCH
-
-  comment:
-    if: github.event_name == 'pull_request'
-    needs: build-and-deploy
-    runs-on: ubuntu-latest
-    permissions:
-      issues: write
-      pull-requests: write
-    steps:
-      - name: Post Vercel Preview Comment
-        uses: peter-evans/create-or-update-comment@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          issue-number: ${{ needs.build-and-deploy.outputs.pr_number }}
-          comment-id: vercel-preview-${{ needs.build-and-deploy.outputs.pr_number }}
-          edit-mode: replace
-          body: |
-            🚀 **Vercel Preview Available**
-            🔗 [View Live Preview](${{ needs.build-and-deploy.outputs.vercel_url }})
-
-            📱 Scan on mobile:
-            ![QR Code](https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${{ needs.build-and-deploy.outputs.vercel_url }})
-
-            🧪 This preview is auto-generated for PR #${{ needs.build-and-deploy.outputs.pr_number }}.
+                      🧪 This preview is auto-generated for PR #${{ needs.build-and-deploy.outputs.pr_number }}.
