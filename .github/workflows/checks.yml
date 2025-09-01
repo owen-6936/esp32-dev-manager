@@ -1,49 +1,49 @@
 name: Node.js CI and Community Management
 
 on:
-  push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
-  issues:
-    types: [opened]
+    push:
+        branches: ["main"]
+    pull_request:
+        branches: ["main"]
+    issues:
+        types: [opened]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x, 22.x]
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+    build:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [18.x, 20.x, 22.x]
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v4
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ matrix.node-version }}
+                  cache: "npm"
 
-      - name: Install Dependencies
-        run: npm ci
+            - name: Install Dependencies
+              run: npm ci
 
-      - name: Run Linter
-        run: npm run lint
+            - name: Run Linter
+              run: npm run lint
 
-      - name: Run Tests
-        run: npm test
+            - name: Run Tests
+              run: npm test
 
-  first-interaction:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'issues' || github.event.action == 'opened'
-    permissions:
-      issues: write
-      pull-requests: write
+    first-interaction:
+        runs-on: ubuntu-latest
+        if: github.event_name == 'issues' || github.event.action == 'opened'
+        permissions:
+            issues: write
+            pull-requests: write
 
-    steps:
-      - name: First Interaction
-        uses: actions/first-interaction@v1.3.0
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          issue-message: "Hello and welcome to the project! Thanks for opening your first issue. We're excited to have you here!"
-          pr-message: "Hello and welcome to the project! Thanks for your first pull request. We'll be reviewing it shortly!"
+        steps:
+            - name: First Interaction
+              uses: actions/first-interaction@v1.3.0
+              with:
+                  repo-token: ${{ secrets.GITHUB_TOKEN }}
+                  issue-message: "Hello and welcome to the project! Thanks for opening your first issue. We're excited to have you here!"
+                  pr-message: "Hello and welcome to the project! Thanks for your first pull request. We'll be reviewing it shortly!"
