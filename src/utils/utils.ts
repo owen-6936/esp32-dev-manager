@@ -51,4 +51,9 @@ function cn(...classes: string[]) {
     return classes.filter(Boolean).join(" ");
 }
 
-export { getStatusColor, getDifficultyColor, getRarityColor, cn };
+const inputClass = (errors: Record<string, string>, field: string) =>
+    `w-full px-3 py-2 bg-white/10 border ${
+        errors[field] ? "border-red-500" : "border-white/20"
+    } rounded-lg text-white placeholder-blue-200`;
+
+export { getStatusColor, getDifficultyColor, getRarityColor, cn, inputClass };
