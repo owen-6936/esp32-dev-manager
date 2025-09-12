@@ -36,7 +36,7 @@
     },
     "dependencies": {
         "@headlessui/react": "^2.2.7",
-        "@react-three/drei": "^10.7.2",
+        "@react-three/drei": "^10.7.3",
         "@react-three/fiber": "^9.3.0",
         "framer-motion": "^12.23.12",
         "lottie-react": "^2.4.1",
