@@ -58,6 +58,7 @@ const inputClass = (errors: Record<string, string>, field: string) =>
 
 /**
  * UUID v4 generator using cryptographically secure browser APIs.
+ */
 export function generateId(): string {
     if (
         typeof crypto !== "undefined" &&
@@ -66,7 +67,7 @@ export function generateId(): string {
         return crypto.randomUUID();
     }
     // Fallback: RFC-4122 v4 via getRandomValues
-    // Fallback: RFC-4122 v4 via getRandomValues
+    if (typeof crypto !== "undefined" && crypto.getRandomValues) {
         const bytes = new Uint8Array(16);
         crypto.getRandomValues(bytes);
         bytes[6] = (bytes[6] & 0x0f) | 0x40; // version 4
@@ -78,4 +79,6 @@ export function generateId(): string {
     }
     // Never fall back to insecure randomness for identifiers.
     throw new Error("Secure random UUID generation is unavailable in this environment.");
+}
+
 export { getStatusColor, getDifficultyColor, getRarityColor, cn, inputClass };
