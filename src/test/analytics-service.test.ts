@@ -16,7 +16,6 @@ import {
 
 const LS_VIEWS = "esp32-analytics-views";
 const LS_EVENTS = "esp32-analytics-events";
-const LS_SESSION = "esp32-analytics-session";
 
 beforeEach(() => {
     localStorage.clear();
