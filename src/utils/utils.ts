@@ -57,8 +57,7 @@ const inputClass = (errors: Record<string, string>, field: string) =>
     } rounded-lg text-white placeholder-blue-200`;
 
 /**
- * UUID v4 generator that works in every browser context, including HTTP on
- * mobile (where `crypto.randomUUID` is only available in secure contexts).
+ * UUID v4 generator that works in browser contexts with Web Crypto support.
  */
 export function generateId(): string {
     if (
@@ -67,7 +66,7 @@ export function generateId(): string {
     ) {
         return crypto.randomUUID();
     }
-    // Fallback: RFC-4122 v4 via getRandomValues (available everywhere)
+    // Fallback: RFC-4122 v4 via getRandomValues
     if (typeof crypto !== "undefined" && crypto.getRandomValues) {
         const bytes = new Uint8Array(16);
         crypto.getRandomValues(bytes);
@@ -78,11 +77,10 @@ export function generateId(): string {
             .join("");
         return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
     }
-    // Last resort: Math.random (non-cryptographic, but never throws)
-    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
-        const r = (Math.random() * 16) | 0;
-        return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
-    });
+    // Never fall back to insecure randomness for identifiers.
+    throw new Error(
+        "Secure random number generator is unavailable in this environment.",
+    );
 }
 
 export { getStatusColor, getDifficultyColor, getRarityColor, cn, inputClass };
