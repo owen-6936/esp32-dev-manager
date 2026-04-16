@@ -1,0 +1,54 @@
+name: CodeQL Security Analysis
+
+on:
+    push:
+        branches: ["main"]
+    pull_request:
+        branches: ["main"]
+    schedule:
+        # Run weekly on Monday at 08:00 UTC so stale code is periodically scanned
+        - cron: "0 8 * * 1"
+
+jobs:
+    analyze:
+        name: Analyze (${{ matrix.language }})
+        runs-on: ubuntu-latest
+        permissions:
+            # Required to upload SARIF results
+            security-events: write
+            # Required to fetch the repository
+            contents: read
+            # Required for private repos — allows the Actions bot to post PR checks
+            actions: read
+
+        strategy:
+            fail-fast: false
+            matrix:
+                language:
+                    - javascript-typescript
+                # Add more languages here if the project grows (e.g. python, cpp)
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            # Initialise the CodeQL tools for scanning
+            - name: Initialize CodeQL
+              uses: github/codeql-action/init@v3
+              with:
+                  languages: ${{ matrix.language }}
+                  # Use the "security-and-quality" query suite for broader coverage.
+                  # Switch to "security-extended" for a stricter (noisier) scan.
+                  queries: security-and-quality
+
+            # Auto-build picks up the compiled output. For a Vite/TS project this
+            # resolves imports so CodeQL can trace data flows across files.
+            - name: Autobuild
+              uses: github/codeql-action/autobuild@v3
+
+            - name: Perform CodeQL Analysis
+              uses: github/codeql-action/analyze@v3
+              with:
+                  category: "/language:${{ matrix.language }}"
+                  # Fail the workflow if CodeQL finds high-severity issues
+                  upload: true

@@ -1,4 +1,4 @@
-import { Code, Edit3, Github, Plus } from "lucide-react";
+import { Code, Edit3, Github, Plus, BookOpen } from "lucide-react";
 import Button from "../Button";
 import emptyAnimation from "../../assets/lottie/empty-state.json";
 import type { Project } from "../../types/project";
@@ -7,11 +7,13 @@ import EmptyState from "../EmptyState";
 import ProjectForm from "../ui/Modals/ProjectForm";
 import { useState } from "react";
 import CodeEditor from "../ui/Modals/CodeEditor";
+import TutorialPicker from "../ui/Modals/TutorialPicker";
 import useProjectStore from "../../store/project";
 
 export default function Project() {
     const [showCodeEditor, setShowCodeEditor] = useState(false);
     const [showAddProject, setShowAddProject] = useState(false);
+    const [showTutorialPicker, setShowTutorialPicker] = useState(false);
     const [selectedProject, setSelectedProject] = useState<string | null>(null);
     const projects = useProjectStore((state) => state.projects);
 
@@ -22,6 +24,9 @@ export default function Project() {
                     projectId={selectedProject ?? undefined}
                     setShowCodeEditor={setShowCodeEditor}
                 />
+            )}
+            {showTutorialPicker && (
+                <TutorialPicker onClose={() => setShowTutorialPicker(false)} />
             )}
             <div className="flex flex-wrap items-center justify-center gap-x-16 gap-y-4 sm:justify-between">
                 {showAddProject && (
@@ -39,6 +44,13 @@ export default function Project() {
                     My Projects
                 </h2>
                 <div className="flex space-x-2">
+                    <Button
+                        variant="gradient"
+                        onClick={() => setShowTutorialPicker(true)}
+                    >
+                        <BookOpen className="w-5 h-5" />
+                        <span>From Tutorial</span>
+                    </Button>
                     <Button
                         variant="gradient"
                         onClick={() => setShowCodeEditor(true)}
@@ -65,15 +77,24 @@ export default function Project() {
                     title="No Projects Yet"
                     mediaType="lottie"
                     media={emptyAnimation}
-                    message="Start by adding your first project to get started!"
+                    message="Start by adding your first project or clone a Freenove tutorial!"
                 >
-                    <Button
-                        variant="gradient"
-                        onClick={() => setShowAddProject(true)}
-                    >
-                        <Plus className="w-5 h-5" />
-                        <span>Add Project</span>
-                    </Button>
+                    <div className="flex gap-2">
+                        <Button
+                            variant="gradient"
+                            onClick={() => setShowTutorialPicker(true)}
+                        >
+                            <BookOpen className="w-5 h-5" />
+                            <span>From Tutorial</span>
+                        </Button>
+                        <Button
+                            variant="gradient"
+                            onClick={() => setShowAddProject(true)}
+                        >
+                            <Plus className="w-5 h-5" />
+                            <span>Add Project</span>
+                        </Button>
+                    </div>
                 </EmptyState>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -190,7 +211,10 @@ export default function Project() {
                                         </a>
                                     )}
                                     <Button
-                                        onClick={() => {}}
+                                        onClick={() => {
+                                            setSelectedProject(project.id);
+                                            setShowAddProject(true);
+                                        }}
                                         className="text-green-400 hover:text-green-300"
                                     >
                                         <Edit3 className="w-4 h-4" />

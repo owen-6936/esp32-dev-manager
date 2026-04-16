@@ -1,18 +1,93 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import type { Component } from "../../types/component";
-import { Plus } from "lucide-react";
+import { Plus, Pencil, Trash2 } from "lucide-react";
 import emptyBoxAnimation from "../../assets/lottie/empty-box.json";
 import EmptyState from "../EmptyState";
 import SearchAndFilter from "../SearchAndFilter";
 import Card from "../Card";
 import Button from "../Button";
 import AddComponent from "../ui/Modals/AddComponent";
+import useKitStore from "../../store/kit";
+import useComponentStore from "../../store/component";
+import { useProjects, useKits } from "../../hooks/useTutorialData";
+import type { ComponentCategory } from "../../types/component";
+
+/** Map tutorial hardware categories to component categories */
+function toComponentCategory(hw: string): ComponentCategory {
+    const map: Record<string, ComponentCategory> = {
+        led: "active", resistor: "passive", capacitor: "passive",
+        button: "active", buzzer: "active", sensor: "sensor",
+        motor: "actuator", display: "display", module: "active",
+        connector: "other", ic: "active", camera: "sensor",
+        relay: "active", potentiometer: "passive", misc: "other",
+    };
+    return map[hw] ?? "other";
+}
 
 export default function Inventory() {
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [filterCategory, setFilterCategory] = useState<string>("all");
     const [showAddComponent, setShowAddComponent] = useState<boolean>(false);
-    const components: Component[] = [];
+    const [editingComponent, setEditingComponent] = useState<Component | null>(null);
+
+    const { ownedSkus } = useKitStore();
+    const userComponents = useComponentStore((s) => s.components);
+    const deleteComponent = useComponentStore((s) => s.deleteComponent);
+    const { data: projects } = useProjects();
+    const { data: kits } = useKits();
+
+    // Derive components from kit projects, merge with user-added components
+    const components: Component[] = useMemo(() => {
+        // Resolve owned tiers directly from owned SKUs
+        const ownedTiers = new Set(
+            kits.filter((k) => ownedSkus.includes(k.sku)).map((k) => k.tier),
+        );
+        if (ownedTiers.size === 0) return userComponents;
+
+        // Step 1: per tier, take the max quantity of each component across that tier's projects
+        const perTierMax = new Map<string, Map<string, Component>>();
+        for (const tier of ownedTiers) {
+            const tierMap = new Map<string, Component>();
+            for (const p of projects) {
+                if (p.kitTier !== tier) continue;
+                for (const c of p.components) {
+                    const ex = tierMap.get(c.name);
+                    if (ex) {
+                        ex.quantity = Math.max(ex.quantity, c.quantity);
+                    } else {
+                        tierMap.set(c.name, {
+                            id: `kit-${c.name}`,
+                            name: c.name,
+                            category: toComponentCategory(c.category),
+                            quantity: c.quantity,
+                            supplier: "Freenove",
+                            partNumber: c.partNumber ?? "",
+                            inUse: 0,
+                            description: `Included in ${tier} kit`,
+                        });
+                    }
+                }
+            }
+            perTierMax.set(tier, tierMap);
+        }
+        // Step 2: sum across kits — each kit you own physically contributes its components
+        const derived = new Map<string, Component>();
+        for (const tierMap of perTierMax.values()) {
+            for (const [name, comp] of tierMap) {
+                const ex = derived.get(name);
+                if (ex) {
+                    ex.quantity += comp.quantity;
+                } else {
+                    derived.set(name, { ...comp });
+                }
+            }
+        }
+
+        // User-added components override kit-derived ones by id
+        const userIds = new Set(userComponents.map((c) => c.id));
+        const merged = [...derived.values()].filter((c) => !userIds.has(c.id));
+        return [...userComponents, ...merged];
+    }, [ownedSkus, kits, projects, userComponents]);
 
     const categories: string[] = Array.from(
         new Set(components.map((c) => c.category)),
@@ -45,6 +120,12 @@ export default function Inventory() {
             {showAddComponent && (
                 <AddComponent setShowAddComponent={setShowAddComponent} />
             )}
+            {editingComponent && (
+                <AddComponent
+                    setShowAddComponent={(show) => { if (!show) setEditingComponent(null); }}
+                    component={editingComponent}
+                />
+            )}
 
             {/* Search and Filter */}
             <SearchAndFilter
@@ -75,9 +156,34 @@ export default function Inventory() {
                                 <h3 className="text-lg font-bold text-white">
                                     {component.name}
                                 </h3>
-                                <span className="bg-blue-500/20 text-blue-200 px-2 py-1 rounded text-xs">
-                                    {component.category}
-                                </span>
+                                <div className="flex items-center gap-1">
+                                    <span className="bg-blue-500/20 text-blue-200 px-2 py-1 rounded text-xs">
+                                        {component.category}
+                                    </span>
+                                    {/* Edit/delete only for user-added components, not kit-derived */}
+                                    {!component.id.startsWith("kit-") && (
+                                        <>
+                                            <button
+                                                onClick={() => setEditingComponent(component)}
+                                                className="p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/10 transition-colors"
+                                                title="Edit component"
+                                            >
+                                                <Pencil className="w-3.5 h-3.5" />
+                                            </button>
+                                            <button
+                                                onClick={() => {
+                                                    if (window.confirm(`Delete "${component.name}"?`)) {
+                                                        deleteComponent(component.id);
+                                                    }
+                                                }}
+                                                className="p-1.5 rounded-lg text-white/40 hover:text-red-400 hover:bg-red-400/10 transition-colors"
+                                                title="Delete component"
+                                            >
+                                                <Trash2 className="w-3.5 h-3.5" />
+                                            </button>
+                                        </>
+                                    )}
+                                </div>
                             </div>
 
                             <p className="text-blue-200 text-sm mb-4">
