@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 // We need to mock import.meta.env before importing the module
-const envMock: Record<string, string | undefined> = {};
 
 vi.mock("@supabase/supabase-js", () => ({
     createClient: vi.fn(() => ({ from: vi.fn(), storage: { from: vi.fn() } })),
