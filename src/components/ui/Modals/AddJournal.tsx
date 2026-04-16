@@ -7,24 +7,35 @@ import { v4 as UUIDV4 } from "uuid";
 
 export default function AddJournal({
     setShowAddJournal,
+    entry,
 }: {
     setShowAddJournal: (show: boolean) => void;
+    /** When provided the modal is in edit mode */
+    entry?: JournalEntry;
 }) {
+    const isEditMode = !!entry;
     const addJournalEntry = useJournalStore((state) => state.addJournalEntry);
+    const updateJournalEntry = useJournalStore((state) => state.updateJournalEntry);
     const projects = useProjectStore((state) => state.projects);
 
-    const initialEntry: Partial<JournalEntry> = {
-        type: "progress",
-        title: "",
-        content: "",
-        tags: [],
-    };
+    const initialEntry: Partial<JournalEntry> = entry
+        ? { ...entry }
+        : {
+            type: "progress",
+            title: "",
+            content: "",
+            tags: [],
+        };
 
     const [newJournalEntry, setNewJournalEntry] =
         useState<Partial<JournalEntry>>(initialEntry);
-    const [selectedProject, setSelectedProject] = useState<string | null>(null);
+    const [selectedProject, setSelectedProject] = useState<string | null>(
+        entry?.projectId ?? null,
+    );
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [tagsInput, setTagsInput] = useState<string>("");
+    const [tagsInput, setTagsInput] = useState<string>(
+        entry?.tags?.join(", ") ?? "",
+    );
 
     const { errors, validate, validateSingleField } = useFormValidator({
         title: { required: true, minLength: 3 },
@@ -44,22 +55,32 @@ export default function AddJournal({
         });
 
         if (isValid) {
-            addJournalEntry({
-                id: UUIDV4(),
-                title: (newJournalEntry.title || "").trim(),
-                content: (newJournalEntry.content || "").trim(),
-                projectId: selectedProject ?? "",
-                date: new Date(),
-                createdAt: new Date(),
-                tags: Array.isArray(newJournalEntry.tags)
-                    ? newJournalEntry.tags
-                    : [],
-                type: newJournalEntry.type || "progress",
-            });
+            if (isEditMode && entry) {
+                updateJournalEntry(entry.id, {
+                    title: (newJournalEntry.title || "").trim(),
+                    content: (newJournalEntry.content || "").trim(),
+                    projectId: selectedProject ?? "",
+                    tags: Array.isArray(newJournalEntry.tags)
+                        ? newJournalEntry.tags
+                        : [],
+                    type: newJournalEntry.type || "progress",
+                    updatedAt: new Date(),
+                });
+            } else {
+                addJournalEntry({
+                    id: UUIDV4(),
+                    title: (newJournalEntry.title || "").trim(),
+                    content: (newJournalEntry.content || "").trim(),
+                    projectId: selectedProject ?? "",
+                    date: new Date(),
+                    createdAt: new Date(),
+                    tags: Array.isArray(newJournalEntry.tags)
+                        ? newJournalEntry.tags
+                        : [],
+                    type: newJournalEntry.type || "progress",
+                });
+            }
             setShowAddJournal(false);
-            setNewJournalEntry(initialEntry);
-            setSelectedProject(null);
-            setTagsInput("");
         }
 
         setIsSubmitting(false);
@@ -67,14 +88,10 @@ export default function AddJournal({
 
     function handleCancel() {
         setShowAddJournal(false);
-        setNewJournalEntry(initialEntry);
-        setSelectedProject(null);
-        setTagsInput("");
     }
 
     const inputClass = (field: string) =>
-        `w-full px-3 py-2 bg-white/10 border ${
-            errors[field] ? "border-red-500" : "border-white/20"
+        `w-full px-3 py-2 bg-white/10 border ${errors[field] ? "border-red-500" : "border-white/20"
         } rounded-lg text-white placeholder-blue-200`;
 
     return (
@@ -84,7 +101,7 @@ export default function AddJournal({
                 className="bg-slate-800 rounded-xl p-6 w-full max-w-2xl border border-white/20"
             >
                 <h3 className="text-xl font-bold text-white mb-4">
-                    Add Journal Entry
+                    {isEditMode ? "Edit Journal Entry" : "Add Journal Entry"}
                 </h3>
                 <div className="space-y-4">
                     {/* Type and Project */}
@@ -194,7 +211,7 @@ export default function AddJournal({
                         disabled={isSubmitting}
                         className="flex-1 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-all disabled:opacity-50"
                     >
-                        Add Entry
+                        {isEditMode ? "Save Changes" : "Add Entry"}
                     </button>
                     <button
                         type="button"

@@ -1,15 +1,19 @@
 import { useState } from "react";
 import useComponentStore from "../../../store/component";
-import type { ComponentCategory } from "../../../types/component";
+import type { Component, ComponentCategory } from "../../../types/component";
 import { useFormValidator } from "../../../hooks/useFormValidator";
 import { v4 as UUIDV4 } from "uuid";
 
 export default function AddComponent({
     setShowAddComponent,
+    component,
 }: {
     setShowAddComponent: (show: boolean) => void;
+    /** When provided the modal is in edit mode */
+    component?: Component;
 }) {
-    const initialComponent = {
+    const isEditMode = !!component;
+    const initialComponent = component ?? {
         id: "",
         inUse: 0,
         name: "",
@@ -30,14 +34,14 @@ export default function AddComponent({
     });
 
     const addComponent = useComponentStore((state) => state.addComponent);
+    const updateComponent = useComponentStore((state) => state.updateComponent);
 
     const handleBlur = (field: string, value: string | number) => {
         validateSingleField(field, String(value ?? ""));
     };
 
     const inputClass = (field: string) =>
-        `w-full px-3 py-2 bg-white/10 border ${
-            errors[field] ? "border-red-500" : "border-white/20"
+        `w-full px-3 py-2 bg-white/10 border ${errors[field] ? "border-red-500" : "border-white/20"
         } rounded-lg text-white placeholder-blue-200`;
 
     function handleSubmit() {
@@ -48,22 +52,24 @@ export default function AddComponent({
         });
 
         if (isValid) {
-            addComponent({ ...newComponent, id: UUIDV4() });
+            if (isEditMode && component) {
+                updateComponent(component.id, { ...newComponent });
+            } else {
+                addComponent({ ...newComponent, id: UUIDV4() });
+            }
             setShowAddComponent(false);
-            setNewComponent(initialComponent);
         }
     }
 
     function handleCancel() {
         setShowAddComponent(false);
-        setNewComponent(initialComponent);
     }
 
     return (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
             <div className="bg-slate-800 rounded-xl p-6 w-full max-w-md border border-white/20 max-h-[90vh] overflow-y-auto">
                 <h3 className="text-xl font-bold text-white mb-4">
-                    Add Component
+                    {isEditMode ? "Edit Component" : "Add Component"}
                 </h3>
                 <div className="space-y-4">
                     {/* Name */}
@@ -128,8 +134,8 @@ export default function AddComponent({
                                             value === ""
                                                 ? 0
                                                 : isNaN(Number(value))
-                                                  ? newComponent.quantity
-                                                  : parseInt(value, 10),
+                                                    ? newComponent.quantity
+                                                    : parseInt(value, 10),
                                     });
                                 }}
                                 onBlur={(e) =>
@@ -160,8 +166,8 @@ export default function AddComponent({
                                             value === ""
                                                 ? 0
                                                 : isNaN(Number(value))
-                                                  ? newComponent.unitPrice
-                                                  : parseFloat(value),
+                                                    ? newComponent.unitPrice
+                                                    : parseFloat(value),
                                     });
                                 }}
                                 onBlur={(e) =>
@@ -226,7 +232,7 @@ export default function AddComponent({
                         onClick={handleSubmit}
                         className="flex-1 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-all"
                     >
-                        Add Component
+                        {isEditMode ? "Save Changes" : "Add Component"}
                     </button>
                     <button
                         type="button"
