@@ -29,6 +29,7 @@
     "private": true,
     "version": "0.1.0-beta.1",
     "type": "module",
+    "packageManager": "pnpm@10.33.0",
     "scripts": {
         "dev": "vite --host",
         "build": "tsc -b && vite build",
