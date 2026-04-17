@@ -53,11 +53,13 @@ export interface Project {
     photos?: string[];
     powerConsumption?: number;
     tasks?: task[];
+    linkedTutorialId?: string; // Freenove project id (e.g. "01.1") when created from tutorial
 }
 
 export interface ProjectStoreState {
     projects: Project[];
     getProjectById: (id: string) => Project | undefined;
     addProject: (project: Project) => void;
+    updateProject: (id: string, fields: Partial<Project>) => void;
     removeProject: (id: string) => void;
 }

@@ -7,7 +7,6 @@ import { TrendingUp } from "lucide-react";
 export default function Stats({
     totalProjects,
     completedProjects,
-    totalComponents,
     timeSpent,
     streakDays,
     achievements,
@@ -24,7 +23,6 @@ export default function Stats({
                     {stats({
                         totalProjects,
                         completedProjects,
-                        totalComponents,
                         timeSpent,
                         streakDays,
                         achievements,

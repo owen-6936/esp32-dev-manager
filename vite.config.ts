@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
+import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react-swc";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
@@ -11,15 +11,22 @@ export default defineConfig({
         tailwindcss(),
         VitePWA({
             registerType: "autoUpdate",
-            includeAssets: ["favicon.svg", "robots.txt"],
+            includeAssets: [
+                "favicon.svg",
+                "robots.txt",
+                "pwa-192x192.png",
+                "pwa-512x512.png",
+            ],
             manifest: {
-                name: "ESP32 Dashboard",
-                short_name: "ESP32Dash",
-                description: "Interactive ESP32-S3 Dashboard",
+                name: "ESP32 Dev Manager",
+                short_name: "ESP32 Dev",
+                description:
+                    "Complete embedded systems development tracker for ESP32-S3 projects",
                 theme_color: "#1e293b",
                 background_color: "#0f172a",
                 display: "standalone",
-
+                start_url: "/",
+                scope: "/",
                 icons: [
                     {
                         src: "pwa-192x192.png",
@@ -75,5 +82,30 @@ export default defineConfig({
     build: {
         chunkSizeWarningLimit: 5000, // set chunk size warning limit to 5MB
         outDir: "dist",
+    },
+    test: {
+        globals: true,
+        environment: "jsdom",
+        setupFiles: ["./src/test/setup.ts"],
+        include: ["src/**/*.test.{ts,tsx}"],
+        css: true,
+        coverage: {
+            provider: "v8",
+            reporter: ["text", "html", "lcov"],
+            exclude: [
+                "node_modules/**",
+                "src/test/**",
+                "*.config.*",
+                "src/vite-env.d.ts",
+                "src/main.tsx",
+                "dist/**",
+            ],
+            thresholds: {
+                lines: 85,
+                functions: 85,
+                branches: 80,
+                statements: 85,
+            },
+        },
     },
 });

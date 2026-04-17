@@ -14,5 +14,9 @@ export interface JournalEntry {
 export interface JournalState {
     journalEntries: JournalEntry[];
     addJournalEntry: (entry: JournalEntry) => void;
+    updateJournalEntry: (
+        id: string,
+        updatedFields: Partial<JournalEntry>,
+    ) => void;
     removeJournalEntry: (id: string) => void;
 }
