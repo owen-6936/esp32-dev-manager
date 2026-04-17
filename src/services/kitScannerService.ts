@@ -740,7 +740,6 @@ function buildKitRow(sku: string) {
     // Prefer the authoritative SEED_KITS entry
     const seed = [...SEED_KITS].find((k) => k.sku === sku);
     if (seed) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const {
             color: _color,
             tier_order: _tier_order,

@@ -428,7 +428,6 @@ export async function syncCodeFiles(
         };
     }
 
-    const _defaultRepo = FREENOVE_REPOS.ultimate;
     let filesStored = 0;
 
     /** Resolve the repo config for a kit-scoped sketch_id (e.g. "basic-01.1") */

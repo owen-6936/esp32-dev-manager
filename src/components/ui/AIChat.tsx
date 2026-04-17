@@ -163,7 +163,7 @@ export default function AIChat() {
     const addJournalEntry = useJournalStore((s) => s.addJournalEntry);
     const updateJournalEntry = useJournalStore((s) => s.updateJournalEntry);
     const removeJournalEntry = useJournalStore((s) => s.removeJournalEntry);
-    const { totalXp, progress: progressProjects } = useProgressStore();
+    // const { totalXp, progress: progressProjects } = useProgressStore();
     // NOTE: use useJournalStore.getState() / useProjectStore.getState() inside callbacks — avoids stale closure
 
     // Process AI tool calls after streaming completes
@@ -408,7 +408,7 @@ export default function AIChat() {
                     break;
             }
         }
-    }, [navigate, addJournalEntry, updateJournalEntry, removeJournalEntry, setMessages, totalXp, progressProjects]);
+    }, [navigate, addJournalEntry, updateJournalEntry, removeJournalEntry, setMessages]);
 
     // Auto-dismiss action feedback
     useEffect(() => {
@@ -504,7 +504,7 @@ export default function AIChat() {
                 setStreaming(false);
             },
         }, controller.signal, { toolsEnabled });
-    }, [messages, streaming, toolsEnabled]);
+    }, [messages, streaming, toolsEnabled, handleToolCalls]);
 
     const stopStreaming = () => {
         abortRef.current?.abort();

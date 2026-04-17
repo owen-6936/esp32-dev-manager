@@ -8,8 +8,6 @@ import type {
     FreenoveKit,
     CategoryMeta,
     LearningPath,
-    TutorialCategory,
-    DifficultyLevel,
 } from "../types/tutorial";
 import {
     fetchProjects,

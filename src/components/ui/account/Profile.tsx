@@ -6,7 +6,6 @@ import {
     Mail,
     MapPin,
     Smartphone,
-    User,
     Save,
     X,
 } from "lucide-react";
