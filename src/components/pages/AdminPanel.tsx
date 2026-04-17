@@ -2,13 +2,12 @@ import { useState, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
     Shield, Database, BookOpen, Layers, Package, RefreshCw,
-    Settings, BarChart3, FolderOpen, ExternalLink, Plus, Edit, Trash2,
+    Settings, BarChart3, FolderOpen, ExternalLink, Edit, Trash2,
     CloudUpload, Check, AlertCircle, Loader2, CircleAlert, Zap,
     Search, Filter, Star, Clock, Globe, Github, Scan, Activity,
 } from "lucide-react";
 import GlassCard, { GlassCardHeader } from "../ui/glass/GlassCard";
 import GlassBadge from "../ui/glass/GlassBadge";
-import GlassInput from "../ui/glass/GlassInput";
 import { isSupabaseConfigured } from "../../lib/supabase";
 import { seedStaticData, syncCodeFiles, getSyncLogs, type SyncProgress, type SyncLogEntry } from "../../services/syncService";
 import { getDataSource, getDataSources } from "../../services/tutorialService";

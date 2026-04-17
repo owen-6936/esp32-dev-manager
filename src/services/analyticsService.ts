@@ -237,12 +237,12 @@ export function getAnalyticsSummary(): AnalyticsSummary {
     const last30Days = buildDailyBuckets(30);
     const last7Days = last30Days.slice(-7);
 
-    // Top pages
-    const pageCounts: Record<string, number> = {};
+    // Top pages — use Map to avoid prototype-pollution from user-supplied paths
+    const pageCountMap = new Map<string, number>();
     views.forEach((v) => {
-        pageCounts[v.path] = (pageCounts[v.path] ?? 0) + 1;
+        pageCountMap.set(v.path, (pageCountMap.get(v.path) ?? 0) + 1);
     });
-    const topPages: TopPage[] = Object.entries(pageCounts)
+    const topPages: TopPage[] = [...pageCountMap.entries()]
         .map(([path, views]) => ({ path, views }))
         .sort((a, b) => b.views - a.views)
         .slice(0, 10);

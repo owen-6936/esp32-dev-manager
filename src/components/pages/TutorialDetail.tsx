@@ -14,7 +14,7 @@ import useProgressStore, { XP_PER_DIFFICULTY } from "../../store/progress";
 import { useAuth } from "../../contexts/AuthContext";
 import { syncProgressToSupabase, syncXpToSupabase } from "../../services/progressService";
 
-import { fetchCodeFile, getCodeFileUrl } from "../../services/tutorialService";
+import { fetchCodeFile } from "../../services/tutorialService";
 
 type WiringStep = { step: number; text: string; type: "setup" | "power" | "signal" | "note" };
 

@@ -229,7 +229,6 @@ export async function seedStaticData(
             message: "Fetching project list from GitHub…",
         });
 
-        const { owner, repo } = FREENOVE_REPOS.ultimate;
         let projectsSeeded = 0;
 
         try {

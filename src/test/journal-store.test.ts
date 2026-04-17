@@ -268,15 +268,6 @@ describe("localStorage persist + Date revival", () => {
     });
 
     it("date reviver does not touch non-date strings", () => {
-        // Test the reviver behaviour inline
-        const nonDateStrings = [
-            "hello world",
-            "2025",
-            "note",
-            "2025-13-01T00:00:00", // invalid month but matching pattern
-            "not-a-date",
-        ];
-
         // Mirror the reviver logic from journal.ts
         function dateReviver(_key: string, value: unknown): unknown {
             if (
